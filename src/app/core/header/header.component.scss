@@ -1,0 +1,45 @@
+@import "../../../style/variable";
+
+
+header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 998;
+    background-color: #000;
+    box-shadow: 0px 15px 10px -15px #a9a3a375;
+    padding: 8px 0px;
+    .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .set-image {
+            max-height: 50px;
+            object-fit: contain;
+        }
+        .menu {
+            display: flex;
+            padding: 0;
+            li {
+                display: flex;
+                align-items: center;
+                a{
+                    padding: 0 10px;
+                    color: $primaryColor;
+                    font-size: $size-16;
+                    margin: 0 5px;
+                    color: #fff;
+                    &:hover{
+                        color: $secondaryColor;
+                    }
+                }
+            }
+        }
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    }
+}

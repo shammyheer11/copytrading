@@ -1,0 +1,43 @@
+@import "../../../style/variable";
+
+
+.herobanner {
+  background-image: url('/assets/images/herobanner.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  position: relative;
+  &::after{
+    content: "";
+    position: absolute;
+    background: rgba(0, 0, 0, 0.6);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .banner {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    min-height: 80vh;
+    position: relative;
+    z-index: 9;
+    .banner-text {
+      h2 {
+        font-weight: 700;
+        font-size: $size-48;
+        line-height: $size-56;
+        color: $white;
+        margin-bottom: $size-30;
+        text-shadow: 1px 1px 1px #000;
+      }
+      p{
+        margin-bottom: 30px;
+        color: #fff;
+      }
+    }
+  }
+}
+

@@ -1,0 +1,73 @@
+@import "../../../style/variable";
+.tfc-admin-main {
+    grid-template-columns: 3fr 1fr;
+    gap: 10px;
+
+    .tfc-card {
+        .tfc-card-body {
+            h4 {
+                color: #344767;
+                display: flex;
+                justify-content: space-between;
+                letter-spacing: 1px;
+                margin-top: 28px;
+                font-size: 24px;
+                margin-bottom: 0;
+
+                span {
+                    a {
+                        margin: 0 5px;
+                    }
+                }
+            }
+
+            h2 {
+                color: #344767;
+                letter-spacing: 1px;
+                font-size: 18px;
+                margin-bottom: 0;
+            }
+
+        }
+
+        .accountInfo {
+            margin-top: 20px;
+
+            h4 {
+                font-size: 18px;
+                margin-top: 10px;
+            }
+
+            .tfc-buttonAdd {
+                text-align: center;
+                padding: 20px 0;
+
+            }
+        }
+    }
+}
+
+.accountListInfo {
+    margin-top: 40px;
+    grid-template-columns: auto;
+}
+
+
+.table-popup {
+    .tfc-table-box {
+        .fes-create-ac {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            align-items: start;
+            .tfc-submit-login {
+                display: none;
+            }
+        }
+
+        .fes-back_to_start-btn {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+    }
+}

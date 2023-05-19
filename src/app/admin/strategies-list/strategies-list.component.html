@@ -1,0 +1,117 @@
+
+<!-------------------Exchange-Accounts---------------------->
+<div class="size40"></div>
+<div class="tfc-admin-main">
+    <div class="tfc-admin-left">
+        <div class="tfc-card">
+            <div class="tfc-card-title">
+                <h3>Public Strategies</h3>
+            </div>
+            <div class="tfc-card-body accountInfo">
+                <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type= "ball-scale-multiple" [fullScreen] = "false"><p style="color: white" > Loading... </p></ngx-spinner>
+                <div class="accountTable">
+                    <table class="tfcTable">
+                        <thead>
+                            <tr>
+                                <th>Strategy</th>
+                                <th>Base Coin</th>
+                                <th>Exchange</th>
+                                <th>Type</th>
+                                <th>Subs</th>
+                                <th>Risk</th>
+                                <th>Copying</th>
+                                <th>Balance</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+
+                        <tbody *ngIf="dataSource">
+                            <tr *ngFor="let items of dataSource">
+                                <td><span (click)="openStrategy(items)">{{items.strategyName}}</span></td>
+                                <td>{{items.baseCoin}}</td>
+                                <td>{{ items.exchange}}</td>
+                                <td> {{ items.type === 'linear' ? 'Futures' : items.type }}</td>
+                                <td></td>
+                                <td>{{items.riskLimitValue}}%</td>
+                                <td></td>
+                                <td>{{items.totalWalletBalance | number : '1.2-2'}}</td>
+                                <td>9.5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4 *ngIf="!dataSource" class="nodata">No data found. </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="table-popup copyTRading" *ngIf="showModals">
+    <div class="tfc-table-box">
+        <a class="fes-close-btn" (click)="hideModal()">
+            <img src="assets/image/cross.svg" alt="close-arrow" />
+        </a>
+        <h2 class="modalTitle">Copy Trading Subscription</h2>
+        <h1>{{traderInfo.strategyName}}</h1>
+        <div class="tfc-multi-steppage">
+            <div class="fes-api-page">
+                <div class="fes-api-page-text">
+                    <p>Base Coin</p>
+                    <h4>{{traderInfo.baseCoin}}</h4>
+                </div>
+               
+            </div>
+            <div class="fes-api-page">
+                <div class="fes-api-page-text">
+                    <p>Exchange</p>
+                    <h4>{{traderInfo.exchange}}</h4>
+                </div>
+                
+            </div>
+            <div class="fes-api-page">
+                <div class="fes-api-page-text">
+                    <p>Type</p>
+                    <h4>{{traderInfo.type}}</h4>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="fes-create-ac">
+            <div class="tfc-requirement">
+                <h2>Add Bybit API Key</h2>
+                <div class="subscribeTrade" *ngIf="!accountList">
+                    <h3>To subscribe this strategies you have to connect account first.</h3>
+                    <button [routerLink]="['/admin/exchangeaccount']" class="tfc-submit-login tfcbtn tfcbtnthree">Connect Account</button>
+                </div>
+                <form *ngIf="accountList" [formGroup]="coppystrategyForm" (ngSubmit)="onSubmit(coppystrategyForm)">
+                    <div class="fes-connection_form">
+                        <label>Name Your Connection</label>
+
+                        <mat-form-field>
+                            <mat-select formControlName="subscribeFrom">
+                                <mat-option *ngFor="let option of accountList" [value]="option._id">
+                                    {{ option.connectionName }}
+                                  </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <!-- <input type="text" formControlName="subscribeFrom" placeholder="Enter name"> -->
+                        <input type="hidden" formControlName="subscribeTo">
+                    </div>
+                    <button type="submit" class="tfc-submit-login tfcbtntwo">{{ btnloading ? 'Loading...' : 'Submit' }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

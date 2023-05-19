@@ -1,1 +1,562 @@
 /* You can add global styles to this file, and also import other style files */
+@import "style/variable";
+
+input,
+textarea,
+select,
+ol,
+ul,
+li,
+a,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    text-decoration: none;
+    outline: none;
+}
+
+a,
+a:hover,
+a:focus {
+    cursor: pointer;
+    -webkit-transition: all 0.4s ease 0s;
+    -moz-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+    text-decoration: none;
+    outline: none;
+    text-decoration: none;
+}
+
+button:focus {
+    outline: none;
+    border: none;
+}
+
+button:focus,
+input:focus {
+    box-shadow: none !important;
+}
+
+button {
+    cursor: pointer;
+}
+
+*,
+*:after,
+*:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    letter-spacing: 1px !important;
+}
+
+
+
+
+
+.container {
+    max-width: 1268px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.banner-text p,
+.wave-text p,
+.tfc-our-product p,
+.lightning-speed p,
+.step-text-content p,
+.gain-more p,
+.ac-tc-change,
+.exchange-coin-box p,
+.tfc-data-text p,
+.tfc-multi-ac p,
+.tfc-rating-page-ac p,
+.try-tfc-enroll h3 {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.size40 {
+    height: 40px;
+}
+
+.size80 {
+    height: 80px;
+}
+
+.nodata {
+    color: rgb(9, 24, 66);
+    text-align: center;
+    padding-top: 50px;
+    font-size: 1.5rem !important;
+    display: block !important;
+    margin-top: 0 !important;
+}
+
+.tfcbtnone {
+    background: $primaryColor;
+    border: 0;
+    font-size: 1rem;
+    padding: 0.7rem 2rem;
+    border-radius: 16px;
+    color: #fff;
+    display: inline-block;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.tfcbtntwo {
+    background: $secondaryColor;
+    border: 0;
+    font-size: 1rem;
+    padding: 0.7rem 2rem;
+    border-radius: 16px;
+    color: #fff;
+    display: inline-block;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.tfcbtnthree {
+    background-color: transparent;
+    border: 1px solid $secondaryColor;
+    font-size: 1rem;
+    padding: 0.7rem 2rem;
+    border-radius: 16px;
+    color: #fff;
+    display: inline-block;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.tfcsucess{
+    .mdc-snackbar__surface{
+        background-color: #d4edda !important; 
+        border-color: #c3e6cb !important;
+        .mat-mdc-snack-bar-label{
+            color: #155724 !important;
+        }
+        .mdc-button__label{
+            color: #155724 !important;
+        }
+    }
+}
+.tfcwarning{
+    .mdc-snackbar__surface{
+        background-color: #f8d7da !important;
+        border-color: #f5c6cb !important;
+        .mat-mdc-snack-bar-label{
+            color: #721c24 !important;
+        }
+        .mdc-button__label{
+            color: #721c24 !important;
+        }
+    }
+}
+
+
+.btnHide {
+    display: none;
+}
+
+
+
+.admin-panel {
+    .app-sidenav {
+        // background-image: linear-gradient(195deg, #42424a 0%, #191919 100%);
+        background-color: $primaryColor;
+
+        .adminMenus {
+            li {
+                a {
+                    span {
+                        span {
+                            display: flex;
+                            align-items: center;
+
+                            .mat-icon {
+                                margin-right: 15px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .mat-toolbar.mat-primary {
+        background-color: transparent;
+
+        .mat-icon {
+            color: #344767;
+        }
+    }
+
+    .mat-drawer-container {
+        background-color: transparent;
+    }
+}
+
+.table-popup.strategiesBlock {
+    .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+        background-color: transparent;
+
+    }
+
+    .mat-mdc-form-field .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+    }
+}
+
+.copyTRading {
+    .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+        background-color: transparent;
+
+    }
+
+    .mat-mdc-form-field .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+    }
+}
+
+.exicuteTrade {
+    .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+        background-color: transparent;
+
+    }
+
+    .mat-mdc-form-field .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+    }
+}
+
+.userModal{
+    .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+        background-color: #000;
+
+    }
+
+    .mat-mdc-form-field .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+    }
+}
+
+
+
+.tfc-admin-main {
+    display: grid;
+    .tfc-card {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+
+        .tfc-card-title {
+            background: $primaryColor;
+            border-radius: 0.5rem;
+            padding: 1rem 0;
+            margin-top: -50px;
+
+            h3 {
+                padding-left: 20px;
+                font-weight: 500;
+                letter-spacing: 1px;
+                margin-bottom: 0;
+
+            }
+        }
+    }
+}
+
+
+
+
+/* Custom Popup */
+.table-popup {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #000000b3;
+    z-index: 999;
+
+    .tfc-table-box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 50%;
+        width: 100%;
+        color: white;
+        background-color: #16171a;
+        padding: 30px 50px 30px;
+        border-radius: 5px;
+
+        .fes-close-btn {
+            position: absolute;
+            right: 40px;
+            top: 40px;
+        }
+
+        .modalTitle {
+            letter-spacing: 1px;
+            font-size: 26px;
+        }
+
+        .fes-create-ac {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            align-items: start;
+            gap: 30px;
+
+            button {
+                margin-right: 10px;
+            }
+
+            .blocks {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 25px;
+            }
+
+            .fes-connection_form {
+                margin-bottom: 15px;
+
+                .mat-mdc-form-field {
+                    width: 100%;
+                }
+
+                textarea {
+                    width: 100%;
+                    background: transparent;
+                    color: #fff;
+                    border: 1px solid rgb(19, 38, 92);
+                    padding: 10px;
+                }
+
+                label {
+                    display: block;
+                    letter-spacing: 1px;
+                    margin-bottom: 10px;
+                }
+
+                input {
+                    border: 1px solid rgba(255, 255, 255, 0.42);
+                    background: transparent;
+                    border-radius: 8px;
+                    padding: 10px 10px;
+                    width: 100%;
+                    color: #fff;
+                }
+
+                input::placeholder,
+                textarea::placeholder {
+                    color: #fff;
+                    opacity: 1;
+                }
+
+                input:-ms-input-placeholder,
+                textarea:-ms-input-placeholder {
+                    color: #fff;
+                }
+
+                input::-ms-input-placeholder,
+                textarea::-ms-input-placeholder {
+                    color: #fff;
+                }
+
+                .mat-mdc-slider {
+                    width: 100%;
+                }
+
+                .profitLoss {
+                    input {
+                        width: auto;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        .tfc-multi-steppage {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 32px;
+
+            .fes-api-page {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+            }
+        }
+
+    }
+}
+
+
+
+table.tfcTable {
+    width: 100%;
+
+    thead {
+        tr {
+            th {
+                padding: 0.75rem 1.5rem;
+                text-transform: capitalize;
+                letter-spacing: 0px;
+                border-bottom: 1px solid #f0f2f5;
+                color: #7b809a !important;
+                letter-spacing: 1px;
+                font-weight: 500;
+                text-align: left;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            td {
+                color: #7b809a;
+                padding: 0.75rem 1.5rem;
+                border-bottom-width: 1px;
+            }
+        }
+    }
+}
+
+
+.takeProfitLoss {
+    h3 {
+        color: #000;
+        font-weight: 500;
+    }
+
+    .orderDetails {
+        display: flex;
+        color: #000;
+        justify-content: space-between;
+        margin-bottom: 15px;
+
+        span {
+            display: block;
+        }
+    }
+
+    .fields {
+        label {
+            color: #000;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input {
+            border: 1px solid #4a4747;
+            box-shadow: none;
+            outline: none;
+            padding: 5px 5px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+    }
+}
+
+.tfcOverlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    .cnfrmDialog {
+        position: absolute;
+        top: 50%;
+        width: 400px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+
+        .dialogfoot {
+            margin-top: 10px;
+
+            button {
+                border-radius: 5px;
+                padding: 10px 25px;
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
+
+.changePrefrence {
+    .dialoghead {
+        display: flex;
+        justify-content: space-between;
+
+        h3 {
+            color: #000;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        img {
+            background: #000;
+            padding: 5px;
+            border-radius: 50%;
+            height: 20px;
+            cursor: pointer;
+        }
+    }
+
+    .dialogbody {
+        .radio-group {
+            display: flex;
+            gap: 10px;
+            color: #000;
+
+            p {
+                color: #71757a;
+                font-size: 12px;
+            }
+
+            h4 {
+                margin-bottom: 0px;
+            }
+        }
+    }
+}
+
+
+.accountInfo{
+    .mat-mdc-tab-group{
+       .mdc-tab__text-label{
+        color: $primaryColor;
+       }
+    }
+}

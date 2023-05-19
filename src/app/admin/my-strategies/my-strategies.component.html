@@ -1,0 +1,181 @@
+<!-------------------Exchange-Accounts---------------------->
+<div class="size40"></div>
+<div class="tfc-admin-main">
+    <div class="tfc-admin-left">
+        <div class="tfc-card">
+            <div class="tfc-card-title">
+                <h3>My Strategies</h3>
+            </div>
+            <div class="tfc-card-body">
+                <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type= "ball-scale-multiple" [fullScreen] = "false"><p style="color: white" > Loading... </p></ngx-spinner>
+                <div class="bodyInner">
+                    <img src="assets/images/trading-bg.svg">
+                    <h3>No Stategies Added</h3>
+                    <p>Skilled traders can create strategies and earn on subscriptions.
+                        Learn more in our article: How to Trade on Coinmatics</p>
+                    <button class="tfcbtnone" (click)="showModal()">Add Strategy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tfc-admin-right">
+        <div class="tfc-card">
+            <div class="tfc-card-title">
+                <h3>Create Strategies</h3>
+            </div>
+            <div class="tfc-card-body accountInfo">
+                <div class="tfc-buttonAdd">
+                    <a class="tfcbtnone" [routerLink]="['/admin/mystrategies']">Create</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  
+
+<div class="size80"></div>
+<div class="tfc-admin-main accountListInfo">
+    <div class="accountList">
+        <div class="tfc-card">
+            <div class="tfc-card-title">
+                <h3>My Strategy LIst</h3>
+            </div>
+            <div class="tfc-card-body accountInfo">
+                <div class="accountTable">
+                    <table class="tfcTable">
+                        <thead>
+                            <tr>
+                                <th>Strategy</th>
+                                <th>Base Coin</th>
+                                <th>Exchange</th>
+                                <th>Type</th>
+                                <th>Subs</th>
+                                <th>Risk</th>
+                                <th>Copying</th>
+                                <th>Balance</th>
+                                <th>Rating</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="dataSource">
+                            <tr *ngFor="let items of dataSource">
+                                <td>{{items.strategyName}}</td>
+                                <td>{{items.baseCoin}}</td>
+                                <td>{{ items.exchange}}</td>
+                                <td>{{ items.type === 'linear' ? 'Futures' : items.type }}</td>
+                                <td></td>
+                                <td>{{items.riskLimitValue}} %</td>
+                                <td></td>
+                                <td>{{items.totalWalletBalance | number : '1.2-2'}}</td>
+                                <td>9.5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4 *ngIf="!dataSource" class="nodata">No data found. </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="table-popup strategiesBlock" *ngIf="showModals">
+    <div class="tfc-table-box">
+        <a class="fes-close-btn" (click)="hideModal()">
+            <img src="assets/image/cross.svg" alt="close-arrow" />
+        </a>
+        <h2 class="modalTitle">Add New Strategy</h2>
+        <div class="fes-create-ac">
+            <div class="tfc-requirement" *ngIf="!loading">
+                <form [formGroup]="accountForm" (ngSubmit)="onSubmit(accountForm)">
+                    <div class="fes-connection_form">
+                        <label>Strategy Name</label>
+                        <input type="text" formControlName="strategyName" placeholder="Enter name">
+                    </div>
+                    <div class="blocks">
+                        <div class="fes-connection_form ">
+                            <label>Exchange</label>
+                            <mat-form-field>
+                                <mat-select formControlName="exchange">
+                                    <mat-option value="Bybit">Bybit</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="fes-connection_form">
+                            <label>Type</label>
+                            <mat-form-field>
+                                <mat-select formControlName="type">
+                                    <mat-option value="Spot">Spot</mat-option>
+                                    <mat-option value="linear">Futures</mat-option>
+                                    <!-- <mat-option value="COIN-M">COIN-M</mat-option> -->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="fes-connection_form">
+                        <label>Connected API Key</label>
+                        <mat-form-field>
+                            <mat-select formControlName="bybitaccount">
+                                <mat-option *ngFor="let option of accountInfo" [value]="option._id">
+                                    {{ option.connectionName }}
+                                  </mat-option>
+                                <!-- <mat-option value="Spot">USDT</mat-option>
+                                <mat-option value="USDⓈ-M">BTC</mat-option> -->
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="fes-connection_form">
+                        <label>Base Coin</label>
+                        <mat-form-field>
+                            <mat-select formControlName="baseCoin">
+                                <mat-option value="USDT">USDT</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="fes-connection_form">
+                        <label>Strategy Description</label>
+                        <textarea rows="8" formControlName="strategyDescription" placeholder="Provide information about the strategy: trading method / approach, trading term (short / medium / long), trading pair, coins traded, recommendations for investors, your trading experience, etc. This will help your potential subscribers learn more about your strategy. Make sure that you write a detailed and concise description of the strategy – otherwise, the strategy may not pass moderation."></textarea>
+                    </div>
+
+                    <div class="blocks">
+                        <div class="fes-connection_form">
+                            <label>Copy Trading Cost</label>
+                            <input type="text" formControlName="copyTradingcost" placeholder="$ Per 30 days">
+                        </div>
+                        <div class="fes-connection_form">
+                            <label>Risk Percentage</label>
+                            <input type="text" [value]="inputField.value" placeholder="$ Per 30 days" readonly>
+                            <mat-slider discrete="thumbLabel" min="1" max="10" step="1" value="1">
+                                <input #inputField  formControlName="riskLimitValue" matSliderThumb>
+                            </mat-slider>
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="tfcbtn tfcbtnthree">{{ btnloading ? 'Loading...' : 'Submit' }}</button>
+                </form>
+            </div>
+            <div class="tfc-subaccount">
+                <h2>Secret Key</h2>
+                <p>
+                    Keep in mind that a secret key is only shown during the API key creation process.
+                    It will be hidden afterwards. Safely save it at this step to be able to use this
+                    API key later.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

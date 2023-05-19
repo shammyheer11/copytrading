@@ -1,0 +1,40 @@
+<section class="blog-slider">
+    <div class="tfc-container">
+        <div class="tfc-ticker">
+            <div class="news-ticker">
+                <div *ngFor="let newsItem of newsItems; let i = index" class="news-item" [ngClass]="{'show': i === activeIndex}">
+                    {{ newsItem }}
+                </div>   
+            </div>
+            <div class="seeMore">
+                <a href="#">See More</a>
+            </div>
+        </div>
+
+        <ngx-slick-carousel class="carousel" 
+            #slickModal="slick-carousel" 
+            [config]="slideConfig" 
+            (init)="slickInit($event)"
+            (breakpoint)="breakpoint($event)"
+            (afterChange)="afterChange($event)"
+            (beforeChange)="beforeChange($event)">
+            <div ngxSlickItem *ngFor="let slide of slides" class="slide">
+                <div class="slideImg">
+                    <img src="{{ slide.img }}" alt="" width="100%">
+                </div>
+                <div class="slideInner">
+                    <h3>{{slide.slideTitle}}</h3>
+                    <p>{{slide.slideDesc}}</p>
+                </div>
+            </div>
+        </ngx-slick-carousel>
+    </div>
+</section>
+
+
+
+
+
+
+<!-- <button (click)="slickModal.slickGoTo(2)">slickGoto 2</button>
+<button (click)="slickModal.unslick()">unslick</button> -->

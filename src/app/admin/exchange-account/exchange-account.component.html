@@ -1,0 +1,217 @@
+<!-------------------Exchange-Accounts---------------------->
+<div class="size40"></div>
+<div class="tfc-admin-main">
+    <div class="tfc-admin-left">
+        <div class="tfc-card">
+            <div class="tfc-card-title">
+                <h3>Exchange Accounts</h3>
+            </div>
+            <div class="tfc-card-body">
+                <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type= "ball-scale-multiple" [fullScreen] = "false"><p style="color: white" > Loading... </p></ngx-spinner>
+                <h4>Balance on All Accounts<span> <a class="tfc-replace-bg" href="#">BTC</a>
+                        <a class="" href="#">USDT</a></span></h4>
+                <h2 class="tfc-coin-paneltrade">{{TotalBalance | number : '1.2-2'}} USDT</h2>
+            </div>
+        </div>
+    </div>
+    <div class="tfc-admin-right">
+        <div class="tfc-card">
+            <div class="tfc-card-title">
+                <h3>Connected Accounts</h3>
+            </div>
+            <div class="tfc-card-body accountInfo">
+                <h2 *ngIf="!dataSource" style="text-align: center;" class="">No Accounts Connected</h2>
+                <h2 *ngIf="dataSource" class="">1 Accounts Connected</h2>
+                <h4 *ngIf="dataSource" class="tfc-status">Status</h4>
+                <h2 *ngIf="dataSource" class="tfc-coin-paneltrade">Active</h2>
+                <div class="tfc-buttonAdd">
+                    <button class="tfcbtnone" (click)="showModal()">Add Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="size40"></div>
+<div class="tfc-admin-main accountListInfo">
+    <div class="accountList">
+        <div class="tfc-card">
+            <div class="tfc-card-title">
+                <h3>My Accounts</h3>
+            </div>
+            <div class="tfc-card-body accountInfo">
+                <div class="accountTable" *ngIf="!loading">
+                    <table class="tfcTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Account Name</th>
+                                <th>Status</th>
+                                <th>Exchange</th>
+                                <th>API Key</th>
+                                <th>Connected Trade Types</th>
+                                <th>Balance</th>
+                                <th>Change</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="dataSource">
+                            <tr *ngFor="let items of dataSource; ; let i = index">
+                                <td>{{i + 1}}</td>
+                                <td>{{items.connectionName}}</td>
+                                <td> {{ items.accountType ? 'Active': 'Inactive' }}</td>
+                                <td>Bybit</td>
+                                <td>{{items.apiKey}}</td>
+                                <td>Futures / Spot</td>
+                                <td>{{items.totalWalletBalance | number : '1.2-2'}}</td>
+                                <td>{{ calculateTotal(items.totalWalletBalance, items.balance) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4 *ngIf="!dataSource" class="nodata">No data found. </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="table-popup" *ngIf="showModals">
+    <div class="tfc-table-box">
+        <a class="fes-close-btn" (click)="hideModal()">
+            <img src="assets/image/cross.svg" alt="close-arrow" />
+        </a>
+        <h2 class="modalTitle">Add New Bybit Account</h2>
+        <div class="tfc-multi-steppage">
+            <div class="fes-api-page" [ngClass]="{'active': wizardVal == 0}">
+                <div class="fes-api-page-text">
+                    <p>1 step</p>
+                    <h4>Create Account</h4>
+                </div>
+                <div class="fes-api-icon">
+                    <img src="assets/image/arrow-forward.svg" alt="arrow">
+                </div>
+            </div>
+            <div class="fes-api-page" [ngClass]="{'active': wizardVal == 1}">
+                <div class="fes-api-page-text">
+                    <p>2 step</p>
+                    <h4>Create API Key</h4>
+                </div>
+                <div class="fes-api-icon">
+                    <img src="assets/image/arrow-forward.svg" alt="arrow">
+                </div>
+            </div>
+            <div class="fes-api-page" [ngClass]="{'active': wizardVal == 2}">
+                <div class="fes-api-page-text">
+                    <p>3 step</p>
+                    <h4>Enter Your Key</h4>
+                </div>
+            </div>
+        </div>
+        <div class="fes-create-ac" *ngIf="wizardVal == 0">
+            <div class="tfc-requirement">
+                <h2>Create Account</h2>
+                <p>Go to <a href="#"> Bybit Register page </a>and create an account.</p>
+                <p>
+                    Don’t forget to enable two-factor authentication in the end of 
+                    registration process. It’s a mandatory requirement for an API key creation.
+                </p>
+            </div>
+            <div class="tfc-subaccount">
+                <h2>Subaccount</h2>
+                <p>
+                    To maximize copy trading effectiveness, we recommend using a subaccount 
+                    dedicated to one particular strategy. You should not do any other trading 
+                    activity on this subaccount.
+                </p>
+            </div>
+        </div>
+
+        <div class="fes-create-ac" *ngIf="wizardVal == 1">
+            <div class="tfc-requirement">
+                <h2>Add Bybit API Key</h2>
+                <p>1. Log in to your Bybit account. Go to Profile --&gt; API Management page and click the "Create API" button.</p>
+                <p>2. Select the “System generated API key” option. Enter your API key label and pass the Security verification.</p>
+                <p>3. Hit the ‘Edit restriction' button and select the following checkboxes:</p>
+                <ul class="fes-stop">
+                    For Stop trading:
+                    <li>Enable Spot &amp; Margin Trading</li>
+                </ul>
+                <ul class="fes-stop">
+                    For Spot and Futures trading:
+                    <li>Enable Spot &amp; Margin Trading</li>
+                    <li>Enable Futures</li>
+                    <li>Permits Universal Transfer</li>
+                </ul>
+                <div class="fes-ip-copy">
+                    <p>
+                        4. Switch the ‘Restrict access to trusted IPs only’ radio button, return to Coinmatics 
+                        website tab and click the “Copy IP” button, enter them to the field on Bybit and click 
+                        the “Confirm” button.
+                    </p>
+                </div>
+                <div class="tfc-alert-show">
+                    <div class="alert-error-logo">
+                    <img src="assets/image/alert.svg" alt="alert-image">
+                    </div>
+                    <div class="alert-error-text">
+                    <p>Pay attention!
+                    <br>
+                    You should copy and enter the IP-addresses without any changes. If you do change, API Key will not work properly.
+                    </p>
+                    </div>
+                </div>
+            </div>
+            <div class="tfc-subaccount">
+                <h2>Withdrawals</h2>
+                <p>
+                    Please do not select "Enable Withdrawals" for security reasons. Coinmatics 
+                    does not support API Keys with this permission.
+                </p>
+            </div>
+        </div>
+
+        <div class="fes-create-ac" *ngIf="wizardVal == 2">
+            <div class="tfc-requirement">
+                <h2>Add Bybit API Key</h2>
+                <form [formGroup]="accountForm" (ngSubmit)="onSubmit(accountForm)">
+                    <div class="fes-connection_form">
+                        <label>Name Your Connection</label>
+                        <input type="text" formControlName="connectionName" placeholder="Enter name">
+                    </div>
+                    <div class="fes-connection_form">
+                        <label>Name Your Connection</label>
+                        <input type="text" formControlName="apiKey" placeholder="Enter your API key">
+                    </div>
+                    <div class="fes-connection_form">
+                        <label>Name Your Connection</label>
+                        <input type="text" formControlName="secretKey" placeholder="Enter your secret key">
+                    </div>
+                    <button *ngIf="!loading" #myButton type="submit" class="tfc-submit-login tfcButton">Continue</button>
+                </form>
+            </div>
+            <div class="tfc-subaccount">
+                <h2>Secret Key</h2> 
+                <p>
+                    Keep in mind that a secret key is only shown during the API key creation process. 
+                    It will be hidden afterwards. Safely save it at this step to be able to use this 
+                    API key later.
+                </p>
+            </div>
+        </div>
+
+
+
+
+        <div class="fes-back_to_start-btn">
+            <button *ngIf="wizardVal != 0" type="button" class="tfcbtn tfcbtnthree" (click)="prev(wizardVal)">Back</button>
+            <button *ngIf="wizardVal != 2" type="button" class="tfcbtn tfcbtntwo" (click)="next( wizardVal)">Next Step</button>
+            <button *ngIf="wizardVal == 2" type="button" class="tfcbtn tfcbtntwo" (click)="next( wizardVal)">{{ btnloading ? 'Loading...' : 'Submit' }}</button>
+        </div>
+    </div>
+</div>
+
+

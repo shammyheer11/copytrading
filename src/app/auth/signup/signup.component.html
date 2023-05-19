@@ -1,0 +1,55 @@
+
+
+
+
+ <div class="auth-wrapper">
+    <div class="auth-container">
+        <div class="col-left">
+            <div class="login-text">
+                <h2> <img src="/assets/images/logo.png" alt="image" class="fix-image" /></h2>
+                <p>
+                    MK Signal is a copy trading app designed to simplify the process of following and replicating the trades of professional traders. 
+                </p>
+                <a class="btn" href="">Read More</a>
+            </div>
+        </div>
+        <div class="col-right">
+            <div class="login-form">
+                <h2>Sign Up</h2>
+                <form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm)">
+                    <p>
+                        <input type="text" formControlName="username" placeholder="Username" class="tfc-input">
+                        <span *ngIf="submitted && f['username'].errors" class="invalid-field">
+                            <span *ngIf="f['username'].errors['required']">Username is required</span>
+                            <span *ngIf="f['username'].errors['noSpace']">Username must not contain any spaces.</span>
+                        </span>
+                    </p>
+                   
+                    <p>
+                        <input type="email" formControlName="email" placeholder="Email" class="tfc-input">
+                        <span *ngIf="submitted && f['email'].errors" class="invalid-field">
+                            <span *ngIf="f['email'].errors['required']">Email is required</span>
+                            <span *ngIf="f['email'].errors['email']">Email must be a valid email address</span>
+                          </span>
+                    </p>
+                      
+                    <p>
+                        <input type="password" formControlName="password" class="form-control tfc-input" 
+                            placeholder="Password">
+                            <span *ngIf="submitted && f['password'].errors" class="invalid-field">
+                                <div *ngIf="f['password'].errors['required']">Password is required</div>
+                                <div *ngIf="f['password'].errors['minlength']">Password must contain at least 6 characters.</div>
+                            </span>
+                    </p> 
+                    
+                    <p>
+                        <button type="submit" class="tfc-submit-login tfcbtnone">Continue</button>
+                    </p>
+                    <p>
+                        Already have an account? <a [routerLink]="['/login']">Log In</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

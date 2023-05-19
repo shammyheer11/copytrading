@@ -1,0 +1,73 @@
+
+
+<!-------------------Exchange-Accounts---------------------->
+<div class="size40"></div>
+<div class="tfc-admin-main">
+    <div class="tfc-admin-left">
+        <div class="tfc-card">
+            <div class="tfc-card-title">
+                <h3>User List</h3>
+            </div>
+            <div class="tfc-card-body accountInfo">
+                <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type= "ball-scale-multiple" [fullScreen] = "false"><p style="color: white" > Loading... </p></ngx-spinner>
+
+                <div class="accountTable">
+                    <table class="tfcTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Email</th>
+                                <th>role</th>
+                                <th>status</th>
+                                <th>username</th>
+                                <th>User ID</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody *ngIf="users">
+                            <tr *ngFor="let items of users ;  let i = index">
+                                <td>{{i + 1}}</td>
+                                <td>{{items.email}}</td>
+                                <td>{{ items.role}}</td>
+                                <td> {{ items.status }}</td>
+                                <td>{{items.username}}</td>
+                                <td>{{items._id }}</td>
+                                <td><button class="tfcbtnone" (click)="updateRole(items)">Change Role</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4 *ngIf="!users" class="nodata">No data found. </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="tfcOverlay userModal" *ngIf="userModal">
+    <div class="changePrefrence cnfrmDialog">
+        <div class="dialoghead">
+            <h3>Change user Role</h3>
+            <img (click)="cancelDialog()" src="assets/image/cross.svg" alt="close-arrow" />
+        </div>
+        <div class="dialogbody">
+            <mat-form-field>
+                <mat-select [(ngModel)]="userRole">
+                    <mat-option value="user">User</mat-option>
+                    <mat-option value="admin">Admin</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <p>Admin role can create Strategies</p>
+        </div>
+        <div class="dialogfoot">
+            <button class="change tfcbtntwo" (click)="confirmDialog()">Confirm</button>
+            <button class="cancel tfcbtnone" (click)="cancelDialog()">Cancel</button>
+        </div>
+    </div>
+</div>

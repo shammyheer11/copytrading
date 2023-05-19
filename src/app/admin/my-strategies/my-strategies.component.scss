@@ -1,0 +1,44 @@
+@import "../../../style/variable";
+.tfc-admin-main {
+    grid-template-columns: 3fr 1fr;
+    gap: 10px;
+
+    .tfc-card {
+        .tfc-card-body {
+            .bodyInner{
+                text-align: center;
+                h3{
+                    font-size: 24px;
+                    font-weight: 500;
+                    color: #344767;
+                    margin-top: 20px;
+                    letter-spacing: 1px;
+                }
+                p{
+                    color: #344767;
+                    margin-top: 10px;
+                    letter-spacing: 1px;
+                }
+            }
+
+        }
+        .accountInfo {
+            margin-top: 20px;
+
+            .tfc-buttonAdd {
+                text-align: center;
+                padding: 20px 0;
+            }
+        }
+    }
+}
+
+.accountListInfo {
+    margin-top: 40px;
+    grid-template-columns: auto;
+}
+
+.tfcbtnthree:hover{
+    background-color: transparent;
+    border: 1px solid $secondaryColor;
+}

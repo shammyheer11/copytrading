@@ -1,0 +1,52 @@
+
+<!-------------------Exchange-Accounts---------------------->
+<div class="size40"></div>
+<div class="tfc-admin-main">
+    <div class="tfc-admin-left">
+        <div class="tfc-card">
+            <div class="tfc-card-title">
+                <h3>My Orders</h3>
+            </div>
+            <div class="tfc-card-body accountInfo">
+                <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type= "ball-scale-multiple" [fullScreen] = "false"><p style="color: white" > Loading... </p></ngx-spinner>
+                
+                <mat-tab-group>
+                    <mat-tab label="Positions"> Content 1 </mat-tab>
+                    <mat-tab label="Current Orders"> Content 2 </mat-tab>
+                    <mat-tab label="Order History"> Content 3 </mat-tab>
+                  </mat-tab-group>
+                
+                <div class="accountTable">
+                    <table class="tfcTable">
+                        <thead>
+                            <tr>
+                                <th>Strategy</th>
+                                <th>Base Coin</th>
+                                <th>Exchange</th>
+                                <th>Type</th>
+                                <th>Subs</th>
+                                <th>Risk</th>
+                                <th>Copying</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+
+                        <tbody *ngIf="dataSource">
+                            <tr *ngFor="let items of dataSource">
+                                <td><span>{{items.strategies.strategyName}}</span></td>
+                                <td>{{items.strategies.baseCoin}}</td>
+                                <td>{{ items.strategies.exchange}}</td>
+                                <td> {{ items.strategies.type === 'linear' ? 'Futures' : items.strategies.type }}</td>
+                                <td></td>
+                                <td>{{items.strategies.riskLimitValue}}%</td>
+                                <td></td>
+                                <td>9.5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4 *ngIf="!dataSource" class="nodata">No data found. </h4>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>

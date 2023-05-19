@@ -1,0 +1,13 @@
+@import "../../../style/variable";
+
+.tfcOverlay {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+
+    p {
+        color: #71757a;
+        font-size: 12px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+}

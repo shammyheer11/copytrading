@@ -1,0 +1,33 @@
+
+<!-------------------Exchange-Accounts---------------------->
+<div class="size40"></div>
+<div class="tfc-admin-main">
+    <div class="tfc-admin-left">
+        <div class="tfc-card">
+            <div class="tfc-card-title">
+                <h3>Improve Your Copying trade</h3>
+            </div>
+            <div class="tfc-card-body">
+                <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type= "ball-scale-multiple" [fullScreen] = "false"><p style="color: white" > Loading... </p></ngx-spinner>
+                <div class="premium-tfc-text">
+                    <h2>Improve Your Copying with MK Signals</h2>
+                    <h4>
+                        MK Signals plan makes copy trading more profitable. Just create an
+                        exchange account via our link and get the benefits for free:
+                    </h4>
+                    <p>- Trade at the best price due to lowest copying time difference</p>
+                    <p>- Futures copy trading</p>
+                    <p>- Auto Alignment: Trader &amp; Scheduled</p>
+                    <p>- Coin Black List feature</p>
+                    <p>- Stop Loss feature</p>
+                    <p>- Strategy Free Trial</p>
+                    <p>- Special bonuses from our partner exchanges</p>
+                    <p>- No limit on accounts total balance</p>
+                    <a *ngIf="!dataSource" class="tfcbtnone" [routerLink]="['exchangeaccount']">Connect Account</a>
+                    <a *ngIf="dataSource" class="tfcbtnone" [routerLink]="['strategieslist']">Subscribe Strategy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

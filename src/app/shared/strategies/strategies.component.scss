@@ -1,0 +1,27 @@
+@import "../../../style/variable";
+
+.wave-box {
+    background: linear-gradient(rgb(14, 31, 80) 0px, rgb(4, 17, 51) 100%);
+    padding: $size-48 0;
+    .wave-text {
+        text-align: center;
+        h2{
+            font-weight: 700;
+            font-size: $size-32;
+            line-height: $size-34;
+            color: $white;
+            margin-bottom: $size-16;
+            letter-spacing: 1px;
+        }
+        p{
+            color: $white;
+            margin-bottom: $size-48;
+        }
+    }
+}
+
+.view-all-btn {
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+}
