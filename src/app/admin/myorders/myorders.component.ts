@@ -9,7 +9,9 @@ import { BybitService } from 'src/app/core/service/bybit.service';
   styleUrls: ['./myorders.component.scss']
 })
 export class MyordersComponent {
-  public dataSource : any;
+  public position : any;
+  public currentOrder : any;
+  public orderHistory : any;
 
   constructor(
     private ApiService: BybitService,
@@ -22,7 +24,7 @@ export class MyordersComponent {
       .subscribe((res: any) => {
         console.log(res);
         if (res && res.data) {
-          this.dataSource = res.data;
+          this.position = res.data;
         }
       });
   }

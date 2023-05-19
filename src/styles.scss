@@ -555,8 +555,39 @@ table.tfcTable {
 
 .accountInfo{
     .mat-mdc-tab-group{
-       .mdc-tab__text-label{
-        color: $primaryColor;
+    //    .mdc-tab__text-label{
+    //     color: $primaryColor;
+    //    }
+       .mat-mdc-tab-labels{
+        margin-top: 25px;
+        background-color: $primaryColor;
+            .mdc-tab{
+                &:hover{
+                    .mdc-tab-indicator{
+                        .mdc-tab-indicator__content{
+                            border-color: $secondaryColor;
+                            opacity: 1;
+                        }
+                    }
+                    .mdc-tab__text-label{
+                        color: $secondaryColor;
+                    }
+                }
+                &.mdc-tab--active{
+                    .mdc-tab-indicator{
+                        .mdc-tab-indicator__content{
+                            border-color: $secondaryColor;
+                        }
+                    }
+                    .mdc-tab__text-label{
+                        color: $secondaryColor;
+                    }
+                }
+                .mdc-tab__text-label{
+                    color: #fff;
+                }
+            }
        }
     }
 }
+ 

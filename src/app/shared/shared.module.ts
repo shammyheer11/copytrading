@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HeroSectionComponent } from './hero-section/hero-section.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
+// import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { BlogSliderComponent } from './blog-slider/blog-slider.component';
 import { StrategiesComponent } from './strategies/strategies.component';
 
@@ -20,7 +20,7 @@ import { StrategiesComponent } from './strategies/strategies.component';
     CommonModule,
     MatButtonModule,
     MatIconModule,
-    SlickCarouselModule,
+    // SlickCarouselModule,
   ],
 
   exports : [
