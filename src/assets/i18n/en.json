@@ -1,0 +1,38 @@
+{
+	"adminMenus": {
+		"dashboard": "Dashboard",
+		"copytrading": "Copy trading",
+		"strategieslist": "Strategies List",
+		"mySubscriptions": "My Subscriptions",
+		"mystrategies": "My Strategies",
+		"placeorder": "Place Order",
+		"myorders": "My Orders",
+		"toolsanalytics": "Tools & Analytics",
+		"analytics": "Analytics",
+		"accounts": "Accounts",
+		"exchangeaccounts": "Exchange Accounts",
+		"userslist": "Users List",
+        "support" : "Support",
+        "knowledgebase" : "knowledge Base"
+	},
+    "dashboard" : {
+        "title" : "Improve Your Copying trade",
+        "subtitle" : "Improve Your Copying with MK Signals",
+        "subscribeBtn" : "Subscribe Strategy",
+        "connectBtn" : "Connect Account"
+    },
+
+    "publicstrategies" : {
+        "title" : "Public strategies"
+    },
+
+	"myorder" : {
+		"title" : "My Orders",
+		"positions" : "Positions",
+		"currentorders" : "Current Orders",
+		"orderhistory" : "Order History"
+	},
+
+
+    "nodataFound" : "No data found."
+}

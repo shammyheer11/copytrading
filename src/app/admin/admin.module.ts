@@ -32,6 +32,9 @@ import { MatSlider, MatSliderModule } from '@angular/material/slider';
 import { UsersComponent } from './users/users.component';
 import { MyordersComponent } from './myorders/myorders.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpLoaderFactory } from '../app.module';
 
 
 @NgModule({
@@ -69,7 +72,14 @@ import { MatTabsModule } from '@angular/material/tabs';
     NgxSpinnerModule,
     MatSliderModule,
     FormsModule,
-    MatTabsModule
+    MatTabsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }) 
   ]
 })
 export class AdminModule { }

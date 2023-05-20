@@ -1,0 +1,36 @@
+{
+	"adminMenus": {
+		"dashboard": "Pannello di controllo",
+		"copytrading": "Compravendita di copie",
+		"strategieslist": "Elenco delle strategie",
+		"mySubscriptions": "le mie sottoscrizioni",
+		"mystrategies": "Le mie strategie",
+		"placeorder": "Invia ordine",
+		"myorders": "i miei ordini",
+		"toolsanalytics": "Strumenti e analisi",
+		"analytics": "Analitica",
+		"accounts": "Conti",
+		"exchangeaccounts": "Conti di scambio",
+		"userslist": "Elenco utenti",
+        "support" : "Supporto",
+        "knowledgebase" : "base di conoscenza"
+	},
+    "dashboard" : {
+        "title" : "Migliora il tuo commercio di copia",
+        "subtitle" : "Migliora la tua copia con i MK Signals",
+        "subscribeBtn" : "Iscriviti alla strategia",
+        "connectBtn" : "Connetti conto"
+    },
+    "publicstrategies" : {
+        "title" : "Strategie pubbliche"
+    },
+	"myorder" : {
+		"title" : "i miei ordini",
+		"positions" : "Posizioni",
+		"currentorders" : "Ordini correnti",
+		"orderhistory" : "Cronologia ordini"
+	},
+
+
+    "nodataFound" : "Nessun dato trovato."
+}

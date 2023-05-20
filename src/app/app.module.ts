@@ -49,13 +49,6 @@ const translationOptions = {
     CoreModule,
     AuthModule,
     NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    }) 
   ],
   providers: [
     BybitService,

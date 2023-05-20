@@ -5,7 +5,7 @@
     <div class="tfc-admin-left">
         <div class="tfc-card">
             <div class="tfc-card-title">
-                <h3>Public Strategies</h3>
+                <h3>{{'publicstrategies.title' | translate }}</h3>
             </div>
             <div class="tfc-card-body accountInfo">
                 <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type= "ball-scale-multiple" [fullScreen] = "false"><p style="color: white" > Loading... </p></ngx-spinner>
@@ -39,7 +39,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <h4 *ngIf="!dataSource" class="nodata">No data found. </h4>
+                    <h4 *ngIf="!dataSource" class="nodata">{{'nodataFound' | translate }} </h4>
                 </div>
             </div>
         </div>

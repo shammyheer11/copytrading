@@ -12,75 +12,87 @@
                     <p style="color: white"> Loading... </p>
                 </ngx-spinner>
 
-                <mat-tab-group>
+                <mat-tab-group (selectedTabChange)="onChange($event)">
                     <!-- Open Position Order start -->
-                    <mat-tab label="Positions">
+                    <mat-tab label="{{'myorder.positions' | translate }}">
                         <div class="accountTable">
                             <table class="tfcTable">
                                 <thead>
                                     <tr>
-                                        <th>Strategy</th>
-                                        <th>Base Coin</th>
-                                        <th>Exchange</th>
-                                        <th>Type</th>
-                                        <th>Subs</th>
-                                        <th>Risk</th>
-                                        <th>Copying</th>
-                                        <th>Rating</th>
+                                        <th>Contracts</th>
+                                        <th>Qty</th>
+                                        <th>Value</th>
+                                        <th>Entry Price</th>
+                                        <th>Mark Price</th>
+                                        <th>Liq. Price</th>
+                                        <th>IM</th>
+                                        <th>MM</th>
+                                        <th>Realized P&L</th>
+                                        <th>Order Type</th>
+                                        <th>TP/SL</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
 
                                 <tbody *ngIf="position">
                                     <tr *ngFor="let items of position">
-                                        <td><span>{{items.strategies.strategyName}}</span></td>
-                                        <td>{{items.strategies.baseCoin}}</td>
-                                        <td>{{ items.strategies.exchange}}</td>
-                                        <td> {{ items.strategies.type === 'linear' ? 'Futures' : items.strategies.type
-                                            }}</td>
-                                        <td></td>
-                                        <td>{{items.strategies.riskLimitValue}}%</td>
-                                        <td></td>
-                                        <td>9.5</td>
+                                        <td><span>{{items.symbol}}</span></td>
+                                        <td>{{items.size}}</td>
+                                        <td>{{ items.positionValue}}</td>
+                                        <td> {{ items.avgPrice}}</td>
+                                        <td> {{ items.markPrice}}</td>
+                                        <td> {{ items.liqPrice}}</td>
+                                        <td> {{ items.positionIM}}</td>
+                                        <td> {{ items.positionMM}}</td>
+                                        <td> {{ items.unrealisedPnl}} USDT</td>
+                                        <td>{{items.orderType}}</td>
+                                        <td><span>{{items.takeProfit}} </span>/<span> {{items.stopLoss}}</span></td>
+                                        <td><button (click)="cancelOrder(items)">Cancel</button></td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <h4 *ngIf="!position" class="nodata">No data found. </h4>
+                            <h4 *ngIf="!position" class="nodata">{{'nodataFound' | translate }} </h4>
                         </div>
                     </mat-tab> <!-- Open Position Order Close -->
-                    <mat-tab label="Current Orders"> <!-- Open Current Order start -->
+                    <mat-tab label="{{'myorder.currentorders' | translate }}"> <!-- Open Current Order start -->
                         <div class="accountTable">
                             <table class="tfcTable">
                                 <thead>
                                     <tr>
-                                        <th>Strategy</th>
-                                        <th>Base Coin</th>
-                                        <th>Exchange</th>
-                                        <th>Type</th>
-                                        <th>Subs</th>
-                                        <th>Risk</th>
-                                        <th>Copying</th>
-                                        <th>Rating</th>
+                                        <th>Contracts</th>
+                                        <th>Qty</th>
+                                        <th>Value</th>
+                                        <th>Entry Price</th>
+                                        <th>Mark Price</th>
+                                        <th>Liq. Price</th>
+                                        <th>IM</th>
+                                        <th>MM</th>
+                                        <th>Realized P&L</th>
+                                        <th>Order Type</th>
+                                        <th>TP/SL</th>
                                     </tr>
                                 </thead>
 
-                                <tbody *ngIf="currentOrder">
-                                    <tr *ngFor="let items of currentOrder">
-                                        <td><span>{{items.strategies.strategyName}}</span></td>
-                                        <td>{{items.strategies.baseCoin}}</td>
-                                        <td>{{ items.strategies.exchange}}</td>
-                                        <td> {{ items.strategies.type === 'linear' ? 'Futures' : items.strategies.type
-                                            }}</td>
-                                        <td></td>
-                                        <td>{{items.strategies.riskLimitValue}}%</td>
-                                        <td></td>
-                                        <td>9.5</td>
+                                <tbody *ngIf="position">
+                                    <tr *ngFor="let items of position">
+                                        <td><span>{{items.symbol}}</span></td>
+                                        <td>{{items.size}}</td>
+                                        <td>{{ items.positionValue}}</td>
+                                        <td> {{ items.avgPrice}}</td>
+                                        <td> {{ items.markPrice}}</td>
+                                        <td> {{ items.liqPrice}}</td>
+                                        <td> {{ items.positionIM}}</td>
+                                        <td> {{ items.positionMM}}</td>
+                                        <td> {{ items.unrealisedPnl}} USDT</td>
+                                        <td>{{items.orderType}}</td>
+                                        <td><span>{{items.takeProfit}} </span>/<span> {{items.stopLoss}}</span></td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <h4 *ngIf="!currentOrder" class="nodata">No data found. </h4>
+                            <h4 *ngIf="!currentOrder" class="nodata">{{'nodataFound' | translate }} </h4>
                         </div>
                     </mat-tab> <!-- Open Current Order End -->
-                    <mat-tab label="Order History">
+                    <mat-tab label="{{'myorder.orderhistory' | translate }}">
                         <div class="accountTable">
                             <table class="tfcTable">
                                 <thead>
@@ -110,7 +122,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <h4 *ngIf="!orderHistory" class="nodata">No data found. </h4>
+                            <h4 *ngIf="!orderHistory" class="nodata">{{'nodataFound' | translate }}</h4>
                         </div>
                     </mat-tab>
                 </mat-tab-group>

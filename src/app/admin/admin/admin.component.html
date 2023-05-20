@@ -8,40 +8,40 @@
             <ul class="adminMenus">
                 <li>
                     <a mat-list-item [routerLink]="['/admin']" routerLinkActive="active">
-                        <mat-icon>dashboard</mat-icon>Dashboard
+                        <mat-icon>dashboard</mat-icon>{{'adminMenus.dashboard' | translate }} 
                     </a>
                 </li>
                 
                 <li>
-                    <h3>Copy Trading</h3>
+                    <h3>{{'adminMenus.copytrading' | translate }}</h3>
                 </li> 
                 <li>
                     <a mat-list-item [routerLink]="['strategieslist']" routerLinkActive="active">
-                        <mat-icon>people</mat-icon>Strategies List
+                        <mat-icon>people</mat-icon>{{'adminMenus.strategieslist' | translate }} 
                     </a>
                 </li>
                 <li>
                     <a mat-list-item [routerLink]="['mysubscriptions']" routerLinkActive="active">
-                        <mat-icon>unsubscribe</mat-icon>My Subscriptions
+                        <mat-icon>unsubscribe</mat-icon>{{'adminMenus.mySubscriptions' | translate }} 
                     </a>
                 </li>
                 <li *ngIf="isSuperadmin == 'superadmin' || isSuperadmin == 'admin'">
                     <a mat-list-item [routerLink]="['mystrategies']" routerLinkActive="active">
-                        <mat-icon>format_list_bulleted</mat-icon>My Strategies
+                        <mat-icon>format_list_bulleted</mat-icon>{{'adminMenus.mystrategies' | translate }} 
                     </a>
                 </li>
                 <li>
                     <a mat-list-item (click)="showModal()">
-                        <mat-icon>format_list_bulleted</mat-icon>Place Order
+                        <mat-icon>format_list_bulleted</mat-icon>{{'adminMenus.placeorder' | translate }} 
                     </a>
                 </li>
                 <li>
-                    <a mat-list-item [routerLink]="['myorders']" >
-                        <mat-icon>format_list_numbered</mat-icon>My Orders
+                    <a mat-list-item [routerLink]="['myorders']" routerLinkActive="active">
+                        <mat-icon>format_list_numbered</mat-icon>{{'adminMenus.myorders' | translate }} 
                     </a>
                 </li>
                 <li>
-                    <h3>Tools & Analytics</h3>
+                    <h3>{{'adminMenus.toolsanalytics' | translate }} </h3>
                 </li>
                 <!-- <li>
                     <a mat-list-item [routerLink]="['tickeralerts']"
@@ -49,22 +49,22 @@
                 </li> -->
                 <li>
                     <a mat-list-item [routerLink]="['analytics']"
-                        routerLinkActive="active"><mat-icon>graphic_eq</mat-icon>Analytics</a>
+                        routerLinkActive="active"><mat-icon>graphic_eq</mat-icon>{{'adminMenus.analytics' | translate }}</a>
                 </li>
                 <!-- <li>
                     <a mat-list-item [routerLink]="['mystrategies']"
                         routerLinkActive="active"><mat-icon>trending_up</mat-icon>Manual Arbitrage</a>
                 </li> -->
                 <li>
-                    <h3>Accounts</h3>
+                    <h3>{{'adminMenus.accounts' | translate }}</h3>
                 </li>
                 <li>
                     <a mat-list-item [routerLink]="['exchangeaccount']"
-                        routerLinkActive="active"><mat-icon>account_balance_wallet</mat-icon>Exchange Accounts</a>
+                        routerLinkActive="active"><mat-icon>account_balance_wallet</mat-icon>{{'adminMenus.exchangeaccounts' | translate }}</a>
                 </li>
                 <li *ngIf="isSuperadmin == 'superadmin'">
                     <a mat-list-item [routerLink]="['users']" routerLinkActive="active">
-                        <mat-icon>list_alt</mat-icon>Users List
+                        <mat-icon>list_alt</mat-icon>{{'adminMenus.userslist' | translate }}
                     </a>
                 </li>
                 <!-- <li>
@@ -72,14 +72,14 @@
                         routerLinkActive="active"><mat-icon>account_balance</mat-icon>Signals Accounts</a>
                 </li> -->
                 <li>
-                    <h3>Support</h3>
+                    <h3>{{'adminMenus.support' | translate }}</h3>
                 </li>
                 <!-- <li>
                     <a mat-list-item routerLink="#"><mat-icon>contact_support</mat-icon>Submit a Request</a>
                 </li> -->
-                <li>
-                    <a mat-list-item routerLink="#"><mat-icon>library_books</mat-icon>Knowledge Base</a>
-                </li>
+                <!-- <li>
+                    <a mat-list-item routerLink="#"><mat-icon>library_books</mat-icon>{{'adminMenus.knowledgebase' | translate }}</a>
+                </li> -->
             </ul>
         </mat-sidenav>
         <mat-sidenav-content>
@@ -89,6 +89,20 @@
                 </button>
                 <span class="userName" *ngIf="userName">{{userName}}</span>
                 <span class="toolbar-item-spacer"></span>
+
+                <button mat-icon-button matTooltip="language Change" [matMenuTriggerFor]="language">
+                    <mat-icon>language</mat-icon>
+                </button>
+                <mat-menu #language [overlapTrigger]="false" yPosition="below">
+                    <button mat-menu-item (click)="switchLang('en')">
+                        <mat-icon>check_circle</mat-icon><span>EN</span>
+                    </button>
+                    <button mat-menu-item (click)="switchLang('it')">
+                        <mat-icon>check_circle_outline</mat-icon><span>IT</span>
+                    </button>
+                </mat-menu>
+
+
                 <button mat-icon-button matTooltip="Like">
                     <mat-icon>favorite</mat-icon>
                 </button>

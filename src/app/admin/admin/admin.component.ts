@@ -1,7 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { BybitService } from 'src/app/core/service/bybit.service';
+
 
 @Component({
   selector: 'app-admin',
@@ -34,9 +36,16 @@ export class AdminComponent {
     private router: ActivatedRoute,
     private ApiService : BybitService,
     private fb: FormBuilder,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private translate: TranslateService
 
-  ){}
+  ){
+    translate.setDefaultLang('en');
+  }
+
+  switchLang(language: string) {
+    this.translate.use(language);
+  }
 
   /**
    * Get strategy List

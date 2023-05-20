@@ -201,14 +201,37 @@ export class BybitService {
     }
 
 
-    getOrderList(){
-      return this.http.get<boolean>(this.apiUrl + 'orders/list').pipe(
+    getcurrentOrderList(){
+      return this.http.get<boolean>(this.apiUrl + 'orders/current').pipe(
         map((res : any)=>{
           return res;
         })
       );
     }
 
+    getpositionOrderList(){
+      return this.http.get<boolean>(this.apiUrl + 'orders/position').pipe(
+        map((res : any)=>{
+          return res;
+        })
+      );
+    }
+
+    gethistoryOrderList(){
+      return this.http.get<boolean>(this.apiUrl + 'orders/history').pipe(
+        map((res : any)=>{
+          return res;
+        })
+      );
+    }
+
+    cancelOrder(data : any){
+      return this.http.post<boolean>(this.apiUrl + 'orders/cancel', data).pipe(
+        map((res : any)=>{
+          return res;
+        })
+      );
+    }
 
 }
 
