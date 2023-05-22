@@ -81,7 +81,6 @@ export class ExchangeAccountComponent {
           this.wizardVal = 0;
           this.showModals = false;
         } else {
-          console.log(res);
           if(res && res.message && res.message.retMsg){
             this.ApiService.warningSnackBar(res.message.retMsg);
           }else{

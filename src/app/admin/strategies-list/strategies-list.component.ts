@@ -38,12 +38,9 @@ export class StrategiesListComponent {
   getAccoundInfo(){
     this.ApiService.getAccountDetails()
     .subscribe((res : any) => {
-      // console.log(res);
       if(res && res.data){
           this.accountList = res.data;
           this.staticVal = res.data[0]._id;
-      }else{
-        console.log('No data');
       }
     });
   }

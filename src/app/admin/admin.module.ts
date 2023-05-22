@@ -35,6 +35,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpLoaderFactory } from '../app.module';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import { HttpLoaderFactory } from '../app.module';
     MatSliderModule,
     FormsModule,
     MatTabsModule,
+    MatAutocompleteModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

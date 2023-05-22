@@ -119,7 +119,6 @@ export class MyStrategiesComponent {
   getAccoundInfo() {
     this.ApiService.getAccountDetails()
       .subscribe((res: any) => {
-        console.log(res);
         if (res && res.data) {
           this.accountInfo = res.data;
           this.staticVal = res.data[0]._id;

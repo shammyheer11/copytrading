@@ -20,15 +20,16 @@
                                 <thead>
                                     <tr>
                                         <th>Contracts</th>
+                                        <th>Side</th>
                                         <th>Qty</th>
                                         <th>Value</th>
                                         <th>Entry Price</th>
                                         <th>Mark Price</th>
                                         <th>Liq. Price</th>
-                                        <th>IM</th>
-                                        <th>MM</th>
+                                        <!-- <th>IM</th> -->
+                                        <!-- <th>MM</th> -->
                                         <th>Realized P&L</th>
-                                        <th>Order Type</th>
+                                        <!-- <th>Order Type</th> -->
                                         <th>TP/SL</th>
                                         <th>Action</th>
                                     </tr>
@@ -37,17 +38,27 @@
                                 <tbody *ngIf="position">
                                     <tr *ngFor="let items of position">
                                         <td><span>{{items.symbol}}</span></td>
+                                        <td>{{items.side}}</td>
                                         <td>{{items.size}}</td>
                                         <td>{{ items.positionValue}}</td>
                                         <td> {{ items.avgPrice}}</td>
                                         <td> {{ items.markPrice}}</td>
                                         <td> {{ items.liqPrice}}</td>
-                                        <td> {{ items.positionIM}}</td>
-                                        <td> {{ items.positionMM}}</td>
+                                        <!-- <td> {{ items.positionIM}}</td> -->
+                                        <!-- <td> {{ items.positionMM}}</td> -->
                                         <td> {{ items.unrealisedPnl}} USDT</td>
-                                        <td>{{items.orderType}}</td>
-                                        <td><span>{{items.takeProfit}} </span>/<span> {{items.stopLoss}}</span></td>
-                                        <td><button (click)="cancelOrder(items)">Cancel</button></td>
+                                        <!-- <td>{{items.orderType}}</td> -->
+                                        <td><span *ngIf="items.takeProfit && items.stopLoss"><span
+                                                    *ngIf="items.takeProfit">{{items.takeProfit}} / </span>
+                                                <span *ngIf="items.stopLoss"> {{items.stopLoss}}</span>
+                                                <span class="editOrder"
+                                                    (click)="editTPSLModal(items, 'position')"><mat-icon>edit</mat-icon></span></span>
+                                            <span *ngIf="!items.takeProfit && !items.stopLoss"> N/A</span>
+                                        </td>
+
+                                        <td> <span class="cancelOrder"
+                                                (click)="modalCancelOrder(items, 'position')"><mat-icon>cancel</mat-icon></span>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -60,32 +71,40 @@
                                 <thead>
                                     <tr>
                                         <th>Contracts</th>
+                                        <th>Side</th>
                                         <th>Qty</th>
                                         <th>Value</th>
-                                        <th>Entry Price</th>
-                                        <th>Mark Price</th>
-                                        <th>Liq. Price</th>
-                                        <th>IM</th>
-                                        <th>MM</th>
-                                        <th>Realized P&L</th>
                                         <th>Order Type</th>
+                                        <th>Reduce Only</th>
+                                        <th>Order Status</th>
                                         <th>TP/SL</th>
+                                        <th>Order No.</th>
+                                        <th>Created Time</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
 
                                 <tbody *ngIf="position">
-                                    <tr *ngFor="let items of position">
+                                    <tr *ngFor="let items of currentOrder">
                                         <td><span>{{items.symbol}}</span></td>
-                                        <td>{{items.size}}</td>
-                                        <td>{{ items.positionValue}}</td>
-                                        <td> {{ items.avgPrice}}</td>
-                                        <td> {{ items.markPrice}}</td>
-                                        <td> {{ items.liqPrice}}</td>
-                                        <td> {{ items.positionIM}}</td>
-                                        <td> {{ items.positionMM}}</td>
-                                        <td> {{ items.unrealisedPnl}} USDT</td>
-                                        <td>{{items.orderType}}</td>
-                                        <td><span>{{items.takeProfit}} </span>/<span> {{items.stopLoss}}</span></td>
+                                        <td>{{items.side}}</td>
+                                        <td>{{items.qty}}</td>
+                                        <td>{{ items.price}}</td>
+                                        <td>{{ items.orderType}}</td>
+                                        <td>{{ items.reduceOnly}}</td>
+                                        <td>{{ items.orderStatus}}</td>
+                                        <td><span *ngIf="items.takeProfit && items.stopLoss"><span
+                                                    *ngIf="items.takeProfit">{{items.takeProfit}} / </span>
+                                                <span *ngIf="items.stopLoss"> {{items.stopLoss}}</span>
+                                                <span class="editOrder"
+                                                    (click)="editTPSLModal(items, 'current')"><mat-icon>edit</mat-icon></span></span>
+                                            <span *ngIf="!items.takeProfit && !items.stopLoss"> N/A</span>
+                                        </td>
+                                        <td>{{items.orderId.slice(-12)}}</td>
+                                        <td>{{items.createdTime | date:'dd/MM/yyyy'}}</td>
+                                        <td> <span class="cancelOrder"
+                                                (click)="modalCancelOrder(items, 'current')"><mat-icon>cancel</mat-icon></span>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -98,6 +117,7 @@
                                 <thead>
                                     <tr>
                                         <th>Strategy</th>
+                                        <th>Side</th>
                                         <th>Base Coin</th>
                                         <th>Exchange</th>
                                         <th>Type</th>
@@ -111,6 +131,7 @@
                                 <tbody *ngIf="orderHistory">
                                     <tr *ngFor="let items of orderHistory">
                                         <td><span>{{items.strategies.strategyName}}</span></td>
+                                        <td>{{items.side}}</td>
                                         <td>{{items.strategies.baseCoin}}</td>
                                         <td>{{ items.strategies.exchange}}</td>
                                         <td> {{ items.strategies.type === 'linear' ? 'Futures' : items.strategies.type
@@ -127,6 +148,52 @@
                     </mat-tab>
                 </mat-tab-group>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="tfcOverlay" *ngIf="cancelOrderModal">
+    <div class="takeProfitLoss cnfrmDialog">
+        <div class="profitTitle">
+            <h3>Cancel Order</h3>
+            <div class="orderDetails">
+                <div class="">
+                    <span>Do you want to cancel this order</span>
+                </div>
+            </div>
+            <div class="dialogfoot">
+                <button class="tfcbtntwo change" (click)="cancelOrder()">Change</button>
+                <button class="tfcbtnone cancel" (click)="cancelOrderModal = !cancelOrderModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="tfcOverlay" *ngIf="editOrderModal">
+    <div class="takeProfitLoss cnfrmDialog">
+        <div class="profitTitle">
+            <h3>Edit TP/SL</h3>
+            <div class="orderDetails">
+                <div class="">
+                    <span>Order Price</span>
+                    <span *ngIf="actionorderType == 'current'">{{editorderData.lastPriceOnCreated | number : '1.2-2'}}</span>
+                    <span *ngIf="actionorderType == 'position'">{{editorderData.markPrice | number : '1.2-2'}}</span>
+                </div>
+            </div>
+            <div class="fields">
+                <label>Take Profit-Trigger by Price</label>
+                <input [(ngModel)]="takeProfit" type="number">
+            </div>
+            <div class="fields">
+                <label>Stop Loss-Trigger by Price</label>
+                <input [(ngModel)]="stopLoss" type="number">
+            </div>
+            <div class="dialogfoot">
+                <button class="tfcbtntwo change" (click)="UpdateTPSL()">Update</button>
+                <button class="tfcbtnone cancel" (click)="editOrderModal = !editOrderModal">Cancel</button>
             </div>
         </div>
     </div>

@@ -8,78 +8,59 @@
             <ul class="adminMenus">
                 <li>
                     <a mat-list-item [routerLink]="['/admin']" routerLinkActive="active">
-                        <mat-icon>dashboard</mat-icon>{{'adminMenus.dashboard' | translate }} 
+                        <mat-icon>dashboard</mat-icon>{{'adminMenus.dashboard' | translate }}
                     </a>
                 </li>
-                
+
                 <li>
                     <h3>{{'adminMenus.copytrading' | translate }}</h3>
-                </li> 
+                </li>
                 <li>
                     <a mat-list-item [routerLink]="['strategieslist']" routerLinkActive="active">
-                        <mat-icon>people</mat-icon>{{'adminMenus.strategieslist' | translate }} 
+                        <mat-icon>people</mat-icon>{{'adminMenus.strategieslist' | translate }}
                     </a>
                 </li>
                 <li>
                     <a mat-list-item [routerLink]="['mysubscriptions']" routerLinkActive="active">
-                        <mat-icon>unsubscribe</mat-icon>{{'adminMenus.mySubscriptions' | translate }} 
+                        <mat-icon>unsubscribe</mat-icon>{{'adminMenus.mySubscriptions' | translate }}
                     </a>
                 </li>
                 <li *ngIf="isSuperadmin == 'superadmin' || isSuperadmin == 'admin'">
                     <a mat-list-item [routerLink]="['mystrategies']" routerLinkActive="active">
-                        <mat-icon>format_list_bulleted</mat-icon>{{'adminMenus.mystrategies' | translate }} 
+                        <mat-icon>format_list_bulleted</mat-icon>{{'adminMenus.mystrategies' | translate }}
                     </a>
                 </li>
                 <li>
                     <a mat-list-item (click)="showModal()">
-                        <mat-icon>format_list_bulleted</mat-icon>{{'adminMenus.placeorder' | translate }} 
+                        <mat-icon>format_list_bulleted</mat-icon>{{'adminMenus.placeorder' | translate }}
                     </a>
                 </li>
                 <li>
                     <a mat-list-item [routerLink]="['myorders']" routerLinkActive="active">
-                        <mat-icon>format_list_numbered</mat-icon>{{'adminMenus.myorders' | translate }} 
+                        <mat-icon>format_list_numbered</mat-icon>{{'adminMenus.myorders' | translate }}
                     </a>
                 </li>
                 <li>
                     <h3>{{'adminMenus.toolsanalytics' | translate }} </h3>
                 </li>
-                <!-- <li>
-                    <a mat-list-item [routerLink]="['tickeralerts']"
-                        routerLinkActive="active"><mat-icon>notification_important</mat-icon>Ticker Alerts</a>
-                </li> -->
                 <li>
                     <a mat-list-item [routerLink]="['analytics']"
-                        routerLinkActive="active"><mat-icon>graphic_eq</mat-icon>{{'adminMenus.analytics' | translate }}</a>
+                        routerLinkActive="active"><mat-icon>graphic_eq</mat-icon>{{'adminMenus.analytics' | translate
+                        }}</a>
                 </li>
-                <!-- <li>
-                    <a mat-list-item [routerLink]="['mystrategies']"
-                        routerLinkActive="active"><mat-icon>trending_up</mat-icon>Manual Arbitrage</a>
-                </li> -->
                 <li>
                     <h3>{{'adminMenus.accounts' | translate }}</h3>
                 </li>
                 <li>
                     <a mat-list-item [routerLink]="['exchangeaccount']"
-                        routerLinkActive="active"><mat-icon>account_balance_wallet</mat-icon>{{'adminMenus.exchangeaccounts' | translate }}</a>
+                        routerLinkActive="active"><mat-icon>account_balance_wallet</mat-icon>{{'adminMenus.exchangeaccounts'
+                        | translate }}</a>
                 </li>
                 <li *ngIf="isSuperadmin == 'superadmin'">
                     <a mat-list-item [routerLink]="['users']" routerLinkActive="active">
                         <mat-icon>list_alt</mat-icon>{{'adminMenus.userslist' | translate }}
                     </a>
                 </li>
-                <!-- <li>
-                    <a mat-list-item [routerLink]="['signalsaccount']"
-                        routerLinkActive="active"><mat-icon>account_balance</mat-icon>Signals Accounts</a>
-                </li> -->
-                <li>
-                    <h3>{{'adminMenus.support' | translate }}</h3>
-                </li>
-                <!-- <li>
-                    <a mat-list-item routerLink="#"><mat-icon>contact_support</mat-icon>Submit a Request</a>
-                </li> -->
-                <!-- <li>
-                    <a mat-list-item routerLink="#"><mat-icon>library_books</mat-icon>{{'adminMenus.knowledgebase' | translate }}</a>
-                </li> -->
             </ul>
         </mat-sidenav>
         <mat-sidenav-content>
@@ -219,39 +200,34 @@
                         <div class="fes-connection_form ">
                             <label>USDT Perpetual</label>
                             <mat-form-field>
+                                <mat-label>Select USDT Perpetual</mat-label>
                                 <mat-select formControlName="symbol" (selectionChange)="onSelectionChange($event)">
-                                    <mat-option *ngFor="let coin of CointList"
+                                    <div class="search-container">
+                                        <input class="searchCoin" matInput placeholder="Search" formControlName="filterCoin"
+                                            (input)="filterOptions($event)" />
+                                    </div>
+                                    <mat-option *ngFor="let coin of filteredOptions"
                                         [value]="coin.symbol">{{coin.symbol}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
+
                         </div>
                     </div>
                     <div class="blocks">
-                        <div class="fes-connection_form" [ngClass]="priceQty == 'qty' ? '' : 'hideBlock'">
-                            <label class="changeOrderBy" (click)="showPrefrence()">Order by Qty </label>
-                            <input #quntity type="number" formControlName="qty" placeholder="Quntity">
-                        </div>
-
-                        <div class="fes-connection_form" [ngClass]="priceQty == 'price' ? '' : 'hideBlock'">
-                            <label class="changeOrderBy" (click)="showPrefrence()">Order by Value </label>
-                            <input #orderVal type="number" formControlName="orderValue" placeholder="Value Price">
-                        </div>
-
                         <div class="fes-connection_form" [ngClass]="HidePrice ? 'HidePrice' : ''">
                             <label>Order Price : </label>
                             <input #odrPrice type="number" formControlName="orderprice" placeholder="Prce">
                         </div>
                     </div>
                     <div class="fes-connection_form">
-                        <p class="profitLoss"><input [checked]="takeProfitLoss" (click)="openProfit()" type="checkbox">
+                        <p class="profitLoss"><input #myCheckbox [checked]="takeProfitLoss" (click)="openProfit()" type="checkbox">
                             Take Profit / Stop Loss</p>
                     </div>
 
                     <input type="hidden" formControlName="takeProfit" placeholder="Set profit limit">
                     <input type="hidden" formControlName="stopLoss" placeholder="set loss limit">
 
-                    <button class="tfcbtntwo" #myButton type="submit">{{ btnloading ? 'Loading...' : 'Submit
-                        Order'}}</button>
+                    <button class="tfcbtntwo" #myButton type="submit">{{ btnloading ? 'Loading...' : 'Submit Order'}}</button>
                 </form>
             </div>
         </div>
@@ -264,14 +240,6 @@
                         <div class="">
                             <span>Order Price</span>
                             <span>{{odrPrice.value | number : '1.2-2'}}</span>
-                        </div>
-                        <div *ngIf="priceQty == 'qty'">
-                            <span>Qty</span>
-                            <span>{{quntity.value}}</span>
-                        </div>
-                        <div *ngIf="priceQty == 'price'">
-                            <span>Order Value</span>
-                            <span>{{orderVal.value}}</span>
                         </div>
                     </div>
                     <div class="fields">
@@ -289,47 +257,5 @@
                 </div>
             </div>
         </div>
-
-        <div class="tfcOverlay" *ngIf="changePrefrence">
-            <div class="changePrefrence cnfrmDialog">
-                <div class="dialoghead">
-                    <h3>Order Placement Preferences</h3>
-                    <img (click)="cancelDialog()" src="assets/image/cross.svg" alt="close-arrow" />
-                </div>
-                <div class="dialogbody">
-                    <div class="radio-group">
-                        <div class="btnCheckbox">
-                            <input [(ngModel)]="priceQty" value="qty" type="radio" name="preferences">
-                        </div>
-                        <div class="checkboxLabel">
-                            <h4>Order by Qty</h4>
-                            <p>Please enter your order qty denominated in BTC terms.</p>
-                        </div>
-                        <div class="checkCoin">
-                            <h3>BTC</h3>
-                        </div>
-                    </div>
-                    <div class="radio-group">
-                        <div class="btnCheckbox">
-                            <input [(ngModel)]="priceQty" value="price" type="radio" name="preferences">
-                        </div>
-                        <div class="checkboxLabel">
-                            <h4>Order by Value</h4>
-                            <p>Please enter your desired order value. You can modify the required margin by adjusting
-                                the
-                                applied leverage.</p>
-                        </div>
-                        <div class="checkCoin">
-                            <h3>USDT</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="dialogfoot">
-                    <button class="change tfcbtntwo" (click)="confirmDialog()">Confirm</button>
-                    <button class="cancel tfcbtnone" (click)="cancelDialog()">Cancel</button>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
