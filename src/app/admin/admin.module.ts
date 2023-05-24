@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AdminHeaderComponent } from './components/admin-header/admin-header.component';
-import { AdminSidebarComponent } from './components/admin-sidebar/admin-sidebar.component';
 import { AdminComponent } from './admin/admin.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -36,13 +34,14 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpLoaderFactory } from '../app.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { PositionsOrderComponent } from './components/positions-order/positions-order.component';
+import { CurrentOrderComponent } from './components/current-order/current-order.component';
+import { HistoryOrderComponent } from './components/history-order/history-order.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    AdminHeaderComponent,
-    AdminSidebarComponent,
     AdminComponent,
     StrategiesListComponent,
     MySubscriptionsComponent,
@@ -52,7 +51,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ExchangeAccountComponent,
     SignalsAccountComponent,
     UsersComponent,
-    MyordersComponent
+    MyordersComponent,
+    PositionsOrderComponent,
+    CurrentOrderComponent,
+    HistoryOrderComponent
   ],
   imports: [
     CommonModule,

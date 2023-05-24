@@ -85,7 +85,7 @@ export class StrategiesListComponent {
       if(foundItem.totalWalletBalance >= this.MinimumAmout){
           this.ApiService.copyStrategy(params.value).subscribe((res : any) =>{
           if(res && res.success == true){
-            this.ApiService.successSnackBar('Subscribe Succesfully');
+            this.ApiService.successSnackBar(res.message);
             this.showModals = false;
             this.btnloading = false;
           }else{

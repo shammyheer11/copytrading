@@ -240,6 +240,7 @@ export class BybitService {
     );
   }
 
+  /**Current order Edit profit / loss */
   editOrder(data : any){
     return this.http.put<boolean>(this.apiUrl + 'orders/edit', data).pipe(
       map((res: any) => {
@@ -247,6 +248,26 @@ export class BybitService {
       })
     );
   }
+
+
+  editpostionOrder(data : any){
+    return this.http.put<boolean>(this.apiUrl + 'orders/position/edit', data).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
+  closePostionOrder(data : any){
+    return this.http.put<boolean>(this.apiUrl + 'orders/position/close', data).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
+
+ 
 
 }
 

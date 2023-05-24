@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminSidebarComponent } from './admin-sidebar.component';
+import { PositionsOrderComponent } from './positions-order.component';
 
-describe('AdminSidebarComponent', () => {
-  let component: AdminSidebarComponent;
-  let fixture: ComponentFixture<AdminSidebarComponent>;
+describe('PositionsOrderComponent', () => {
+  let component: PositionsOrderComponent;
+  let fixture: ComponentFixture<PositionsOrderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdminSidebarComponent ]
+      declarations: [ PositionsOrderComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AdminSidebarComponent);
+    fixture = TestBed.createComponent(PositionsOrderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -69,9 +69,8 @@ export class AdminComponent {
   getCoins() {
     this.ApiService.getCoinsList().subscribe((res: any) => {
       if (res && res.data) {
-        this.CointList = res.data.filter((obj: any) => obj.hasOwnProperty('usdIndexPrice'));
+        this.CointList = res.data.filter((item : any ) => item.symbol.includes("USDT") && item.hasOwnProperty('usdIndexPrice'));
         this.filteredOptions = this.CointList;
-        // this.currentCoin = this.CointList.find((c :any) => c.symbol === 'BTCUSDT');
       }
     });
   }

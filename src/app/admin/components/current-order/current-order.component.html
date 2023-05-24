@@ -1,0 +1,94 @@
+<div class="accountTable">
+    <table class="tfcTable">
+        <thead>
+            <tr>
+                <th>Contracts</th>
+                <th>Side</th>
+                <th>Qty</th>
+                <th>Value</th>
+                <th>Order Type</th>
+                <th>TP/SL</th>
+                <th>Order No.</th>
+                <th>Created Time</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody *ngIf="currentOrder && currentOrder.length > 0">
+            <tr *ngFor="let items of currentOrder; ; let i = index">
+                <td><span>{{items.symbol}}</span></td>
+                <td>{{items.side}}</td>
+                <td>{{items.qty}}</td>
+                <td>{{ items.price}}</td>
+                <td>{{ items.orderType}}</td>
+                <td><span *ngIf="items.takeProfit">{{items.takeProfit}}
+                            / </span>
+                        <span *ngIf="items.stopLoss"> {{items.stopLoss}}</span>
+                        <span *ngIf="items.orderId == items.orderParentId" class="editOrder"
+                            (click)="editTPSLModal(items, 'current')"><mat-icon>edit</mat-icon></span>
+                    
+                </td>
+                <td>{{items.orderId.slice(-12)}}</td>
+                <td>{{items.createdTime | date:'dd/MM/yyyy'}}</td>
+                <td>
+                    <mat-form-field *ngIf="items.orderId == items.orderParentId">
+                        <mat-label>Cancel Order</mat-label>
+                        <mat-select [(ngModel)]="selectedValues[i]" (selectionChange)="onSelectionChange($event, items, i)">
+                            <!-- <mat-option value="cancelself">Cancel Self</mat-option> -->
+                            <mat-option value="cancelall">Cancel All</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <span *ngIf="items.orderId != items.orderParentId">N/A</span>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+    <h4 *ngIf="currentOrder && currentOrder.length == 0" class="nodata">{{'nodataFound' | translate }} </h4>
+</div>
+
+
+
+<div class="tfcOverlay" *ngIf="cancelOrderModal">
+    <div class="takeProfitLoss cnfrmDialog">
+        <div class="profitTitle">
+            <h3>Cancel Order</h3>
+            <div class="orderDetails">
+                <div class="">
+                    <span>Do you want to cancel this order</span>
+                </div>
+            </div>
+            <div class="dialogfoot">
+                <button class="tfcbtntwo change" (click)="cancelOrder()">Change</button>
+                <button class="tfcbtnone cancel" (click)="closeCancelOrder()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="tfcOverlay" *ngIf="editOrderModal">
+    <div class="takeProfitLoss cnfrmDialog">
+        <div class="profitTitle">
+            <h3>Edit TP/SL</h3>
+            <div class="orderDetails">
+                <div class="">
+                    <span>Order Price</span>
+                    <span>{{editorderData.lastPriceOnCreated | number : '1.2-2'}}</span>
+                </div>
+            </div>
+            <div class="fields">
+                <label>Take Profit-Trigger by Price</label>
+                <input [(ngModel)]="takeProfit" type="number">
+            </div>
+            <div class="fields">
+                <label>Stop Loss-Trigger by Price</label>
+                <input [(ngModel)]="stopLoss" type="number">
+            </div>
+            <div class="dialogfoot">
+                <button class="tfcbtntwo change" (click)="UpdateTPSL()">Update</button>
+                <button class="tfcbtnone cancel" (click)="editOrderModal = !editOrderModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

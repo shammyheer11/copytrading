@@ -1,0 +1,26 @@
+<div class="accountTable">
+    <table class="tfcTable">
+        <thead>
+            <tr>
+                <th>Contracts</th>
+                <th>Side</th>
+                <th>Order Type</th>
+                <th>Created Time</th>
+
+
+            </tr>
+        </thead>
+
+        <tbody *ngIf="orderHistory">
+            <tr *ngFor="let items of orderHistory">
+                <td><span>{{items.symbol}}</span></td>
+                <td>{{items.side}}</td>
+                <td>{{items.orderType}}</td>
+                <td>{{items.updatedTime | date:'dd/MM/yyyy'}}</td>
+
+
+            </tr>
+        </tbody>
+    </table>
+    <h4 *ngIf="!orderHistory" class="nodata">{{'nodataFound' | translate }}</h4>
+</div>

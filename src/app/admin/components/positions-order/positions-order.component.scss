@@ -1,0 +1,48 @@
+.cancelOrder,
+.editOrder {
+    cursor: pointer;
+}
+
+.editOrder {
+    position: relative;
+    top: 5px;
+    left: 5px;
+}
+
+.tfcOverlay .cnfrmDialog {
+    box-shadow: 0px 0px 5px -2px #000;
+    padding: 25px 40px;
+
+    input {
+        width: 100%;
+        padding: 8px 10px;
+    }
+
+    .buttonGroups {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+
+        button {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 7px 5px;
+            cursor: pointer;
+            &:hover{
+                background-color: #404347;
+                color: #f7a600;
+            }
+        }
+    }
+}
+
+.tfcOverlay {
+    z-index: 99;
+    position: fixed;
+}
+
+table {
+    button {
+        margin-right: 10px;
+    }
+}

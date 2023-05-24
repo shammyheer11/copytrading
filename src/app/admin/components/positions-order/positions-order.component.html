@@ -1,0 +1,128 @@
+<div class="accountTable">
+    <table class="tfcTable">
+        <thead>
+            <tr>
+                <th>Contracts</th>
+                <th>Side</th>
+                <th>Qty</th>
+                <th>Value</th>
+                <th>Entry Price</th>
+                <th>Mark Price</th>
+                <th>Liq. Price</th>
+                <th>Realized P&L</th>
+                <th>TP/SL</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody *ngIf="position && position.length > 0">
+            <tr *ngFor="let items of position">
+                <td><span>{{items.symbol}}</span></td>
+                <td>{{items.side}}</td>
+                <td>{{items.size}}</td>
+                <td>{{ items.positionValue | number : '1.2-2'}}</td>
+                <td> {{ items.avgPrice | number : '1.2-2'}}</td>
+                <td> {{ items.markPrice | number : '1.2-2'}}</td>
+                <td> {{ items.liqPrice | number : '1.2-2'}}</td>
+                <td> {{ items.unrealisedPnl | number : '1.2-2'}} USDT</td>
+                <td><span *ngIf="items.takeProfit">{{items.takeProfit}}
+                        / </span>
+                    <span *ngIf="items.stopLoss"> {{items.stopLoss}}</span>
+                    <span *ngIf="items.orderId == items.orderParentId" class="editOrder" (click)="editTPSLModal(items, 'position')"><mat-icon>edit</mat-icon></span>
+
+                </td>
+
+                <td>
+                    <p *ngIf="items.orderId == items.orderParentId"><button mat-raised-button (click)="limitClose(items)">Limit</button><button
+                        (click)="marketClose(items)" mat-raised-button>Market</button></p>
+                        <span *ngIf="items.orderId != items.orderParentId">N/A</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h4 *ngIf="!position || position.length == 0 " class="nodata">{{'nodataFound' | translate }} </h4>
+</div>
+
+
+<!-- Limit Close -->
+<div class="tfcOverlay" *ngIf="limitModel">
+    <div class="takeProfitLoss cnfrmDialog">
+        <div class="profitTitle">
+            <h3>Limit Close</h3>
+
+            <div class="fields">
+                <label>Closing Price USDT</label>
+                <input [(ngModel)]="limitPrice" type="number">
+            </div>
+            <div class="fields">
+                <label>Closed Qty</label>
+                <input [(ngModel)]="limitQty" type="number" readonly>
+            </div>
+            <div class="fields buttonGroups">
+                <button (click)="calcLimit(10)" value="10">10%</button>
+                <button (click)="calcLimit(25)" value="25">25%</button>
+                <button (click)="calcLimit(50)" value="50">50%</button>
+                <button (click)="calcLimit(75)" value="75">75%</button>
+                <button (click)="calcLimit(100)" value="100">100%</button>
+            </div>
+            <div class="dialogfoot">
+                <button class="tfcbtntwo change" (click)="closeWithLimit()">Update</button>
+                <button class="tfcbtnone cancel" (click)="closeLimitModel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Market close -->
+<div class="tfcOverlay" *ngIf="marketModel">
+    <div class="takeProfitLoss cnfrmDialog">
+        <div class="profitTitle">
+            <h3>Market Close</h3>
+            <div class="fields">
+                <label>Closed Qty</label>
+                <input [(ngModel)]="limitQty" type="number" readonly>
+            </div>
+            <div class="fields buttonGroups">
+                <button (click)="calcLimit(10)" value="10">10%</button>
+                <button (click)="calcLimit(25)" value="25">25%</button>
+                <button (click)="calcLimit(50)" value="50">50%</button>
+                <button (click)="calcLimit(75)" value="75">75%</button>
+                <button (click)="calcLimit(100)" value="100">100%</button>
+            </div>
+            <div class="dialogfoot">
+                <button class="tfcbtntwo change" (click)="closeWithMarket()">Update</button>
+                <button class="tfcbtnone cancel" (click)="closeMarketModel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="tfcOverlay" *ngIf="editOrderModal">
+    <div class="takeProfitLoss cnfrmDialog">
+        <div class="profitTitle">
+            <h3>Edit TP/SL</h3>
+            <div class="orderDetails">
+                <div class="">
+                    <span>Order Price</span>
+                    <span>{{currentOrder.markPrice | number : '1.2-2'}}</span>
+                </div>
+            </div>
+            <div class="fields">
+                <label>Take Profit-Trigger by Price</label>
+                <input [(ngModel)]="takeProfit" type="number">
+            </div>
+            <div class="fields">
+                <label>Stop Loss-Trigger by Price</label>
+                <input [(ngModel)]="stopLoss" type="number">
+            </div>
+            <div class="dialogfoot">
+                <button class="tfcbtntwo change" (click)="UpdateTPSL()">Update</button>
+                <button class="tfcbtnone cancel" (click)="editOrderModal = !editOrderModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
