@@ -19,13 +19,14 @@
                 <td><span>{{items.symbol}}</span></td>
                 <td>{{items.side}}</td>
                 <td>{{items.qty}}</td>
-                <td>{{ items.price}}</td>
+                <td>{{ items.price}} <span *ngIf="items.orderId == items.orderParentId" class="editOrder"
+                    (click)="editOrderPrice(items)"><mat-icon>edit</mat-icon></span></td>
                 <td>{{ items.orderType}}</td>
                 <td><span *ngIf="items.takeProfit">{{items.takeProfit}}
                             / </span>
                         <span *ngIf="items.stopLoss"> {{items.stopLoss}}</span>
                         <span *ngIf="items.orderId == items.orderParentId" class="editOrder"
-                            (click)="editTPSLModal(items, 'current')"><mat-icon>edit</mat-icon></span>
+                            (click)="editTPSLModal(items)"><mat-icon>edit</mat-icon></span>
                     
                 </td>
                 <td>{{items.orderId.slice(-12)}}</td>
@@ -88,6 +89,30 @@
             <div class="dialogfoot">
                 <button class="tfcbtntwo change" (click)="UpdateTPSL()">Update</button>
                 <button class="tfcbtnone cancel" (click)="editOrderModal = !editOrderModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="tfcOverlay" *ngIf="editOrderPriceModal">
+    <div class="takeProfitLoss cnfrmDialog">
+        <div class="profitTitle">
+            <h3>Edit limit order price</h3>
+            <div class="orderDetails">
+                <div class="">
+                    <span>Order Market Price</span>
+                    <span>{{editorderData.lastPriceOnCreated | number : '1.2-2'}}</span>
+                </div>
+            </div>
+            <div class="fields">
+                <label>Take Profit-Trigger by Price</label>
+                <input [(ngModel)]="editLimitPrice" type="number">
+            </div>
+            <div class="dialogfoot">
+                <button class="tfcbtntwo change" (click)="updateLimitOrderPrice()">Update</button>
+                <button class="tfcbtnone cancel" (click)="editOrderPriceModal = !editOrderPriceModal">Cancel</button>
             </div>
         </div>
     </div>

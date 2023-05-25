@@ -18,7 +18,9 @@ export class CurrentOrderComponent {
   public takeProfit : any;
   public stopLoss : any;
   public selectedValueIndex: any;
-  selectedValues: { [key: string]: any } = {};
+  public selectedValues: { [key: string]: any } = {};
+  public editOrderPriceModal : boolean = false;
+  public editLimitPrice : any;
 
   constructor(
     private ApiService: BybitService,
@@ -72,7 +74,7 @@ export class CurrentOrderComponent {
    * @param data 
    * @param type 
    */
-  editTPSLModal(data: any, type: string) {
+  editTPSLModal(data: any) {
     this.editOrderModal = true;
     this.editorderData = data;
     this.takeProfit = this.editorderData.takeProfit;
@@ -131,8 +133,63 @@ export class CurrentOrderComponent {
   
         }
       }
+
+    }
+
+
+
+    editOrderPrice(item : any){
+      this.editorderData = item;
+      this.editOrderPriceModal = true;
+      this.editLimitPrice  = item.price;
+    }  
+
+    updateLimitOrderPrice(){
+      if (this.editorderData.side == 'Buy') {
+        if (this.editLimitPrice > this.editorderData.lastPriceOnCreated) {
+          this.ApiService.warningSnackBar('Limit order price should be less then base price');
+          this.editOrderPriceModal = false;
+          return;
+        } else {
+          let data = {
+            "orderId": this.editorderData.orderId,
+            "strategies": this.editorderData.strategies,
+            "price": this.editLimitPrice.toString(),
+          }
+          this.ApiService.editOrder(data).subscribe((res: any) => {
+            if (res && res.data.length > 0) {
+              this.editOrderPriceModal = false;
+              this.ApiService.successSnackBar('Order Update sucessfully');
+              this.ApiService.onPlaceOrder(true);
+            }else{
+              this.ApiService.warningSnackBar('Order not Update');
+            }
+          });
   
+        }
+      } else {
+        if (this.takeProfit < this.editorderData.lastPriceOnCreated || this.stopLoss < this.editorderData.lastPriceOnCreated) {
+          this.ApiService.warningSnackBar('Limit order price should be greater then base price');
+          this.editOrderPriceModal = false;
+          return;
+        } else {
+          let data = {
+            "orderId": this.editorderData.orderId,
+            "strategies": this.editorderData.strategies,
+            "price": this.editLimitPrice.toString(),
+          }
+          this.ApiService.editOrder(data).subscribe((res: any) => {
+            if (res && res.data.length > 0) {
+              this.editOrderPriceModal = false;
+              this.ApiService.successSnackBar('Order Update sucessfully');
+              this.ApiService.onPlaceOrder(true);
+            }else{
+              this.ApiService.warningSnackBar('Order not Update');
+            }
+          });
   
+        }
+      }
     }
 
 

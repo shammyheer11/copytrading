@@ -4,6 +4,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { EMPTY } from 'rxjs';
 import { BybitService } from 'src/app/core/service/bybit.service';
+import { Options } from "@angular-slider/ngx-slider";
 
 
 @Component({
@@ -33,6 +34,23 @@ export class AdminComponent {
 
   public takeProfit: any;
   public stopLoss: any;
+
+  public tradeValue : number = 5;
+  options: Options = {
+    showTicksValues: true,
+    stepsArray: [
+      { value: 1},
+      { value: 2 },
+      { value: 3 },
+      { value: 4 },
+      { value: 5 },
+      { value: 6 },
+      { value: 7 },
+      { value: 8 },
+      { value: 9 },
+      { value: 10 }
+    ]
+  };
 
 
   constructor(
@@ -147,7 +165,9 @@ export class AdminComponent {
       side: ['Buy', Validators.required],
       strategyId: ['', Validators.required],
       orderType: ['Market', Validators.required],
-      filterCoin: ['']
+      filterCoin: [''],
+      riskLimitValue : [this.tradeValue, Validators.required]
+
     })
   }
 
@@ -248,9 +268,9 @@ export class AdminComponent {
           this.btnloading = false;
           return;
         }
-      }
-
+      } 
       this.placeorder.controls['orderprice'].setValue(orderPriceval.toString());
+      this.placeorder.controls['riskLimitValue'].setValue(this.tradeValue);
       await this.ApiService.copytrading(params.value).subscribe((res: any) => {
         if (res && res.success == true) {
           if (res.message == 'OK') {
@@ -277,7 +297,6 @@ export class AdminComponent {
     this.myStrategies();
     this.getCoins();
     this.checkUser();
-
 
     this.ApiService.getalert().subscribe((value: any) => {
       this.myStrategies();

@@ -22,7 +22,7 @@
                 </li>
                 <li>
                     <a mat-list-item [routerLink]="['mysubscriptions']" routerLinkActive="active">
-                        <mat-icon>unsubscribe</mat-icon>{{'adminMenus.mySubscriptions' | translate }}
+                        <mat-icon>subscriptions</mat-icon>{{'adminMenus.mySubscriptions' | translate }}
                     </a>
                 </li>
                 <li *ngIf="isSuperadmin == 'superadmin' || isSuperadmin == 'admin'">
@@ -30,9 +30,9 @@
                         <mat-icon>format_list_bulleted</mat-icon>{{'adminMenus.mystrategies' | translate }}
                     </a>
                 </li>
-                <li>
+                <li *ngIf="isSuperadmin == 'superadmin' || isSuperadmin == 'admin'">
                     <a mat-list-item (click)="showModal()">
-                        <mat-icon>format_list_bulleted</mat-icon>{{'adminMenus.placeorder' | translate }}
+                        <mat-icon>trending_up</mat-icon>{{'adminMenus.placeorder' | translate }}
                     </a>
                 </li>
                 <li>
@@ -40,12 +40,12 @@
                         <mat-icon>format_list_numbered</mat-icon>{{'adminMenus.myorders' | translate }}
                     </a>
                 </li>
-                <li>
+                <li *ngIf="isSuperadmin == 'superadmin' || isSuperadmin == 'admin'">
                     <h3>{{'adminMenus.toolsanalytics' | translate }} </h3>
                 </li>
-                <li>
+                <li *ngIf="isSuperadmin == 'superadmin' || isSuperadmin == 'admin'">
                     <a mat-list-item [routerLink]="['analytics']"
-                        routerLinkActive="active"><mat-icon>graphic_eq</mat-icon>{{'adminMenus.analytics' | translate
+                        routerLinkActive="active"><mat-icon>analytics</mat-icon>{{'adminMenus.analytics' | translate
                         }}</a>
                 </li>
                 <li>
@@ -218,6 +218,13 @@
                             <label>Order Price : </label>
                             <input #odrPrice type="number" formControlName="orderprice" placeholder="Prce">
                         </div>
+
+                        <div class="fes-connection_form">
+                            <label>Order Size : </label>
+                            <ngx-slider [(value)]="tradeValue" [options]="options"></ngx-slider>
+                        </div>
+
+                        
                     </div>
                     <div class="fes-connection_form">
                         <p class="profitLoss"><input #myCheckbox [checked]="takeProfitLoss" (click)="openProfit()" type="checkbox">

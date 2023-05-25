@@ -37,6 +37,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { PositionsOrderComponent } from './components/positions-order/positions-order.component';
 import { CurrentOrderComponent } from './components/current-order/current-order.component';
 import { HistoryOrderComponent } from './components/history-order/history-order.component';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 
 @NgModule({
@@ -77,6 +78,7 @@ import { HistoryOrderComponent } from './components/history-order/history-order.
     FormsModule,
     MatTabsModule,
     MatAutocompleteModule,
+    NgxSliderModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
