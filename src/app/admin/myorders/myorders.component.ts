@@ -77,7 +77,6 @@ export class MyordersComponent {
 
 
   ngOnInit() {
-    if(this.position)
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();

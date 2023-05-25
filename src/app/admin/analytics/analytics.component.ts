@@ -31,9 +31,6 @@ export class AnalyticsComponent {
     }
 
 
-    viewDetails(item : any){
-      console.log(item);
-    }
 
 
     ngOnInit() {

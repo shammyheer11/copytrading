@@ -12,6 +12,7 @@ import { StrategiesListComponent } from './strategies-list/strategies-list.compo
 import { AuthGuard } from '../core/guard/auth-guard';
 import { UsersComponent } from './users/users.component';
 import { MyordersComponent } from './myorders/myorders.component';
+import { DetailAnalyticsComponent } from './detail-analytics/detail-analytics.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,7 @@ const routes: Routes = [
           { path: 'tickeralerts', component: TickerAlertsComponent },
           { path: 'users', component: UsersComponent },
           { path: 'myorders', component: MyordersComponent },
+          {path: 'detail/:id', component : DetailAnalyticsComponent }
         ]
       }
     ]

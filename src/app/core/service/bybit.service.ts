@@ -267,6 +267,36 @@ export class BybitService {
   }
 
 
+
+
+  /** Order Details For admin */
+  // http://localhost:4000/api/v1/analytics/main-trade/646dc68d5d720339552b7b7b
+
+  getMainTradersPostion(id : string) {
+    return this.http.get<boolean>(this.apiUrl + 'analytics/main-trade/' + id).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
+  getMainTradersClose(id : string) {
+    return this.http.get<boolean>(this.apiUrl + 'analytics/close-trade/' + id).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
+  getSubscriberlist(data: any) {
+    return this.http.post<boolean>(this.apiUrl + 'analytics/subscriber', data).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
+  
  
 
 }

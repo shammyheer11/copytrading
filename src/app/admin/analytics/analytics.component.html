@@ -37,7 +37,7 @@
                                 <td>{{items.copysubscription.length}}</td>
                                 <td>{{items.totalWalletBalance | number : '1.2-2'}}</td>
                                 <td>9.5</td>
-                                <td><button (click)="viewDetails(items)">View</button></td>
+                                <td><a [routerLink]="['/admin/detail/', items._id]">View</a></td>
                             </tr>
                         </tbody>
                     </table>

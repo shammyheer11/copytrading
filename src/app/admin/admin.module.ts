@@ -38,6 +38,7 @@ import { PositionsOrderComponent } from './components/positions-order/positions-
 import { CurrentOrderComponent } from './components/current-order/current-order.component';
 import { HistoryOrderComponent } from './components/history-order/history-order.component';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { DetailAnalyticsComponent } from './detail-analytics/detail-analytics.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
     MyordersComponent,
     PositionsOrderComponent,
     CurrentOrderComponent,
-    HistoryOrderComponent
+    HistoryOrderComponent,
+    DetailAnalyticsComponent
   ],
   imports: [
     CommonModule,

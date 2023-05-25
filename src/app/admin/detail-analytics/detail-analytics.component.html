@@ -1,0 +1,160 @@
+<!-------------------Exchange-Accounts---------------------->
+<div class="size40"></div>
+<div class="tfc-admin-main">
+    <div class="tfc-admin-left">
+        <div class="tfc-card">
+            <div class="tfc-card-title">
+                <h3>Trade Analytics <a [routerLink]="['/admin/analytics']">Back</a></h3>
+            </div>
+            <div class="tfc-card-body accountInfo">
+                <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple"
+                    [fullScreen]="false">
+                    <p style="color: white"> Loading... </p>
+                </ngx-spinner>
+
+                <mat-tab-group (selectedTabChange)="onChange($event)">
+                    <mat-tab label="{{'myorder.positions' | translate }}">
+                        <div class="accountTable">
+                            <table class="tfcTable">
+                                <thead>
+                                    <tr>
+                                        <th>Contracts</th>
+                                        <th>Side</th>
+                                        <th>Qty</th>
+                                        <th>Value</th>
+                                        <th>Entry Price</th>
+                                        <th>Mark Price</th>
+                                        <th>Liq. Price</th>
+                                        <th>Realized P&L</th>
+                                        <th>TP/SL</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody *ngIf="postionsOrder && postionsOrder.length > 0">
+                                    <tr *ngFor="let items of postionsOrder; ; let i = index">
+                                        <td><span>{{items.symbol}}</span></td>
+                                        <td>{{items.side}}</td>
+                                        <td>{{items.size}}</td>
+                                        <td>{{ items.positionValue | number : '1.2-2'}}</td>
+                                        <td> {{ items.avgPrice | number : '1.2-2'}}</td>
+                                        <td> {{ items.markPrice | number : '1.2-2'}}</td>
+                                        <td> {{ items.liqPrice | number : '1.2-2'}}</td>
+                                        <td> {{ items.unrealisedPnl | number : '1.2-2'}} USDT</td>
+                                        <td><span *ngIf="items.takeProfit">{{items.takeProfit}}
+                                                / </span>
+                                            <span *ngIf="items.stopLoss"> {{items.stopLoss}}</span>
+                                        </td>
+
+                                        <td>
+                                            <button class="tfcbtnone"
+                                                (click)="getDetailsList(items, true )">View</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h4 *ngIf="postionsOrder && postionsOrder.length == 0" class="nodata">{{'nodataFound' |
+                                translate }} </h4>
+                        </div>
+
+                    </mat-tab>
+                    <mat-tab label="Closed Order">
+                        <div class="accountTable">
+                            <table class="tfcTable">
+                                <thead>
+                                    <tr>
+                                        <th>Contracts</th>
+                                        <th>Qty</th>
+                                        <th>Entry Price</th>
+                                        <th>Exit Price</th>
+                                        <th>Closed P&L</th>
+                                        <th>Exit Type</th>
+                                        <th>Trade Time</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody *ngIf="closeOrder && closeOrder.length > 0">
+                                    <tr *ngFor="let items of closeOrder; ; let i = index">
+                                        <td><span>{{items.symbol}}</span></td>
+                                        <td>{{items.qty}}</td>
+                                        <td>{{ items.avgEntryPrice | number : '1.2-2'}}</td>
+                                        <td>{{items.avgExitPrice | number : '1.2-2'}}</td>
+                                        <td>{{items.closedPnl | number : '1.2-2'}}</td>
+                                        <td>Trade</td>
+                                        <td>{{items.updatedTime | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                                        <td><button (click)="getDetailsList(items, false )"
+                                                class="tfcbtnone">View</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h4 *ngIf="closeOrder && closeOrder.length == 0" class="nodata">{{'nodataFound' | translate }} </h4>
+                        </div>
+
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="tfcOverlay" *ngIf="detailModel">
+    <div class="takeProfitLoss cnfrmDialog">
+        <div class="profitTitle">
+            <a class="fes-close-btn" (click)="closeUserModal()">Close</a>
+            <h3 *ngIf="modalType">Postion orders listing of users</h3>
+            <h3 *ngIf="!modalType">Closed Orders listing of users</h3>
+        </div>
+        <div class="accountTable">
+            <table class="tfcTable" *ngIf="modalType">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User Email</th>
+                        <th>Entry Price</th>
+                        <th>Time of entry</th>
+                        <th>TP/sl</th>
+                        <th>Closing Time</th>
+                        <th>Profit or loss</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let items of orderByUsers; ; let i = index">
+                        <td>{{i +1 }}</td>
+                        <td>{{items.user.email}}</td>
+                        <td>{{items.avgPrice | number : '1.2-3'}}</td>
+                        <td>{{items.createdTime | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                        <td>{{items.unrealisedPnl | number : '1.2-3'}}</td>
+                        <td>Currently Running</td>
+                        <td>Currently Running</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="tfcTable" *ngIf="!modalType">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User Email</th>
+                        <th>Entry Price</th>
+                        <th>Time of entry</th>
+                        <th>TP/sl</th>
+                        <th>Closing Time</th>
+                        <th>Profit or loss</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let items of orderByUsers; ; let i = index">
+                        <td>{{i +1 }}</td>
+                        <td>{{items.user.email}}</td>
+                        <td>{{items.avgEntryPrice}}</td>
+                        <td>{{items.createdTime | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                        <td>{{items.closedPnl}}</td>
+                        <td>{{items.updatedTime | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                        <td>{{items.closedPnl}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4 *ngIf="orderByUsers && orderByUsers.length == 0" class="nodata">{{'nodataFound' | translate }} </h4>
+        </div>
+    </div>
