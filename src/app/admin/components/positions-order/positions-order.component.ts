@@ -147,6 +147,7 @@ export class PositionsOrderComponent {
             this.closeLimitModel();
           }else{
             this.ApiService.warningSnackBar('Order Not executed');
+            this.closeLimitModel();
           }
         });
       
@@ -182,6 +183,7 @@ export class PositionsOrderComponent {
             this.closeMarketModel();
           }else{
             this.ApiService.warningSnackBar('Order Not executed');
+            this.closeMarketModel();
           }
         });
       

@@ -45,14 +45,11 @@ export class DetailAnalyticsComponent {
   async getPostionsOrders() {
     this.ApiService.getMainTradersPostion(this.currentID)
       .subscribe((res: any) => {
-        console.log(res);
         if (res && res.data && res.data.length > 0) {
           this.postionsOrder = res.data.filter((obj: any) => obj.hasOwnProperty('positionStatus') && obj.size != "0");
           if (this.postionsOrder.length == 0) {
             this.postionsOrder = [];
           }
-
-          this.postionsOrder = res.data;
         } else {
           this.postionsOrder = [];
         }
@@ -62,7 +59,6 @@ export class DetailAnalyticsComponent {
   getClosedOrders() {
     this.ApiService.getMainTradersClose(this.currentID)
       .subscribe((res: any) => {
-        console.log(res);
         if (res && res.data && res.data.length > 0) {
           this.closeOrder = res.data;
         } else {
@@ -73,7 +69,6 @@ export class DetailAnalyticsComponent {
 
 
   getDetailsList(items: any, type : boolean){
-    console.log(items);
     this.spinner.show();
     this.modalType = type;
     let data = {
