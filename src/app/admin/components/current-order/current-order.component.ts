@@ -21,6 +21,7 @@ export class CurrentOrderComponent {
   public selectedValues: { [key: string]: any } = {};
   public editOrderPriceModal : boolean = false;
   public editLimitPrice : any;
+  public btnloading: boolean = false;
 
   constructor(
     private ApiService: BybitService,
@@ -45,13 +46,13 @@ export class CurrentOrderComponent {
       }else{
         this.cancelOrderModal = true;
       }
-      console.log(event.value);
     }
 
       /**
    * Cancel order on confirm
    */
   cancelOrder() {
+    this.btnloading = true;
     this.ApiService.cancelOrder(this.cancelOrderData)
       .subscribe((res: any) => {
         if (res && res.data.length > 0) {
@@ -59,10 +60,12 @@ export class CurrentOrderComponent {
           this.cancelOrderModal = false;
           this.ApiService.onPlaceOrder(true);
           this.closeCancelOrder();
+          this.btnloading = false;
         } else {
           this.cancelOrderModal = false;
           this.ApiService.warningSnackBar('Order Not cancel');
           this.closeCancelOrder();
+          this.btnloading = false;
         }
       });
   }
@@ -86,10 +89,12 @@ export class CurrentOrderComponent {
    * @returns 
    */
     UpdateTPSL() {
+      this.btnloading = true;
       if (this.editorderData.side == 'Buy') {
         if (this.takeProfit < this.editorderData.lastPriceOnCreated || this.stopLoss > this.editorderData.lastPriceOnCreated) {
           this.ApiService.warningSnackBar('Takeprofit should be greater and stop loss should be less then base price');
           this.editOrderModal = false;
+          this.btnloading = false;
           return;
         } else {
           let data = {
@@ -103,8 +108,10 @@ export class CurrentOrderComponent {
               this.editOrderModal = false;
               this.ApiService.successSnackBar('Order Update sucessfully');
               this.ApiService.onPlaceOrder(true);
+              this.btnloading = false;
             }else{
               this.ApiService.warningSnackBar('Order not Update');
+              this.btnloading = false;
             }
           });
   
@@ -113,6 +120,7 @@ export class CurrentOrderComponent {
         if (this.takeProfit > this.editorderData.lastPriceOnCreated || this.stopLoss < this.editorderData.lastPriceOnCreated) {
           this.ApiService.warningSnackBar('Takeprofit should be less and stoploss should be greater then base price');
           this.editOrderModal = false;
+          this.btnloading = false;
           return;
         } else {
           let data = {
@@ -126,8 +134,10 @@ export class CurrentOrderComponent {
               this.editOrderModal = false;
               this.ApiService.successSnackBar('Order Update sucessfully');
               this.ApiService.onPlaceOrder(true);
+              this.btnloading = false;
             }else{
               this.ApiService.warningSnackBar('Order not Update');
+              this.btnloading = false;
             }
           });
   
@@ -145,10 +155,12 @@ export class CurrentOrderComponent {
     }  
 
     updateLimitOrderPrice(){
+      this.btnloading = true;
       if (this.editorderData.side == 'Buy') {
         if (this.editLimitPrice > this.editorderData.lastPriceOnCreated) {
           this.ApiService.warningSnackBar('Limit order price should be less then base price');
           this.editOrderPriceModal = false;
+          this.btnloading = false;
           return;
         } else {
           let data = {
@@ -157,12 +169,14 @@ export class CurrentOrderComponent {
             "price": this.editLimitPrice.toString(),
           }
           this.ApiService.editOrder(data).subscribe((res: any) => {
-            if (res && res.data.length > 0) {
+            if (res && res.success) {
               this.editOrderPriceModal = false;
               this.ApiService.successSnackBar('Order Update sucessfully');
               this.ApiService.onPlaceOrder(true);
+              this.btnloading = false;
             }else{
               this.ApiService.warningSnackBar('Order not Update');
+              this.btnloading = false;
             }
           });
   
@@ -171,6 +185,7 @@ export class CurrentOrderComponent {
         if (this.takeProfit < this.editorderData.lastPriceOnCreated || this.stopLoss < this.editorderData.lastPriceOnCreated) {
           this.ApiService.warningSnackBar('Limit order price should be greater then base price');
           this.editOrderPriceModal = false;
+          this.btnloading = false;
           return;
         } else {
           let data = {
@@ -183,8 +198,10 @@ export class CurrentOrderComponent {
               this.editOrderPriceModal = false;
               this.ApiService.successSnackBar('Order Update sucessfully');
               this.ApiService.onPlaceOrder(true);
+              this.btnloading = false;
             }else{
               this.ApiService.warningSnackBar('Order not Update');
+              this.btnloading = false;
             }
           });
   

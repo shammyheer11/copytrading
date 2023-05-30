@@ -113,6 +113,17 @@ export class BybitService {
     );
   }
 
+  getUsersProfile() {
+    return this.http.get<Boolean>(this.apiUrl + 'auth/users/profile').pipe(
+      map((list: any) => {
+        return list;
+      })
+    );
+  }
+
+
+  
+
 
   getuser(id: any) {
     return this.http.get<Boolean>(this.apiUrl + 'auth/user/' + id).pipe(
@@ -181,8 +192,16 @@ export class BybitService {
   }
 
 
+  // copytrading(data: any) {
+  //   return this.http.post<boolean>(this.apiUrl + 'copysubscription/copytrading', data).pipe(
+  //     map((res: any) => {
+  //       return res;
+  //     })
+  //   );
+  // }
+
   copytrading(data: any) {
-    return this.http.post<boolean>(this.apiUrl + 'copysubscription/copytrading', data).pipe(
+    return this.http.post<boolean>(this.apiUrl + 'copysubscription/place', data).pipe(
       map((res: any) => {
         return res;
       })

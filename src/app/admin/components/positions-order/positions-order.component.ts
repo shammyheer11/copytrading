@@ -9,7 +9,7 @@ import { BybitService } from 'src/app/core/service/bybit.service';
 })
 export class PositionsOrderComponent {
   @Input() position: any;
-
+  public btnloading: boolean = false;
   /** Limit close*/
   public limitModel: any = false;
   public limitPrice: any;
@@ -49,6 +49,7 @@ export class PositionsOrderComponent {
    * @returns 
    */
   UpdateTPSL() {
+    this.btnloading = true;
     let data = {
       "strategies" : this.currentOrder.strategies,
       "category": this.currentOrder.type,
@@ -64,6 +65,7 @@ export class PositionsOrderComponent {
       if (this.takeProfit < this.currentOrder.avgPrice || this.stopLoss > this.currentOrder.avgPrice) {
         this.ApiService.warningSnackBar('Takeprofit should be greater and stop loss should be less then base price');
         this.editOrderModal = false;
+        this.btnloading = false;
         return;
       } else {
 
@@ -71,8 +73,10 @@ export class PositionsOrderComponent {
           if (res && res.data && res.data.length > 0) {
             this.ApiService.onPlaceOrder(true);
             this.editOrderModal = false;
+            this.btnloading = false;
             this.ApiService.successSnackBar('Order Update sucessfully');
           } else {
+            this.btnloading = false;
             this.ApiService.warningSnackBar('Order not Update');
           }
         });
@@ -82,14 +86,17 @@ export class PositionsOrderComponent {
       if (this.takeProfit > this.currentOrder.avgPrice || this.stopLoss < this.currentOrder.avgPrice) {
         this.ApiService.warningSnackBar('Takeprofit should be less and stoploss should be greater then base price');
         this.editOrderModal = false;
+        this.btnloading = false;
         return;
       } else {
         this.ApiService.editOrder(data).subscribe((res: any) => {
           if (res && res.data && res.data.length > 0) {
             this.ApiService.onPlaceOrder(true);
             this.editOrderModal = false;
+            this.btnloading = false;
             this.ApiService.successSnackBar('Order Update sucessfully');
           } else {
+            this.btnloading = false;
             this.ApiService.warningSnackBar('Order not Update');
           }
         });
@@ -97,6 +104,9 @@ export class PositionsOrderComponent {
       }
     }
 
+    setTimeout(() => {
+      this.btnloading = false;
+    }, 5000);
 
   }
 
@@ -122,7 +132,6 @@ export class PositionsOrderComponent {
       this.limitQty = this.currentOrder.size * item / 100;
       this.limitQty = this.limitQty.toFixed(3);
       this.qtyPercent = item;
-      console.log(this.qtyPercent)
     }
   }
 
@@ -130,6 +139,7 @@ export class PositionsOrderComponent {
 
 
   closeWithLimit() {
+    this.btnloading = true;
     if (this.limitQty) {
         let data = {
             "orderId": this.currentOrder.orderId,
@@ -138,20 +148,25 @@ export class PositionsOrderComponent {
             "orderType": 'Limit',
             "price": this.limitPrice.toString(),
             "qty": this.qtyPercent,
-            "symbol" : this.currentOrder.symbol
+            "symbol" : this.currentOrder.symbol,
+            "ordercreatedTime" : this.currentOrder.created_at
         }
         this.ApiService.closePostionOrder(data).subscribe((res : any)=>{
           if (res && res.data && res.data.length > 0) { 
+            this.btnloading = false;
             this.ApiService.onPlaceOrder(true);
             this.ApiService.successSnackBar('order Executed sucessfully');
             this.closeLimitModel();
           }else{
+            this.btnloading = false;
             this.ApiService.warningSnackBar('Order Not executed');
             this.closeLimitModel();
           }
-        });
-      
+        }); 
     }
+    setTimeout(() => {
+      this.btnloading = false;
+    }, 5000);
   }
 
   /** Limit Close End  */
@@ -166,6 +181,7 @@ export class PositionsOrderComponent {
 
  
   closeWithMarket() {
+    this.btnloading = true;
     if (this.limitQty) {
         let data = {
             "orderId": this.currentOrder.orderId,
@@ -174,20 +190,25 @@ export class PositionsOrderComponent {
             "orderType": 'Market',
             "price": this.currentOrder.markPrice,
             "qty": this.qtyPercent,
-            "symbol" : this.currentOrder.symbol
+            "symbol" : this.currentOrder.symbol,
+            "ordercreatedTime" : this.currentOrder.created_at
         }
         this.ApiService.closePostionOrder(data).subscribe((res : any)=>{
           if (res && res.data && res.data.length > 0) { 
+            this.btnloading = false;
             this.ApiService.onPlaceOrder(true);
             this.ApiService.successSnackBar('order Executed sucessfully');
             this.closeMarketModel();
           }else{
+            this.btnloading = false;
             this.ApiService.warningSnackBar('Order Not executed');
             this.closeMarketModel();
           }
         });
-      
     }
+    setTimeout(() => {
+      this.btnloading = false;
+    }, 5000);
   }
 
   closeMarketModel() {
@@ -199,10 +220,6 @@ export class PositionsOrderComponent {
 
 
   ngOnInit() {
-    // this.spinner.show();
-    // setTimeout(() => {
-    //   this.spinner.hide();
-    // }, 1500);
-    console.log(this.position);
+
   }
 }

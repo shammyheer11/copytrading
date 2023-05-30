@@ -273,7 +273,7 @@ export class AdminComponent {
       this.placeorder.controls['riskLimitValue'].setValue(this.tradeValue);
       await this.ApiService.copytrading(params.value).subscribe((res: any) => {
         if (res && res.success == true) {
-          if (res.message == 'OK') {
+          if (res.data.retMsg == 'OK') {
             this.ApiService.successSnackBar('Trade execute sucessfully');
             this.ApiService.onPlaceOrder(true);
           } else {
@@ -290,6 +290,11 @@ export class AdminComponent {
     } else {
       this.btnloading = false;
     }
+
+
+    setTimeout(() => {
+      this.btnloading = false;
+    }, 5000);
 
   }
 
@@ -313,9 +318,9 @@ export class AdminComponent {
     let data: any = localStorage.getItem('user');
     if (data) {
       data = JSON.parse(data);
+      this.userName = data.data.username
       this.ApiService.getuser(data.data._id).subscribe((value: any) => {
         this.isSuperadmin = value.data[0].role;
-        this.userName = value.data[0].username
       });
     }
   }

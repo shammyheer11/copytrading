@@ -1,0 +1,52 @@
+<!-------------------Exchange-Accounts---------------------->
+<div class="size40"></div>
+<div class="tfc-admin-main">
+    <div class="tfc-admin-left">
+        <div class="tfc-card">
+            <div class="tfc-card-title">
+                <h3>User Profile</h3>
+            </div>
+            <div class="tfc-card-body">
+                <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple"
+                    [fullScreen]="false">
+                    <p style="color: white"> Loading... </p>
+                </ngx-spinner>
+
+
+                <div class="user-profile" *ngIf="!loading">
+                    <div class="card-block">
+                            <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image">
+                        <h3><label>Username:</label>{{currentUser.data.username}}</h3>
+                        <h5><label>Email:</label> {{currentUser.data.email}}</h5>
+                        <h5><label>Role:</label> {{currentUser.data.role}}</h5>
+                        <h5><label>Status:</label> {{currentUser.data.status}}</h5>
+
+                        <p><label>Referral code: </label> {{reffralData.referralLink}}</p>
+                        <p><label>Referred Count: </label> {{reffralData.referredCount}}</p>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -27,7 +27,6 @@ export class MyordersComponent {
       .subscribe((res: any) => {
         if (res && res.data && res.data.length > 0) {
           this.position = res.data.filter((obj: any) => obj.hasOwnProperty('positionStatus') && obj.size != "0" );
-          console.log(this.position);
           if(this.position.length == 0){
             this.position = [];
           }

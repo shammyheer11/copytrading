@@ -13,6 +13,7 @@ import { AuthGuard } from '../core/guard/auth-guard';
 import { UsersComponent } from './users/users.component';
 import { MyordersComponent } from './myorders/myorders.component';
 import { DetailAnalyticsComponent } from './detail-analytics/detail-analytics.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 const routes: Routes = [
@@ -33,6 +34,7 @@ const routes: Routes = [
           { path: 'tickeralerts', component: TickerAlertsComponent },
           { path: 'users', component: UsersComponent },
           { path: 'myorders', component: MyordersComponent },
+          { path: 'profile', component: UserProfileComponent },
           {path: 'detail/:id', component : DetailAnalyticsComponent }
         ]
       }

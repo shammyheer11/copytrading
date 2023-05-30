@@ -66,7 +66,7 @@
                 <button (click)="calcLimit(100)" value="100">100%</button>
             </div>
             <div class="dialogfoot">
-                <button class="tfcbtntwo change" (click)="closeWithLimit()">Update</button>
+                <button class="tfcbtntwo change" (click)="closeWithLimit()">{{ btnloading ? 'Loading...' : 'Update'}}</button>
                 <button class="tfcbtnone cancel" (click)="closeLimitModel()">Cancel</button>
             </div>
         </div>
@@ -91,7 +91,7 @@
                 <button (click)="calcLimit(100)" value="100">100%</button>
             </div>
             <div class="dialogfoot">
-                <button class="tfcbtntwo change" (click)="closeWithMarket()">Update</button>
+                <button class="tfcbtntwo change" (click)="closeWithMarket()">{{ btnloading ? 'Loading...' : 'Update'}}</button>
                 <button class="tfcbtnone cancel" (click)="closeMarketModel()">Cancel</button>
             </div>
         </div>
@@ -120,7 +120,7 @@
                 <input [(ngModel)]="stopLoss" type="number">
             </div>
             <div class="dialogfoot">
-                <button class="tfcbtntwo change" (click)="UpdateTPSL()">Update</button>
+                <button class="tfcbtntwo change" (click)="UpdateTPSL()">{{ btnloading ? 'Loading...' : 'Update'}}</button>
                 <button class="tfcbtnone cancel" (click)="editOrderModal = !editOrderModal">Cancel</button>
             </div>
         </div>

@@ -26,7 +26,6 @@ export class UsersComponent {
   getUsers(){
     this.ApiService.getUsersList()
     .subscribe((res : any) => {
-      console.log(res);
       if(res && res.data){
           this.users = res.data;
       }else{

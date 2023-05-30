@@ -124,8 +124,8 @@
                         <td>{{i +1 }}</td>
                         <td>{{items.user.email}}</td>
                         <td>{{items.avgPrice | number : '1.2-3'}}</td>
-                        <td>{{items.createdTime | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-                        <td>{{items.unrealisedPnl | number : '1.2-3'}}</td>
+                        <td>{{convertTime(items.created_at)}}</td>
+                        <td>{{ CurrentOrder.takeProfit ? CurrentOrder.takeProfit + ' / ' + CurrentOrder.stopLoss : 'Not set' }}</td>
                         <td>Currently Running</td>
                         <td>Currently Running</td>
                     </tr>
@@ -148,8 +148,8 @@
                         <td>{{i +1 }}</td>
                         <td>{{items.user.email}}</td>
                         <td>{{items.avgEntryPrice}}</td>
-                        <td>{{items.createdTime | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-                        <td>{{items.closedPnl}}</td>
+                        <td>{{convertTime(items.ordercreatedTime)}}</td>
+                        <td>{{ CurrentOrder.takeProfit ? CurrentOrder.takeProfit + ' / ' + CurrentOrder.stopLoss : 'Not set' }}</td>
                         <td>{{items.updatedTime | date:'dd/MM/yyyy HH:mm:ss'}}</td>
                         <td>{{items.closedPnl}}</td>
                     </tr>

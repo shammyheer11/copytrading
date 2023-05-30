@@ -17,6 +17,7 @@ export class DetailAnalyticsComponent {
   public detailModel : boolean = false;
   public modalType :any;
   public orderByUsers : any;
+  public CurrentOrder : any;
   constructor(
     private ApiService: BybitService,
     private route: ActivatedRoute,
@@ -69,6 +70,8 @@ export class DetailAnalyticsComponent {
 
 
   getDetailsList(items: any, type : boolean){
+    this.CurrentOrder = items;
+    console.log(items);
     this.spinner.show();
     this.modalType = type;
     let data = {
@@ -78,21 +81,22 @@ export class DetailAnalyticsComponent {
   }
     this.ApiService.getSubscriberlist(data).subscribe((res : any)=>{
       if(res && res.data && res.data.length > 0){
-        console.log(res);
         this.orderByUsers = res.data;
         this.detailModel = true;
+        this.spinner.hide();
       }else{
         this.orderByUsers = [];
       }
     });
     setTimeout(() => {
       this.spinner.hide();
-    }, 1000);
+    }, 5000);
   }
 
   closeUserModal(){
     this.detailModel = false;
     this.orderByUsers = [];
+    this.CurrentOrder = null;
   }
 
 
@@ -104,4 +108,30 @@ export class DetailAnalyticsComponent {
     this.getPostionsOrders();
     this.loading = false;
   }
+
+
+  convertTime(dateString : any){
+    // Create a new Date object using the string
+    const date = new Date(dateString);
+
+    // Get the individual components (year, month, day, hour, minute, second)
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Note: Months are zero-based, so add 1
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+
+    // Format the components into a date and time string
+    const formattedDate = `${year}-${month}-${day}`;
+    const formattedTime = `${hour}:${minute}:${second}`;
+
+    return formattedDate + ' ' +formattedTime;
+  }
+
+
+
+
+
+
 }

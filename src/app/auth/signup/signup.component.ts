@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BybitService } from 'src/app/core/service/bybit.service';
 
 @Component({
@@ -13,10 +13,19 @@ export class SignupComponent {
  public loading : boolean = true;
  public submitted : boolean = false;
  public currentUser : any;
+ public referralCode : any = '';
  constructor( 
+  private router: ActivatedRoute,
     private fb: FormBuilder,  
     private ApiService : BybitService, 
     private route : Router){
+      this.router.queryParams.subscribe(params => {
+        if(params && params['referralCode']){
+          this.referralCode = params['referralCode'];
+        }else{
+          this.referralCode = '';
+        }
+      });
 
  }
 
@@ -24,7 +33,8 @@ export class SignupComponent {
    this.signupForm = this.fb.group({
     username: ['', [Validators.required, this.lowercaseNoSpaceValidator]],
      email: ['', [Validators.required, Validators.email]],
-     password: ['', [Validators.required, Validators.minLength(6)]]
+     password: ['', [Validators.required, Validators.minLength(6)]],
+     referralCode : [this.referralCode]
    })
  }
 
