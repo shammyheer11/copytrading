@@ -23,13 +23,18 @@ export class MyordersComponent {
    * Get positions order list
    */  
   mypositionorders() {
+    this.spinner.show();
     this.ApiService.getpositionOrderList()
       .subscribe((res: any) => {
         if (res && res.data && res.data.length > 0) {
           this.position = res.data.filter((obj: any) => obj.hasOwnProperty('positionStatus') && obj.size != "0" );
+          this.spinner.hide();
           if(this.position.length == 0){
             this.position = [];
+            this.spinner.hide();
           }
+        }else{
+          this.spinner.hide();
         }
       });
   }
@@ -38,15 +43,19 @@ export class MyordersComponent {
    * Get current orders list
    */  
   mycurrentorders() {
+    this.spinner.show();
     this.ApiService.getcurrentOrderList()
       .subscribe((res: any) => {
         if (res && res.data && res.data.length > 0) {
           this.currentOrder = res.data.filter((obj: any) => obj.hasOwnProperty('orderStatus'));
+          this.spinner.hide();
           if(this.currentOrder.length == 0){
             this.currentOrder = [];
+            this.spinner.hide();
           }
         }else{
           this.currentOrder = [];
+          this.spinner.hide();
         }
       });
   }
@@ -55,10 +64,14 @@ export class MyordersComponent {
    * Get history orders list
    */
   myhistoryorders() {
+    this.spinner.show();
     this.ApiService.gethistoryOrderList()
       .subscribe((res: any) => {
         if (res && res.data) {
           this.orderHistory = res.data;
+          this.spinner.hide();
+        }else{
+          this.spinner.hide();
         }
       });
   }

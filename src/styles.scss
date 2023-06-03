@@ -596,3 +596,22 @@ table.tfcTable {
         display: none;
     }
 }
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 1366px) {
+    .tfc-admin-main .tfc-card{
+        padding: 20px 10px;
+    }
+    table.tfcTable thead tr th{
+        padding: 0.75rem .5rem;
+    }
+    table.tfcTable tbody tr td{
+        padding: 0.75rem .5rem;
+    }
+ }

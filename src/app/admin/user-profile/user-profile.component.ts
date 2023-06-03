@@ -1,3 +1,4 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -15,7 +16,8 @@ export class UserProfileComponent {
   constructor(
     private route : Router, 
     private ApiService : BybitService,
-    private spinner : NgxSpinnerService
+    private spinner : NgxSpinnerService,
+    private clipboard: Clipboard
   ){
 
   }
@@ -30,6 +32,12 @@ export class UserProfileComponent {
         this.loading = false;
       }
     });
+  }
+
+
+  copyText(text : any){
+    this.clipboard.copy(text);
+    this.ApiService.successSnackBar('Referral code copied');
   }
 
   ngOnInit(){

@@ -21,7 +21,7 @@
                         <h5><label>Role:</label> {{currentUser.data.role}}</h5>
                         <h5><label>Status:</label> {{currentUser.data.status}}</h5>
 
-                        <p><label>Referral code: </label> {{reffralData.referralLink}}</p>
+                        <p class="refLink"><label>Referral code: </label> {{reffralData.referralLink}}  <button (click)="copyText(reffralData.referralLink)"><mat-icon>file_copy</mat-icon></button></p>
                         <p><label>Referred Count: </label> {{reffralData.referredCount}}</p>
                     </div>
                 </div>

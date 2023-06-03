@@ -315,6 +315,18 @@ export class BybitService {
     );
   }
 
+
+
+
+  checkleverage(data: any) {
+    return this.http.post<boolean>(this.apiUrl + 'copysubscription/leverage', data).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
+
   
  
 

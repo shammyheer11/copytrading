@@ -14,8 +14,16 @@
             color:#000;
             font-size: 16px;
         }
-        p{
+        p.refLink{
             color: rgb(67, 4, 241);
+            display: flex;
+            align-items: center;
+            button{
+                cursor: pointer;
+                background: transparent;
+                border: none;
+                padding: 5px 10px;
+            }
         }
     }
 }

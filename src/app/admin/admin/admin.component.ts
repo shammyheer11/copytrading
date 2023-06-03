@@ -31,11 +31,20 @@ export class AdminComponent {
   public userName: string = '';
   public filteredOptions: any;
   public getCoin: any;
+  public currentLang : any;
+  public checkTpSl : boolean = false;
 
   public takeProfit: any;
   public stopLoss: any;
+  public maxStopLoss : any;
+
+  public CurrentCoinPrice : any;
+  public WalletBalance : any;
+  public tradeUnit : any;
+  public calculateSLrisk : any;
 
   public tradeValue : number = 5;
+  public slippageValue : number = 10;
   options: Options = {
     showTicksValues: true,
     stepsArray: [
@@ -48,7 +57,17 @@ export class AdminComponent {
       { value: 7 },
       { value: 8 },
       { value: 9 },
-      { value: 10 }
+      { value: 10 },
+    ]
+  };
+
+  slippage: Options = {
+    showTicksValues: true,
+    stepsArray: [
+      { value: 10},
+      { value: 15 },
+      { value: 20 },
+      { value: 25 },
     ]
   };
 
@@ -63,10 +82,12 @@ export class AdminComponent {
 
   ) {
     translate.setDefaultLang('en');
+    this.currentLang = 'en';
   }
 
   switchLang(language: string) {
     this.translate.use(language);
+    this.currentLang = language;
   }
 
   /**
@@ -113,7 +134,82 @@ export class AdminComponent {
     this.currentCoin = this.CointList.find((c: any) => c.symbol === coin);
     let numberValue = Number(this.currentCoin.usdIndexPrice).toFixed(3);
     this.placeorder.controls['orderprice'].setValue(numberValue);
+    this.checkLeverage();
   }
+
+  onLeverageChange(event : any){
+    let formValue = this.placeorder.value;
+    if(formValue.symbol){
+      this.checkLeverage();
+    }
+  }
+
+
+
+  checkLeverage(){
+    let formValue = this.placeorder.value;
+    let items = {
+      strategyId : formValue.strategyId,
+      symbol : formValue.symbol
+    } 
+    this.ApiService.checkleverage(items).subscribe((res : any)=>{
+      if(res && res.success == true){
+        let coinPrice : any = res.CoinBalance;
+        let walletBalance : any = parseInt(res.usdtWalletBal).toFixed(2);
+
+
+        this.CurrentCoinPrice = coinPrice;
+        this.WalletBalance = walletBalance;
+
+
+        let newwallet = walletBalance / this.slippageValue;
+
+
+        //Step 1 Let's say I am willing to risk 10% of the wallet balance: $145 * 10 % = $14.50
+        let total : any = (newwallet * (this.tradeValue / 100)).toFixed(2);
+        console.log(total + 'Total balance * 10');
+
+
+        //Step two 2. With 10x Leverage. We can control the position of $145*10 = $1450.
+        let leverage = newwallet * parseInt(formValue.leverage);
+        console.log(leverage + 'Getting leverage ******');
+
+
+        //Step 3 Let's we enter the trade at a price of $0.50 for XRPUSDT. We will be buying $1450/$0.50 = 2900 unites.
+         this.tradeUnit = (leverage/coinPrice).toFixed(3);
+        console.log(this.tradeUnit + 'Getting units');
+
+
+
+        /** Calculate Stoploss */
+        let diffrencePrice : any =  total/this.tradeUnit;
+        if(formValue.side == 'Buy'){
+          this.maxStopLoss = (coinPrice - diffrencePrice).toFixed(2);
+        }else{
+          this.maxStopLoss = (parseFloat(coinPrice ) + parseFloat(diffrencePrice)).toFixed(2);
+        }
+
+        this.placeorder.controls['positionsize'].setValue(this.slippageValue);
+        this.placeorder.controls['quantity'].setValue(this.tradeUnit.toString());
+        // this.placeorder.controls['orderprice'].setValue(coinPrice.toString());
+
+
+      }
+    });
+  }
+
+  calculateStopLoss(){
+    let formValue = this.placeorder.value;
+    let diffrencePrice: any;
+    if(formValue.side == 'Buy'){
+       diffrencePrice = (this.CurrentCoinPrice - this.stopLoss).toFixed(2);
+    }else{
+      diffrencePrice = (this.CurrentCoinPrice + this.stopLoss).toFixed(2);
+    }
+    let data :any = (this.tradeUnit * diffrencePrice).toFixed(2);
+    this.calculateSLrisk = ((data / this.WalletBalance) * 100).toFixed(2);
+  }
+
 
   /**
    * On change order type
@@ -150,6 +246,8 @@ export class AdminComponent {
   }
 
 
+
+
   /**
    * Create placeorder form
    */
@@ -166,7 +264,10 @@ export class AdminComponent {
       strategyId: ['', Validators.required],
       orderType: ['Market', Validators.required],
       filterCoin: [''],
-      riskLimitValue : [this.tradeValue, Validators.required]
+      riskLimitValue : [this.tradeValue, Validators.required],
+      tradeMode : ['0', Validators.required],
+      quantity : ['', Validators.required], 
+      positionsize : ['', Validators.required],
 
     })
   }
@@ -177,6 +278,10 @@ export class AdminComponent {
    */
   changeProfit() {
     let items = this.placeorder.value.side;
+    if(!this.takeProfit || !this.stopLoss){
+      this.ApiService.warningSnackBar('Takeprofit and stop loss should be required');
+      return;
+    }
     if (items == 'Buy') {
       if (this.takeProfit < this.currentCoin.usdIndexPrice || this.stopLoss > this.currentCoin.usdIndexPrice) {
         this.ApiService.warningSnackBar('Takeprofit should be greater and stop loss should be less then base price');
@@ -186,6 +291,7 @@ export class AdminComponent {
         this.placeorder.controls['takeProfit'].setValue(this.takeProfit.toString());
         this.placeorder.controls['stopLoss'].setValue(this.stopLoss.toString());
         this.takeProfitLoss = false;
+        this.myCheckbox.nativeElement.checked = true;
       }
     } else {
       if (this.takeProfit > this.currentCoin.usdIndexPrice || this.stopLoss < this.currentCoin.usdIndexPrice) {
@@ -196,6 +302,7 @@ export class AdminComponent {
         this.placeorder.controls['takeProfit'].setValue(this.takeProfit.toString());
         this.placeorder.controls['stopLoss'].setValue(this.stopLoss.toString());
         this.takeProfitLoss = false;
+        this.myCheckbox.nativeElement.checked = true;
       }
     }
   }
@@ -205,12 +312,14 @@ export class AdminComponent {
    * Open change loss profit modal
    */
   openProfit() {
-    if(this.placeorder.controls['orderprice'].value >= 1){
+    if(this.placeorder.controls['symbol'].value){
       this.takeProfitLoss = true;
+      this.myCheckbox.nativeElement.checked = true;
     }else{
       this.takeProfitLoss = false;
       this.myCheckbox.nativeElement.click();
       this.ApiService.warningSnackBar('Please select a coin first');
+      this.myCheckbox.nativeElement.checked = false;
     }
 
   }
@@ -218,6 +327,9 @@ export class AdminComponent {
 
   closeProfit() {
     this.takeProfitLoss = false;
+    this.myCheckbox.nativeElement.checked = false;
+    this.takeProfit = null;
+    this.stopLoss = null;
   }
 
 
@@ -269,6 +381,9 @@ export class AdminComponent {
           return;
         }
       } 
+
+      let tradeTypeValue = formfield.tradeMode
+      this.placeorder.controls['tradeMode'].setValue(parseInt(tradeTypeValue));
       this.placeorder.controls['orderprice'].setValue(orderPriceval.toString());
       this.placeorder.controls['riskLimitValue'].setValue(this.tradeValue);
       await this.ApiService.copytrading(params.value).subscribe((res: any) => {

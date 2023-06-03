@@ -13,15 +13,14 @@
                     <table class="tfcTable">
                         <thead>
                             <tr>
-                                <th>Strategy</th>
-                                <th>Base Coin</th>
-                                <th>Exchange</th>
-                                <th>Type</th>
-                                <th>Subs</th>
-                                <th>Risk</th>
-                                <th>Copying</th>
-                                <th>Balance</th>
-                                <th>Rating</th>
+                                <th>{{'tableColumn.tableStrategy' | translate }}</th>
+                                <th>{{'tableColumn.tableBase-Coin' | translate }}</th>
+                                <th>{{'tableColumn.tableExchange' | translate }}</th>
+                                <th>{{'tableColumn.tableType' | translate }}</th>
+                                <th>{{'tableColumn.tableSubs' | translate }}</th>
+                                <th>{{'tableColumn.tableRisk' | translate }}</th>
+                                <th>{{'tableColumn.tableBalance' | translate }}</th>
+                                <th>{{'tableColumn.Rating' | translate }}</th>
                             </tr>
                         </thead>
 
@@ -31,9 +30,8 @@
                                 <td>{{items.baseCoin}}</td>
                                 <td>{{ items.exchange}}</td>
                                 <td> {{ items.type === 'linear' ? 'Futures' : items.type }}</td>
-                                <td></td>
+                                <td> {{items.copysubscription.length}} </td>
                                 <td>{{items.riskLimitValue}}%</td>
-                                <td>{{items.copysubscription.length}}</td>
                                 <td>{{items.totalWalletBalance | number : '1.2-2'}}</td>
                                 <td>9.5</td>
                             </tr>
@@ -59,26 +57,26 @@
         <a class="fes-close-btn" (click)="hideModal()">
             <img src="assets/image/cross.svg" alt="close-arrow" />
         </a>
-        <h2 class="modalTitle">Copy Trading Subscription</h2>
+        <h2 class="modalTitle">{{'publicstrategies.modeltitle' | translate}}</h2>
         <h1>{{traderInfo.strategyName}}</h1>
         <div class="tfc-multi-steppage">
             <div class="fes-api-page">
                 <div class="fes-api-page-text">
-                    <p>Base Coin</p>
+                    <p>{{'tableColumn.tableBase-Coin' | translate}}</p>
                     <h4>{{traderInfo.baseCoin}}</h4>
                 </div>
                
             </div>
             <div class="fes-api-page">
                 <div class="fes-api-page-text">
-                    <p>Exchange</p>
+                    <p>{{'tableColumn.tableExchange' | translate}}</p>
                     <h4>{{traderInfo.exchange}}</h4>
                 </div>
                 
             </div>
             <div class="fes-api-page">
                 <div class="fes-api-page-text">
-                    <p>Type</p>
+                    <p>{{'tableColumn.tableType' | translate}}</p>
                     <h4>{{traderInfo.type}}</h4>
                 </div>
             </div>
@@ -89,14 +87,14 @@
 
         <div class="fes-create-ac">
             <div class="tfc-requirement">
-                <h2>Add Bybit API Key</h2>
+                <h2>{{'publicstrategies.subTitle' | translate}}</h2>
                 <div class="subscribeTrade" *ngIf="!accountList">
-                    <h3>To subscribe this strategies you have to connect account first.</h3>
-                    <button [routerLink]="['/admin/exchangeaccount']" class="tfc-submit-login tfcbtn tfcbtnthree">Connect Account</button>
+                    <h3>{{'publicstrategies.disc' | translate}}</h3>
+                    <button [routerLink]="['/admin/exchangeaccount']" class="tfc-submit-login tfcbtn tfcbtnthree">{{'dashboard.connectBtn' | translate}}</button>
                 </div>
                 <form *ngIf="accountList" [formGroup]="coppystrategyForm" (ngSubmit)="onSubmit(coppystrategyForm)">
                     <div class="fes-connection_form">
-                        <label>Name Your Connection</label>
+                        <label>{{'publicstrategies.label' | translate}}</label>
 
                         <mat-form-field>
                             <mat-select formControlName="subscribeFrom">

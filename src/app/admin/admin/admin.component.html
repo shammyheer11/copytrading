@@ -71,8 +71,9 @@
                 <span class="userName" *ngIf="userName">{{userName}}</span>
                 <span class="toolbar-item-spacer"></span>
 
-                <button mat-icon-button matTooltip="language Change" [matMenuTriggerFor]="language">
-                    <mat-icon>language</mat-icon>
+                <button class="currentLangBtn" mat-icon-button matTooltip="language Change"
+                    [matMenuTriggerFor]="language">
+                    <mat-icon>language</mat-icon><span class="currentLang">{{currentLang}}</span>
                 </button>
                 <mat-menu #language [overlapTrigger]="false" yPosition="below">
                     <button mat-menu-item (click)="switchLang('en')">
@@ -83,13 +84,6 @@
                     </button>
                 </mat-menu>
 
-
-                <button mat-icon-button matTooltip="Like">
-                    <mat-icon>favorite</mat-icon>
-                </button>
-                <button mat-icon-button matTooltip="Share">
-                    <mat-icon>share</mat-icon>
-                </button>
                 <button mat-icon-button matTooltip="Notifications">
                     <mat-icon>notifications</mat-icon>
                 </button>
@@ -100,12 +94,12 @@
                     <button mat-menu-item [routerLink]="['profile']">
                         <mat-icon>person</mat-icon><span>My Account</span>
                     </button>
-                    <button mat-menu-item routerLink="#">
+                    <!-- <button mat-menu-item routerLink="#">
                         <mat-icon>settings</mat-icon><span>Settings</span>
                     </button>
                     <button mat-menu-item routerLink="#">
                         <mat-icon>help</mat-icon><span>Help</span>
-                    </button>
+                    </button> -->
                     <mat-divider></mat-divider>
                     <button mat-menu-item (click)="logout()">
                         <mat-icon>exit_to_app</mat-icon>Logout
@@ -123,26 +117,18 @@
 
 
 
-
-
-
-
-
-
-
-
 <div class="table-popup strategiesBlock" *ngIf="showModals">
     <div class="tfc-table-box">
         <a class="fes-close-btn" (click)="hideModal()">
             <img src="assets/image/cross.svg" alt="close-arrow" />
         </a>
-        <h2 class="modalTitle">Placeorder</h2>
+        <h2 class="modalTitle">{{'Placeorderform.title' | translate }}</h2>
         <div class="fes-create-ac">
             <div class="tfc-requirement">
                 <form [formGroup]="placeorder" (ngSubmit)="onSubmit(placeorder)">
                     <div class="blocks">
                         <div class="fes-connection_form ">
-                            <label>Strategies</label>
+                            <label>{{'tableColumn.tableStrategy' | translate }}</label>
                             <mat-form-field>
                                 <mat-select formControlName="strategyId">
                                     <mat-option *ngFor="let item of dataSource"
@@ -151,9 +137,9 @@
                             </mat-form-field>
                         </div>
                         <div class="fes-connection_form ">
-                            <label>leverage</label>
+                            <label>{{'Placeorderform.leverage' | translate }}</label>
                             <mat-form-field>
-                                <mat-select formControlName="leverage">
+                                <mat-select formControlName="leverage" (selectionChange)="onLeverageChange($event)">
                                     <mat-option value="1">1x</mat-option>
                                     <mat-option value="3">3x</mat-option>
                                     <mat-option value="5">5x</mat-option>
@@ -168,7 +154,7 @@
 
                     <div class="blocks">
                         <div class="fes-connection_form">
-                            <label>Order Type</label>
+                            <label>{{'Placeorderform.orderType' | translate }}</label>
                             <mat-form-field>
                                 <mat-select formControlName="orderType" (selectionChange)="onTypeChange($event)">
                                     <mat-option value="Market">Market</mat-option>
@@ -177,9 +163,9 @@
                             </mat-form-field>
                         </div>
                         <div class="fes-connection_form ">
-                            <label>Buy long / Sell shorts</label>
+                            <label>{{'Placeorderform.buyllong/sellshorts' | translate }}</label>
                             <mat-form-field>
-                                <mat-select formControlName="side">
+                                <mat-select formControlName="side" (selectionChange)="onLeverageChange($event)">
                                     <mat-option value="Buy">Buy</mat-option>
                                     <mat-option value="Sell">Sell</mat-option>
                                 </mat-select>
@@ -189,7 +175,20 @@
 
                     <div class="blocks">
                         <div class="fes-connection_form">
-                            <label>Margin Mode</label>
+                            <label>{{'Placeorderform.stoplossSize' | translate }}</label>
+                            <ngx-slider [(value)]="tradeValue" (mouseup)="onLeverageChange($event)"
+                                [options]="options"></ngx-slider>
+                        </div>
+
+                        <div class="fes-connection_form">
+                            <label>Account Position Size</label>
+                            <ngx-slider [(value)]="slippageValue" (mouseup)="onLeverageChange($event)"
+                                [options]="slippage"></ngx-slider>
+                        </div>
+                    </div>
+                    <div class="blocks">
+                        <div class="fes-connection_form">
+                            <label>{{'Placeorderform.tradeType' | translate }}</label>
                             <mat-form-field>
                                 <mat-select formControlName="category">
                                     <mat-option value="Spot">Spot</mat-option>
@@ -197,45 +196,58 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+
                         <div class="fes-connection_form ">
-                            <label>USDT Perpetual</label>
+                            <label>{{'Placeorderform.USDTperpetual' | translate }}</label>
                             <mat-form-field>
-                                <mat-label>Select USDT Perpetual</mat-label>
+                                <mat-label>{{'Placeorderform.selectUSDTperpetual' | translate }}</mat-label>
                                 <mat-select formControlName="symbol" (selectionChange)="onSelectionChange($event)">
                                     <div class="search-container">
-                                        <input class="searchCoin" matInput placeholder="Search" formControlName="filterCoin"
-                                            (input)="filterOptions($event)" />
+                                        <input class="searchCoin" matInput placeholder="Search"
+                                            formControlName="filterCoin" (input)="filterOptions($event)" />
                                     </div>
                                     <mat-option *ngFor="let coin of filteredOptions"
                                         [value]="coin.symbol">{{coin.symbol}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
-
                         </div>
+
                     </div>
                     <div class="blocks">
+                        <div class="fes-connection_form">
+                            <label>{{'Placeorderform.marginmode' | translate }}</label>
+                            <mat-form-field>
+                                <mat-select formControlName="tradeMode">
+                                    <mat-option value="0">Cross</mat-option>
+                                    <mat-option value="1">Isolated</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                         <div class="fes-connection_form" [ngClass]="HidePrice ? 'HidePrice' : ''">
-                            <label>Order Price : </label>
+                            <label>{{'Placeorderform.orderprice' | translate }}</label>
                             <input #odrPrice type="number" formControlName="orderprice" placeholder="Prce">
                         </div>
-
-                        <div class="fes-connection_form">
-                            <label>Order Size : </label>
-                            <ngx-slider [(value)]="tradeValue" [options]="options"></ngx-slider>
-                        </div>
-
-                        
                     </div>
+
                     <div class="fes-connection_form">
-                        <p class="profitLoss"><input #myCheckbox [checked]="takeProfitLoss" (click)="openProfit()" type="checkbox">
-                            Take Profit / Stop Loss</p>
+                        <p class="profitLoss"><input #myCheckbox (click)="openProfit()" type="checkbox">
+                            {{'Placeorderform.TPSL' | translate }}</p>
                     </div>
 
                     <input type="hidden" formControlName="takeProfit" placeholder="Set profit limit">
                     <input type="hidden" formControlName="stopLoss" placeholder="set loss limit">
 
-                    <button class="tfcbtntwo" #myButton type="submit">{{ btnloading ? 'Loading...' : 'Submit Order'}}</button>
+                    <button class="tfcbtntwo" #myButton type="submit">{{ btnloading ? 'Loading...' : 'Submit
+                        Order'}}</button>
                 </form>
+            </div>
+            <div class="tfc-subaccount">
+                <h3>Order Details</h3>
+                <p><label>Base Coin: </label> {{placeorder.controls['symbol'].value}} </p>
+                <p><label>Coin Price: </label> {{CurrentCoinPrice}} </p>
+                <p><label>Wallet Balance: </label> {{WalletBalance}} </p>
+                <p><label>Quantity: </label> {{placeorder.controls['quantity'].value}} </p>
+                <p><label>Stop Loss value by risk: </label> {{maxStopLoss}} </p>
             </div>
         </div>
 
@@ -255,7 +267,8 @@
                     </div>
                     <div class="fields">
                         <label>Stop Loss-Trigger by Price</label>
-                        <input [(ngModel)]="stopLoss" type="number">
+                        <input [(ngModel)]="stopLoss" [min]="maxStopLoss" type="number"(keyup)="calculateStopLoss()">
+                        <span class="maxStopLoss">Stop Loss value by risk {{calculateSLrisk}}%</span>
                     </div>
                     <div class="dialogfoot">
                         <button class="tfcbtntwo change" (click)="changeProfit()">Change</button>

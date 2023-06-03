@@ -12,17 +12,16 @@
                 <div class="premium-tfc-text">
                     <h2>{{'dashboard.subtitle' | translate }}</h2>
                     <h4>
-                        MK Signals plan makes copy trading more profitable. Just create an
-                        exchange account via our link and get the benefits for free:
+                        {{'dashboard.description' | translate }}
                     </h4>
-                    <p>- Trade at the best price due to lowest copying time difference</p>
-                    <p>- Futures copy trading</p>
-                    <p>- Auto Alignment: Trader &amp; Scheduled</p>
-                    <p>- Coin Black List feature</p>
-                    <p>- Stop Loss feature</p>
-                    <p>- Strategy Free Trial</p>
-                    <p>- Special bonuses from our partner exchanges</p>
-                    <p>- No limit on accounts total balance</p>
+                    <p> {{'dashboard.description-1' | translate }}</p>
+                    <p>{{'dashboard.description-2' | translate }}</p>
+                    <p> {{'dashboard.description-3' | translate }}</p>
+                    <p> {{'dashboard.description-4' | translate }}</p>
+                    <p> {{'dashboard.description-5' | translate }}</p>
+                    <p> {{'dashboard.description-6' | translate }}</p>
+                    <p> {{'dashboard.description-7' | translate }}</p>
+                    <p> {{'dashboard.description-8' | translate }}</p>
                     <a *ngIf="!dataSource" class="tfcbtnone" [routerLink]="['exchangeaccount']">{{'dashboard.connectBtn' | translate }}</a>
                     <a *ngIf="dataSource" class="tfcbtnone" [routerLink]="['strategieslist']">{{'dashboard.subscribeBtn' | translate }}</a>
                 </div>

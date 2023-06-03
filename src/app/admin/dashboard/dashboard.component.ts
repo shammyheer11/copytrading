@@ -17,7 +17,6 @@ export class DashboardComponent {
   async getAccoundInfo() {
     await this.ApiService.getAccountDetails()
       .subscribe((res: any) => {
-        console.log(res);
         if (res && res.data) {
           this.dataSource = res.data;
         }

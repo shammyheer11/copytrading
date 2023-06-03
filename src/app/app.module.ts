@@ -19,7 +19,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export const TRANSLATION_ALIASES: Record<string, string> = {
   translate: 'translations',
-  // Other translation aliases
 };
 
 // Create a function that will load translation files from a specific directory
@@ -27,11 +26,10 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
-const translationOptions = {
-  defaultLanguage: 'en',
-  translate: 'translate'
-  // Other translation options
-};
+// const translationOptions = {
+//   defaultLanguage: 'en',
+//   translate: 'translate'
+// };
 
 
 @NgModule({
