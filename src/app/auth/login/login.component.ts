@@ -38,8 +38,7 @@ export class LoginComponent implements OnInit {
       if (params.valid) {
         this.ApiService.userLogin(params.value)
          .subscribe((res : any) => {
-          console.log(res);
-           if (res.success === true) {
+           if (res && res.success === true) {
             localStorage.setItem('user', JSON.stringify(res));
             this.ApiService.successSnackBar('User Logged in succesfully');
             this.route.navigate(['admin']);

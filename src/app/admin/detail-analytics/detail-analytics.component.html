@@ -4,7 +4,7 @@
     <div class="tfc-admin-left">
         <div class="tfc-card">
             <div class="tfc-card-title">
-                <h3>Trade Analytics <a [routerLink]="['/admin/analytics']">Back</a></h3>
+                <h3>{{'analytics.title' | translate}} <a [routerLink]="['/admin/analytics']">{{'exchangeaccounts.Back' | translate}}</a></h3>
             </div>
             <div class="tfc-card-body accountInfo">
                 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple"
@@ -18,16 +18,16 @@
                             <table class="tfcTable">
                                 <thead>
                                     <tr>
-                                        <th>Contracts</th>
-                                        <th>Side</th>
-                                        <th>Qty</th>
-                                        <th>Value</th>
-                                        <th>Entry Price</th>
-                                        <th>Mark Price</th>
-                                        <th>Liq. Price</th>
-                                        <th>Realized P&L</th>
-                                        <th>TP/SL</th>
-                                        <th>Detail</th>
+                                        <th>{{'myorder.contracts' | translate}}</th>
+                                        <th>{{'myorder.side' | translate}}</th>
+                                        <th>{{'myorder.qty' | translate}}</th>
+                                        <th>{{'myorder.value' | translate}}</th>
+                                        <th>{{'myorder.entryprice' | translate}}</th>
+                                        <th>{{'myorder.markprice' | translate}}</th>
+                                        <th>{{'myorder.liqprice' | translate}} </th>
+                                        <th>{{'myorder.realizedp&l' | translate}}</th>
+                                        <th>{{'myorder.tpsl' | translate}}</th>
+                                        <th>{{'analytics.viewDetail' | translate}}</th>
                                     </tr>
                                 </thead>
 
@@ -48,7 +48,7 @@
 
                                         <td>
                                             <button  class="tfcbtnone"
-                                                (click)="getDetailsList(items, true )">View</button>
+                                                (click)="getDetailsList(items, true )">{{'analytics.view' | translate}}</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -63,14 +63,14 @@
                             <table class="tfcTable">
                                 <thead>
                                     <tr>
-                                        <th>Contracts</th>
-                                        <th>Qty</th>
-                                        <th>Entry Price</th>
-                                        <th>Exit Price</th>
-                                        <th>Closed P&L</th>
-                                        <th>Exit Type</th>
-                                        <th>Trade Time</th>
-                                        <th>Detail</th>
+                                        <th>{{'myorder.contracts' | translate}}</th>
+                                        <th>{{'myorder.qty' | translate}}</th>
+                                        <th>{{'myorder.entryprice' | translate}}</th>
+                                        <th>{{'analytics.ExitPrice' | translate}}</th>
+                                        <th>{{'analytics.ClosedPL' | translate}}</th>
+                                        <th>{{'analytics.ExitType' | translate}}</th>
+                                        <th>{{'analytics.tradeTime' | translate}}</th>
+                                        <th>{{'analytics.viewDetail' | translate}}</th>
                                     </tr>
                                 </thead>
 
@@ -84,7 +84,7 @@
                                         <td>Trade</td>
                                         <td>{{items.updatedTime | date:'dd/MM/yyyy HH:mm:ss'}}</td>
                                         <td><button (click)="getDetailsList(items, false )"
-                                                class="tfcbtnone">View</button></td>
+                                                class="tfcbtnone">{{'analytics.view' | translate}}</button></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -102,21 +102,21 @@
 <div class="tfcOverlay" *ngIf="detailModel">
     <div class="takeProfitLoss cnfrmDialog">
         <div class="profitTitle">
-            <a class="fes-close-btn" (click)="closeUserModal()">Close</a>
-            <h3 *ngIf="modalType">Postion orders listing of users</h3>
-            <h3 *ngIf="!modalType">Closed Orders listing of users</h3>
+            <a class="fes-close-btn" (click)="closeUserModal()">{{'analytics.close' | translate}}</a>
+            <h3 *ngIf="modalType">{{'analytics.modelTitle' | translate}}</h3>
+            <h3 *ngIf="!modalType">{{'analytics.modelTitle2' | translate}}</h3>
         </div>
         <div class="accountTable">
             <table class="tfcTable" *ngIf="modalType">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>User Email</th>
-                        <th>Entry Price</th>
-                        <th>Time of entry</th>
-                        <th>TP/sl</th>
-                        <th>Closing Time</th>
-                        <th>Profit or loss</th>
+                        <th>{{'analytics.UserEmail' | translate}}</th>
+                        <th>{{'myorder.entryprice' | translate}}</th>
+                        <th>{{'analytics.Timeentry' | translate}}</th>
+                        <th>{{'myorder.tpsl' | translate}}</th>
+                        <th>{{'analytics.Closingtime' | translate}}</th>
+                        <th>{{'analytics.Profitloss' | translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -126,8 +126,8 @@
                         <td>{{items.avgPrice | number : '1.2-3'}}</td>
                         <td>{{convertTime(items.created_at)}}</td>
                         <td>{{ CurrentOrder.takeProfit ? CurrentOrder.takeProfit + ' / ' + CurrentOrder.stopLoss : 'Not set' }}</td>
-                        <td>Currently Running</td>
-                        <td>Currently Running</td>
+                        <td>{{'analytics.CurrentlyRunning' | translate}}</td>
+                        <td>{{'analytics.CurrentlyRunning' | translate}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -135,12 +135,12 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>User Email</th>
-                        <th>Entry Price</th>
-                        <th>Time of entry</th>
-                        <th>TP/sl</th>
-                        <th>Closing Time</th>
-                        <th>Profit or loss</th>
+                        <th>{{'analytics.UserEmail' | translate}}</th>
+                        <th>{{'myorder.entryprice' | translate}}</th>
+                        <th>{{'analytics.Timeentry' | translate}}</th>
+                        <th>{{'myorder.tpsl' | translate}}</th>
+                        <th>{{'analytics.Closingtime' | translate}}</th>
+                        <th>{{'analytics.Profitloss' | translate}}</th>
                     </tr>
                 </thead>
                 <tbody>

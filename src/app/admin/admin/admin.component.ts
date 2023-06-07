@@ -31,24 +31,24 @@ export class AdminComponent {
   public userName: string = '';
   public filteredOptions: any;
   public getCoin: any;
-  public currentLang : any;
-  public checkTpSl : boolean = false;
+  public currentLang: any;
+  public checkTpSl: boolean = false;
 
   public takeProfit: any;
   public stopLoss: any;
-  public maxStopLoss : any;
+  public maxStopLoss: any;
 
-  public CurrentCoinPrice : any;
-  public WalletBalance : any;
-  public tradeUnit : any;
-  public calculateSLrisk : any;
+  public CurrentCoinPrice: any;
+  public WalletBalance: any;
+  public tradeUnit: any;
+  public calculateSLrisk: any;
 
-  public tradeValue : number = 5;
-  public slippageValue : number = 10;
-  options: Options = {
+  public riskValue: number = 5;
+  public positionSize: number = 10;
+  risk: Options = {
     showTicksValues: true,
     stepsArray: [
-      { value: 1},
+      { value: 1 },
       { value: 2 },
       { value: 3 },
       { value: 4 },
@@ -64,12 +64,15 @@ export class AdminComponent {
   slippage: Options = {
     showTicksValues: true,
     stepsArray: [
-      { value: 10},
+      { value: 10 },
       { value: 15 },
       { value: 20 },
       { value: 25 },
     ]
   };
+
+
+  public coinsUnit : any;
 
 
   constructor(
@@ -108,7 +111,9 @@ export class AdminComponent {
   getCoins() {
     this.ApiService.getCoinsList().subscribe((res: any) => {
       if (res && res.data) {
-        this.CointList = res.data.filter((item : any ) => item.symbol.includes("USDT") && item.hasOwnProperty('usdIndexPrice'));
+        console.log(res.data);
+        this.CointList = res.data.filter((item: any) => item.symbol.includes("USDT") && item.hasOwnProperty('usdIndexPrice'));
+        console.log(this.CointList);
         this.filteredOptions = this.CointList;
       }
     });
@@ -137,77 +142,84 @@ export class AdminComponent {
     this.checkLeverage();
   }
 
-  onLeverageChange(event : any){
+  onLeverageChange(event: any) {
     let formValue = this.placeorder.value;
-    if(formValue.symbol){
+    if (formValue.symbol) {
       this.checkLeverage();
     }
   }
 
 
 
-  checkLeverage(){
+  checkLeverage() {
     let formValue = this.placeorder.value;
     let items = {
-      strategyId : formValue.strategyId,
-      symbol : formValue.symbol
-    } 
-    this.ApiService.checkleverage(items).subscribe((res : any)=>{
-      if(res && res.success == true){
-        let coinPrice : any = res.CoinBalance;
-        let walletBalance : any = parseInt(res.usdtWalletBal).toFixed(2);
-
-
+      strategyId: formValue.strategyId,
+      symbol: formValue.symbol
+    }
+    this.ApiService.checkleverage(items).subscribe((res: any) => {
+      if (res && res.success == true) {
+        let coinPrice: any = res.CoinBalance;
+        this.WalletBalance = parseInt(res.usdtWalletBal).toFixed(4);
         this.CurrentCoinPrice = coinPrice;
-        this.WalletBalance = walletBalance;
 
 
-        let newwallet = walletBalance / this.slippageValue;
+        // Step one Done
+        let newwallet : any = (this.WalletBalance * (this.positionSize / 100)).toFixed(4);
+        // console.log('Step one Wallet balance for trade ' + newwallet);
 
+        // Step two
+        let buyingPower : any = (newwallet * formValue.leverage).toFixed(4);
 
-        //Step 1 Let's say I am willing to risk 10% of the wallet balance: $145 * 10 % = $14.50
-        let total : any = (newwallet * (this.tradeValue / 100)).toFixed(2);
-        console.log(total + 'Total balance * 10');
-
-
-        //Step two 2. With 10x Leverage. We can control the position of $145*10 = $1450.
-        let leverage = newwallet * parseInt(formValue.leverage);
-        console.log(leverage + 'Getting leverage ******');
-
-
-        //Step 3 Let's we enter the trade at a price of $0.50 for XRPUSDT. We will be buying $1450/$0.50 = 2900 unites.
-         this.tradeUnit = (leverage/coinPrice).toFixed(3);
-        console.log(this.tradeUnit + 'Getting units');
+        // step Third calculate unit of the coin
+         this.tradeUnit = (buyingPower / this.CurrentCoinPrice).toFixed(4);
 
 
 
-        /** Calculate Stoploss */
-        let diffrencePrice : any =  total/this.tradeUnit;
-        if(formValue.side == 'Buy'){
-          this.maxStopLoss = (coinPrice - diffrencePrice).toFixed(2);
-        }else{
-          this.maxStopLoss = (parseFloat(coinPrice ) + parseFloat(diffrencePrice)).toFixed(2);
+        // Step four max loss we can bear
+        let maxLoss: any = (newwallet * (this.riskValue / 100)).toFixed(4);
+
+        //STPE FIVE PART one Now calculating the stop loss price
+        let StopLossValue: any;
+        if (formValue.side == 'Buy') {
+          StopLossValue = buyingPower - maxLoss;
+        } else {
+          StopLossValue = buyingPower + maxLoss;
         }
 
-        this.placeorder.controls['positionsize'].setValue(this.slippageValue);
+        //STPE FIVE PART Two Now calculating the stop loss price
+
+
+        this.maxStopLoss = (StopLossValue / this.tradeUnit).toFixed(3);
+
+        this.placeorder.controls['positionsize'].setValue(this.positionSize);
         this.placeorder.controls['quantity'].setValue(this.tradeUnit.toString());
         // this.placeorder.controls['orderprice'].setValue(coinPrice.toString());
 
 
+      }else{
+        this.ApiService.warningSnackBar('Your api key is invalid.');
       }
     });
   }
 
-  calculateStopLoss(){
+  
+
+  calculateStopLoss() {
     let formValue = this.placeorder.value;
-    let diffrencePrice: any;
-    if(formValue.side == 'Buy'){
-       diffrencePrice = (this.CurrentCoinPrice - this.stopLoss).toFixed(2);
-    }else{
-      diffrencePrice = (this.CurrentCoinPrice + this.stopLoss).toFixed(2);
+    let newwallet = this.WalletBalance * (this.positionSize / 100);
+    let buyingPower = newwallet * formValue.leverage;
+    let walletValueAtStopLoss: any;
+    if (formValue.side == 'Buy') {
+      walletValueAtStopLoss = (this.tradeUnit * this.stopLoss).toFixed(2);
+      let buyStopLossAmmout = buyingPower - walletValueAtStopLoss;
+      this.calculateSLrisk = (buyStopLossAmmout / this.WalletBalance * 100).toFixed(2);
+    } else {
+      walletValueAtStopLoss = (this.tradeUnit * this.stopLoss).toFixed(2);
+      let buyStopLossAmmout = walletValueAtStopLoss - buyingPower;
+      this.calculateSLrisk = (buyStopLossAmmout / this.WalletBalance * 100).toFixed(2);
     }
-    let data :any = (this.tradeUnit * diffrencePrice).toFixed(2);
-    this.calculateSLrisk = ((data / this.WalletBalance) * 100).toFixed(2);
+
   }
 
 
@@ -264,10 +276,10 @@ export class AdminComponent {
       strategyId: ['', Validators.required],
       orderType: ['Market', Validators.required],
       filterCoin: [''],
-      riskLimitValue : [this.tradeValue, Validators.required],
-      tradeMode : ['0', Validators.required],
-      quantity : ['', Validators.required], 
-      positionsize : ['', Validators.required],
+      riskLimitValue: [this.riskValue, Validators.required],
+      tradeMode: ['0', Validators.required],
+      quantity: ['', Validators.required],
+      positionsize: ['', Validators.required],
 
     })
   }
@@ -278,7 +290,7 @@ export class AdminComponent {
    */
   changeProfit() {
     let items = this.placeorder.value.side;
-    if(!this.takeProfit || !this.stopLoss){
+    if (!this.takeProfit || !this.stopLoss) {
       this.ApiService.warningSnackBar('Takeprofit and stop loss should be required');
       return;
     }
@@ -312,10 +324,10 @@ export class AdminComponent {
    * Open change loss profit modal
    */
   openProfit() {
-    if(this.placeorder.controls['symbol'].value){
+    if (this.placeorder.controls['symbol'].value) {
       this.takeProfitLoss = true;
       this.myCheckbox.nativeElement.checked = true;
-    }else{
+    } else {
       this.takeProfitLoss = false;
       this.myCheckbox.nativeElement.click();
       this.ApiService.warningSnackBar('Please select a coin first');
@@ -351,6 +363,9 @@ export class AdminComponent {
     this.takeProfit = '';
     this.stopLoss = '';
     this.filteredOptions = this.CointList;
+    this.WalletBalance = null;
+    this.CurrentCoinPrice = null;
+    this.maxStopLoss = null;
   }
 
 
@@ -380,12 +395,12 @@ export class AdminComponent {
           this.btnloading = false;
           return;
         }
-      } 
+      }
 
       let tradeTypeValue = formfield.tradeMode
       this.placeorder.controls['tradeMode'].setValue(parseInt(tradeTypeValue));
       this.placeorder.controls['orderprice'].setValue(orderPriceval.toString());
-      this.placeorder.controls['riskLimitValue'].setValue(this.tradeValue);
+      this.placeorder.controls['riskLimitValue'].setValue(this.riskValue);
       await this.ApiService.copytrading(params.value).subscribe((res: any) => {
         if (res && res.success == true) {
           if (res.data.retMsg == 'OK') {
@@ -433,9 +448,21 @@ export class AdminComponent {
     let data: any = localStorage.getItem('user');
     if (data) {
       data = JSON.parse(data);
-      this.userName = data.data.username
+      this.userName = data.data.username;
+      if(data.data.role == "superadmin" || data.data.role == "admin"){
+
+         setInterval(() => {
+          this.ApiService.tradeWithdaw().subscribe((value: any) => {
+            
+          });
+        },180000); 
+
+        
+      }
       this.ApiService.getuser(data.data._id).subscribe((value: any) => {
+        if(value && value.data){
         this.isSuperadmin = value.data[0].role;
+        }
       });
     }
   }

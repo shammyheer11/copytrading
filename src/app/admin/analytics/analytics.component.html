@@ -5,7 +5,7 @@
     <div class="tfc-admin-left">
         <div class="tfc-card">
             <div class="tfc-card-title">
-                <h3>Trade Analytics</h3>
+                <h3>{{'analytics.title' | translate}}</h3>
             </div>
             <div class="tfc-card-body accountInfo">
                 <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type= "ball-scale-multiple" [fullScreen] = "false"><p style="color: white" > Loading... </p></ngx-spinner>
@@ -13,15 +13,15 @@
                     <table class="tfcTable">
                         <thead>
                             <tr>
-                                <th>Strategy</th>
-                                <th>Base Coin</th>
-                                <th>Exchange</th>
-                                <th>Type</th>
-                                <th>Risk</th>
-                                <th>Subs</th>
-                                <th>Balance</th>
-                                <th>Rating</th>
-                                <th>View Detail</th>
+                                <th>{{'tableColumn.tableStrategy' | translate}}</th>
+                                <th>{{'tableColumn.tableBase-Coin' | translate}}</th>
+                                <th>{{'tableColumn.tableExchange' | translate}}</th>
+                                <th>{{'tableColumn.tableType' | translate}}</th>
+                                <th>{{'tableColumn.tableRisk' | translate}}</th>
+                                <th>{{'tableColumn.tableSubs' | translate}}</th>
+                                <th>{{'tableColumn.tableBalance' | translate}}</th>
+                                <th>{{'tableColumn.Rating' | translate}}</th>
+                                <th>{{'analytics.viewDetail' | translate}} </th>
                                 
                             </tr>
                         </thead>
@@ -39,7 +39,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <h4 *ngIf="!dataSource" class="nodata">No data found. </h4>
+                    <h4 *ngIf="!dataSource" class="nodata">{{'nodataFound' | translate }}</h4>
                 </div>
             </div>
         </div> 

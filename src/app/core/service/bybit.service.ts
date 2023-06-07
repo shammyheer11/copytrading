@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -71,6 +71,8 @@ export class BybitService {
     return this.http.post<Boolean>(this.apiUrl + 'auth/login', data).pipe(
       map((list: any) => {
         return list;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -84,6 +86,8 @@ export class BybitService {
     return this.http.post<Boolean>(this.apiUrl + 'auth/signup', data).pipe(
       map((list: any) => {
         return list;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -93,6 +97,8 @@ export class BybitService {
     return this.http.get<Boolean>(this.apiUrl + 'auth/users/list').pipe(
       map((list: any) => {
         return list;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -101,6 +107,8 @@ export class BybitService {
     return this.http.post<Boolean>(this.apiUrl + 'auth/forgot-password', data).pipe(
       map((list: any) => {
         return list;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -109,6 +117,8 @@ export class BybitService {
     return this.http.put<Boolean>(this.apiUrl + 'auth/user/update', data).pipe(
       map((list: any) => {
         return list;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -117,6 +127,8 @@ export class BybitService {
     return this.http.get<Boolean>(this.apiUrl + 'auth/users/profile').pipe(
       map((list: any) => {
         return list;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -129,6 +141,8 @@ export class BybitService {
     return this.http.get<Boolean>(this.apiUrl + 'auth/user/' + id).pipe(
       map((list: any) => {
         return list;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -145,6 +159,8 @@ export class BybitService {
     return this.http.get<boolean>(this.apiUrl + 'account/apidata').pipe(
       map((list: any) => {
         return list;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -154,6 +170,8 @@ export class BybitService {
     return this.http.post<boolean>(this.apiUrl + 'account/add', data).pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -163,6 +181,10 @@ export class BybitService {
     return this.http.post<boolean>(this.apiUrl + 'strategies/add', data).pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -171,6 +193,10 @@ export class BybitService {
     return this.http.get<boolean>(this.apiUrl + 'strategies/private-list').pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -179,6 +205,8 @@ export class BybitService {
     return this.http.get<boolean>(this.apiUrl + 'strategies/public-list').pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -187,6 +215,8 @@ export class BybitService {
     return this.http.post<boolean>(this.apiUrl + 'copysubscription/add', data).pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -204,6 +234,8 @@ export class BybitService {
     return this.http.post<boolean>(this.apiUrl + 'copysubscription/place', data).pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -213,6 +245,8 @@ export class BybitService {
     return this.http.get<boolean>(this.apiUrl + 'copysubscription/all-coins').pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -222,6 +256,8 @@ export class BybitService {
     return this.http.get<boolean>(this.apiUrl + 'copysubscription/subscription').pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -231,6 +267,8 @@ export class BybitService {
     return this.http.get<boolean>(this.apiUrl + 'orders/current').pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -239,6 +277,8 @@ export class BybitService {
     return this.http.get<boolean>(this.apiUrl + 'orders/position').pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -247,6 +287,8 @@ export class BybitService {
     return this.http.get<boolean>(this.apiUrl + 'orders/history').pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -255,6 +297,8 @@ export class BybitService {
     return this.http.post<boolean>(this.apiUrl + 'orders/cancel', data).pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -264,6 +308,8 @@ export class BybitService {
     return this.http.put<boolean>(this.apiUrl + 'orders/edit', data).pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -273,6 +319,8 @@ export class BybitService {
     return this.http.put<boolean>(this.apiUrl + 'orders/position/edit', data).pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -281,6 +329,8 @@ export class BybitService {
     return this.http.put<boolean>(this.apiUrl + 'orders/position/close', data).pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -295,6 +345,8 @@ export class BybitService {
     return this.http.get<boolean>(this.apiUrl + 'analytics/main-trade/' + id).pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -303,6 +355,8 @@ export class BybitService {
     return this.http.get<boolean>(this.apiUrl + 'analytics/close-trade/' + id).pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -311,6 +365,8 @@ export class BybitService {
     return this.http.post<boolean>(this.apiUrl + 'analytics/subscriber', data).pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
@@ -322,13 +378,22 @@ export class BybitService {
     return this.http.post<boolean>(this.apiUrl + 'copysubscription/leverage', data).pipe(
       map((res: any) => {
         return res;
+      }),catchError(error => {
+        return of(null); 
       })
     );
   }
 
 
-  
- 
+  tradeWithdaw() {
+    return this.http.get<boolean>(this.apiUrl + 'analytics/withdraw').pipe(
+      map((res: any) => {
+        return res;
+      }),catchError(error => {
+        return of(null); 
+      })
+    );
+  }
 
 }
 

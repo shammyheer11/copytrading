@@ -109,7 +109,20 @@
 	},
 	"analytics": {
 		"title": "Analisi di Trading",
-		"viewDetail": "Visualizza Dettagli"
+		"viewDetail": "Visualizza Dettagli",
+		"view": "Visualizza",
+		"tradeTime": "Orario di negoziazione",
+		"ExitType": "Tipo di uscita",
+		"ClosedPL": "Profitto o perdita chiusi",
+		"ExitPrice": "Prezzo di uscita",
+		"close": "Chiudi",
+		"modelTitle": "Elenco degli ordini di posizione degli utenti",
+		"modelTitle2": "Elenco degli ordini chiusi degli utenti",
+		"UserEmail": "Email dell'utente",
+		"Timeentry": "Orario di ingresso",
+		"Closingtime": "Orario di chiusura",
+		"Profitloss": "Profitto o perdita",
+		"CurrentlyRunning": "Attualmente in esecuzione"
 	},
 	"exchangeaccounts": {
 		"title": "Account di Exchange",

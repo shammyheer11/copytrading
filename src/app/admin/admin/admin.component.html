@@ -176,13 +176,13 @@
                     <div class="blocks">
                         <div class="fes-connection_form">
                             <label>{{'Placeorderform.stoplossSize' | translate }}</label>
-                            <ngx-slider [(value)]="tradeValue" (mouseup)="onLeverageChange($event)"
-                                [options]="options"></ngx-slider>
+                            <ngx-slider [(value)]="riskValue" (mouseup)="onLeverageChange($event)"
+                                [options]="risk"></ngx-slider>
                         </div>
 
                         <div class="fes-connection_form">
                             <label>Account Position Size</label>
-                            <ngx-slider [(value)]="slippageValue" (mouseup)="onLeverageChange($event)"
+                            <ngx-slider [(value)]="positionSize" (mouseup)="onLeverageChange($event)"
                                 [options]="slippage"></ngx-slider>
                         </div>
                     </div>
@@ -247,7 +247,9 @@
                 <p><label>Coin Price: </label> {{CurrentCoinPrice}} </p>
                 <p><label>Wallet Balance: </label> {{WalletBalance}} </p>
                 <p><label>Quantity: </label> {{placeorder.controls['quantity'].value}} </p>
-                <p><label>Stop Loss value by risk: </label> {{maxStopLoss}} </p>
+                <p><label>Stop Loss risk by value: </label> {{maxStopLoss}} </p>
+                <p *ngIf="!stopLoss"><label>Stop Loss risk % : </label> {{riskValue}} %</p>
+                <p *ngIf="stopLoss"><label>Stop Loss risk % : </label> {{calculateSLrisk}} %</p>
             </div>
         </div>
 
@@ -267,8 +269,9 @@
                     </div>
                     <div class="fields">
                         <label>Stop Loss-Trigger by Price</label>
-                        <input [(ngModel)]="stopLoss" [min]="maxStopLoss" type="number"(keyup)="calculateStopLoss()">
-                        <span class="maxStopLoss">Stop Loss value by risk {{calculateSLrisk}}%</span>
+                        <input [(ngModel)]="stopLoss" [min]="maxStopLoss" type="number" (keyup)="calculateStopLoss()">
+                        <span *ngIf="!stopLoss" class="maxStopLoss">Stop Loss risk by value : {{maxStopLoss}}</span>
+                        <span *ngIf="stopLoss" class="maxStopLoss">Stop Loss value by risk : {{calculateSLrisk}} %</span>
                     </div>
                     <div class="dialogfoot">
                         <button class="tfcbtntwo change" (click)="changeProfit()">Change</button>

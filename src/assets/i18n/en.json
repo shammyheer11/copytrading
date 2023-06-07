@@ -109,7 +109,20 @@
 	},
 	"analytics" : {
 		"title" : "Trade Analytics",
-		"viewDetail" : "View Detail"
+		"viewDetail" : "View Detail",
+		"view" : "View",
+		"tradeTime" : "Trade Time",
+		"ExitType" : "Exit Type",
+		"ClosedPL" : "Closed P&L",
+		"ExitPrice" : "Exit Price",
+		"close" : "Close",
+		"modelTitle" : "Postion orders listing of users",
+		"modelTitle2" : "Closed Orders listing of users",
+		"UserEmail" : "User Email",
+		"Timeentry" : "Time of entry",
+		"Closingtime" : "Closing Time",
+		"Profitloss" : "Profit or loss",
+		"CurrentlyRunning" : "Currently Running"
 	},
 	"exchangeaccounts" : {
 		"title" : "Exchange Accounts",
