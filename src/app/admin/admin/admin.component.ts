@@ -44,7 +44,7 @@ export class AdminComponent {
   public calculateSLrisk: any;
 
   public riskValue: number = 5;
-  public positionSize: number = 10;
+  public positionSize: number = 25;
   risk: Options = {
     showTicksValues: true,
     stepsArray: [
@@ -64,15 +64,15 @@ export class AdminComponent {
   slippage: Options = {
     showTicksValues: true,
     stepsArray: [
-      { value: 10 },
-      { value: 15 },
-      { value: 20 },
       { value: 25 },
+      { value: 50 },
+      { value: 75 },
+      { value: 100 },
     ]
   };
 
 
-  public coinsUnit : any;
+  public coinsUnit: any;
 
 
   constructor(
@@ -111,9 +111,9 @@ export class AdminComponent {
   getCoins() {
     this.ApiService.getCoinsList().subscribe((res: any) => {
       if (res && res.data) {
-        console.log(res.data);
+        // let itemsData = res.data.filter((item: any) => item.symbol.includes("USDT") && !item.hasOwnProperty('usdIndexPrice'));
+        // console.log(itemsData);
         this.CointList = res.data.filter((item: any) => item.symbol.includes("USDT") && item.hasOwnProperty('usdIndexPrice'));
-        console.log(this.CointList);
         this.filteredOptions = this.CointList;
       }
     });
@@ -159,22 +159,23 @@ export class AdminComponent {
     }
     this.ApiService.checkleverage(items).subscribe((res: any) => {
       if (res && res.success == true) {
+        if(!res.usdtWalletBal){
+          this.ApiService.warningSnackBar('insufficient Available balance');
+          return;
+        }
         let coinPrice: any = res.CoinBalance;
         this.WalletBalance = parseInt(res.usdtWalletBal).toFixed(4);
         this.CurrentCoinPrice = coinPrice;
 
-
         // Step one Done
-        let newwallet : any = (this.WalletBalance * (this.positionSize / 100)).toFixed(4);
+        let newwallet: any = (this.WalletBalance * (this.positionSize / 100)).toFixed(4);
         // console.log('Step one Wallet balance for trade ' + newwallet);
 
         // Step two
-        let buyingPower : any = (newwallet * formValue.leverage).toFixed(4);
+        let buyingPower: any = (newwallet * formValue.leverage).toFixed(4);
 
         // step Third calculate unit of the coin
-         this.tradeUnit = (buyingPower / this.CurrentCoinPrice).toFixed(4);
-
-
+        this.tradeUnit = (buyingPower / this.CurrentCoinPrice).toFixed(4);
 
         // Step four max loss we can bear
         let maxLoss: any = (newwallet * (this.riskValue / 100)).toFixed(4);
@@ -188,36 +189,34 @@ export class AdminComponent {
         }
 
         //STPE FIVE PART Two Now calculating the stop loss price
-
-
         this.maxStopLoss = (StopLossValue / this.tradeUnit).toFixed(3);
 
         this.placeorder.controls['positionsize'].setValue(this.positionSize);
         this.placeorder.controls['quantity'].setValue(this.tradeUnit.toString());
-        // this.placeorder.controls['orderprice'].setValue(coinPrice.toString());
-
-
-      }else{
+      } else {
         this.ApiService.warningSnackBar('Your api key is invalid.');
       }
     });
   }
 
-  
 
+  /**
+   * Calculate Stoploss percentage
+   */
   calculateStopLoss() {
     let formValue = this.placeorder.value;
     let newwallet = this.WalletBalance * (this.positionSize / 100);
     let buyingPower = newwallet * formValue.leverage;
+
     let walletValueAtStopLoss: any;
     if (formValue.side == 'Buy') {
-      walletValueAtStopLoss = (this.tradeUnit * this.stopLoss).toFixed(2);
+      walletValueAtStopLoss = (this.tradeUnit * this.stopLoss).toFixed(4);
       let buyStopLossAmmout = buyingPower - walletValueAtStopLoss;
-      this.calculateSLrisk = (buyStopLossAmmout / this.WalletBalance * 100).toFixed(2);
+      this.calculateSLrisk = (buyStopLossAmmout / newwallet * 100).toFixed(2);
     } else {
-      walletValueAtStopLoss = (this.tradeUnit * this.stopLoss).toFixed(2);
+      walletValueAtStopLoss = (this.tradeUnit * this.stopLoss).toFixed(4);
       let buyStopLossAmmout = walletValueAtStopLoss - buyingPower;
-      this.calculateSLrisk = (buyStopLossAmmout / this.WalletBalance * 100).toFixed(2);
+      this.calculateSLrisk = (buyStopLossAmmout / newwallet * 100).toFixed(2);
     }
 
   }
@@ -366,6 +365,8 @@ export class AdminComponent {
     this.WalletBalance = null;
     this.CurrentCoinPrice = null;
     this.maxStopLoss = null;
+    this.positionSize = 25;
+    this.riskValue = 5;
   }
 
 
@@ -410,7 +411,6 @@ export class AdminComponent {
             this.ApiService.warningSnackBar(res.message);
           }
           this.hideModal();
-          // this.myStrategies();
           this.btnloading = false;
         } else {
           this.ApiService.warningSnackBar('Trade not execute');
@@ -420,7 +420,6 @@ export class AdminComponent {
     } else {
       this.btnloading = false;
     }
-
 
     setTimeout(() => {
       this.btnloading = false;
@@ -449,19 +448,16 @@ export class AdminComponent {
     if (data) {
       data = JSON.parse(data);
       this.userName = data.data.username;
-      if(data.data.role == "superadmin" || data.data.role == "admin"){
+      if (data.data.role == "superadmin" || data.data.role == "admin") {
 
-         setInterval(() => {
+        setInterval(() => {
           this.ApiService.tradeWithdaw().subscribe((value: any) => {
-            
           });
-        },180000); 
-
-        
+        }, 180000);
       }
       this.ApiService.getuser(data.data._id).subscribe((value: any) => {
-        if(value && value.data){
-        this.isSuperadmin = value.data[0].role;
+        if (value && value.data) {
+          this.isSuperadmin = value.data[0].role;
         }
       });
     }

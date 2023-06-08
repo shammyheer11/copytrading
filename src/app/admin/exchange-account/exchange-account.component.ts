@@ -44,6 +44,8 @@ export class ExchangeAccountComponent {
               this.TotalBalance += parseFloat(this.dataSource[i].totalWalletBalance);
             }
           }
+        }else{
+          this.dataSource = null;
         }
       });
   }

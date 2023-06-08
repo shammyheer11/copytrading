@@ -71,7 +71,6 @@ export class DetailAnalyticsComponent {
 
   getDetailsList(items: any, type : boolean){
     this.CurrentOrder = items;
-    console.log(items);
     this.spinner.show();
     this.modalType = type;
     let data = {

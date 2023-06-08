@@ -27,7 +27,6 @@ export class UserProfileComponent {
       if(res){
         this.reffralData = res;
         this.loading = false;
-        console.log(res);
       }else{
         this.loading = false;
       }

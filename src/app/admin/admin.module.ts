@@ -40,6 +40,7 @@ import { HistoryOrderComponent } from './components/history-order/history-order.
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { DetailAnalyticsComponent } from './detail-analytics/detail-analytics.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { DataTablesModule } from 'angular-datatables';
 
 
 @NgModule({
@@ -83,6 +84,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     MatTabsModule,
     MatAutocompleteModule,
     NgxSliderModule,
+    DataTablesModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

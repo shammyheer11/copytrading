@@ -25,8 +25,6 @@ export class AuthInterceptor implements HttpInterceptor {
       accessToken = data.access_token
     }
 
-
-
     request = request.clone({
       setHeaders: {
         Authorization: `Bearer ${accessToken}`,
@@ -37,14 +35,20 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorMessage = '';
-        if (error.error instanceof ErrorEvent) {
+        if(error.error && error.error.error && error.error.error.message && error.error.error.message == 'jwt expired'){
+          this.ApiService.warningSnackBar('jwt token expired. Please login again');
+          localStorage.clear();
+          this.route.navigate(['login']);
+        }
+        
+        else if (error.error instanceof ErrorEvent) {
           errorMessage = `Error: ${error.error.message}`;
           this.ApiService.warningSnackBar(`Error Code: ${error.status}\nMessage: ${error.message}`);
         } else {
           errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
           this.ApiService.warningSnackBar(`Error Code: ${error.status}\nMessage: Server Error`);
-          localStorage.clear();
-          this.route.navigate(['login']);
+          // localStorage.clear();
+          // this.route.navigate(['login']);
         }
         return throwError(errorMessage);
       })
