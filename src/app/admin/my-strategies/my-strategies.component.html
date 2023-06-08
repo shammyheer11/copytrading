@@ -117,7 +117,6 @@
                                 <mat-select formControlName="type">
                                     <mat-option value="Spot">Spot</mat-option>
                                     <mat-option value="linear">Futures</mat-option>
-                                    <!-- <mat-option value="COIN-M">COIN-M</mat-option> -->
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -130,8 +129,6 @@
                                 <mat-option *ngFor="let option of accountInfo" [value]="option._id">
                                     {{ option.connectionName }}
                                 </mat-option>
-                                <!-- <mat-option value="Spot">USDT</mat-option>
-                                <mat-option value="USDⓈ-M">BTC</mat-option> -->
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -147,7 +144,7 @@
 
                     <div class="fes-connection_form">
                         <label>{{ 'myStrategies.strategydescription' | translate }}</label>
-                        <textarea rows="8" formControlName="strategyDescription"
+                        <textarea rows="5" formControlName="strategyDescription"
                             placeholder="Provide information about the strategy: trading method / approach, trading term (short / medium / long), trading pair, coins traded, recommendations for investors, your trading experience, etc. This will help your potential subscribers learn more about your strategy. Make sure that you write a detailed and concise description of the strategy – otherwise, the strategy may not pass moderation."></textarea>
                     </div>
 
@@ -158,10 +155,13 @@
                         </div>
                         <div class="fes-connection_form">
                             <label>{{ 'myStrategies.riskpercentage' | translate }}</label>
-                            <input type="text" [value]="inputField.value" placeholder="$ Per 30 days" readonly>
+                            <!-- <input type="text" [value]="inputField.value" placeholder="" readonly>
                             <mat-slider discrete="thumbLabel" min="1" max="10" step="1" value="1">
                                 <input #inputField formControlName="riskLimitValue" matSliderThumb>
-                            </mat-slider>
+                            </mat-slider> -->
+
+                            <ngx-slider formControlName="riskLimitValue" [(value)]="riskLimit" [options]="riskLimitVal"></ngx-slider>
+
                         </div>
                     </div>
 

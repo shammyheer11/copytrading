@@ -1,3 +1,4 @@
+import { Options } from '@angular-slider/ngx-slider';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -19,7 +20,7 @@ export class MyStrategiesComponent {
   public dataSource: any;
   public btnloading: boolean = false;
   public MinimumAmout: any = '100';
-
+  public riskLimit: number = 5;
 
 
   public disabled = false;
@@ -29,6 +30,23 @@ export class MyStrategiesComponent {
   public step = 1;
   public thumbLabel = false;
   public value = 0;
+
+
+  riskLimitVal: Options = {
+    showTicksValues: true,
+    stepsArray: [
+      { value: 1 },
+      { value: 2 },
+      { value: 3 },
+      { value: 4 },
+      { value: 5 },
+      { value: 6 },
+      { value: 7 },
+      { value: 8 },
+      { value: 9 },
+      { value: 10 }
+    ]
+  };
 
 
   constructor(
@@ -71,8 +89,8 @@ export class MyStrategiesComponent {
       baseCoin: ['USDT', Validators.required],
       strategyDescription: [''],
       copyTradingcost: ['', Validators.required],
-      riskLimitValue: ['1', Validators.required],
-      minimumBalance: ['500', Validators.required],
+      riskLimitValue: [this.riskLimit, Validators.required],
+      minimumBalance: ['50', Validators.required],
     })
   }
 
@@ -81,6 +99,7 @@ export class MyStrategiesComponent {
    * @param params 
    */
   async onSubmit(params: { valid: boolean, value: any }) {
+    console.log(params.value);
     this.submitted = true;
     this.btnloading = true;
     if (params.valid) {

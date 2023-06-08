@@ -159,7 +159,7 @@ export class AdminComponent {
     }
     this.ApiService.checkleverage(items).subscribe((res: any) => {
       if (res && res.success == true) {
-        if(!res.usdtWalletBal){
+        if (!res.usdtWalletBal) {
           this.ApiService.warningSnackBar('insufficient Available balance');
           return;
         }
@@ -167,34 +167,21 @@ export class AdminComponent {
         this.WalletBalance = parseInt(res.usdtWalletBal).toFixed(4);
         this.CurrentCoinPrice = coinPrice;
 
-        // Step one Done
         let newwallet: any = (this.WalletBalance * (this.positionSize / 100)).toFixed(4);
-        // console.log('Step one Wallet balance for trade ' + newwallet);
-
-        // Step two
         let buyingPower: any = (newwallet * formValue.leverage).toFixed(4);
-
-        // step Third calculate unit of the coin
         this.tradeUnit = (buyingPower / this.CurrentCoinPrice).toFixed(4);
-
-        // Step four max loss we can bear
         let maxLoss: any = (newwallet * (this.riskValue / 100)).toFixed(4);
-
-        //STPE FIVE PART one Now calculating the stop loss price
         let StopLossValue: any;
         if (formValue.side == 'Buy') {
           StopLossValue = buyingPower - maxLoss;
         } else {
           StopLossValue = buyingPower + maxLoss;
         }
-
-        //STPE FIVE PART Two Now calculating the stop loss price
         this.maxStopLoss = (StopLossValue / this.tradeUnit).toFixed(3);
-
         this.placeorder.controls['positionsize'].setValue(this.positionSize);
         this.placeorder.controls['quantity'].setValue(this.tradeUnit.toString());
       } else {
-        this.ApiService.warningSnackBar('Your api key is invalid.');
+        this.ApiService.warningSnackBar('Data not found.');
       }
     });
   }
@@ -207,7 +194,6 @@ export class AdminComponent {
     let formValue = this.placeorder.value;
     let newwallet = this.WalletBalance * (this.positionSize / 100);
     let buyingPower = newwallet * formValue.leverage;
-
     let walletValueAtStopLoss: any;
     if (formValue.side == 'Buy') {
       walletValueAtStopLoss = (this.tradeUnit * this.stopLoss).toFixed(4);
@@ -332,7 +318,6 @@ export class AdminComponent {
       this.ApiService.warningSnackBar('Please select a coin first');
       this.myCheckbox.nativeElement.checked = false;
     }
-
   }
 
 
@@ -431,7 +416,6 @@ export class AdminComponent {
     this.myStrategies();
     this.getCoins();
     this.checkUser();
-
     this.ApiService.getalert().subscribe((value: any) => {
       this.myStrategies();
     });

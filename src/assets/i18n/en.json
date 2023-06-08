@@ -170,7 +170,7 @@
 		"Continue" : "Continue",
 		"modalDisc9" : " Keep in mind that a secret key is only shown during the API key creation process. It will be hidden afterwards. Safely save it at this step to be able to use this API key later.",
 		"Back" : "Back",
-		"nextStep" : "ext Step"
+		"nextStep" : "Next Step"
 	},
 	"users" : {
 		"title" : "User List",

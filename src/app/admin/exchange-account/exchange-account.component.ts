@@ -22,6 +22,7 @@ export class ExchangeAccountComponent {
   public btnloading: boolean = false;
 
   public TotalBalance: number = 0;
+  public totalAccoutS : number = 0; 
 
 
   constructor(
@@ -40,6 +41,7 @@ export class ExchangeAccountComponent {
         if (res && res.data) {
           this.dataSource = res.data;
           if (this.dataSource) {
+            this.totalAccoutS = this.dataSource.length;
             for (let i = 0; i < this.dataSource.length; i++) {
               this.TotalBalance += parseFloat(this.dataSource[i].totalWalletBalance);
             }

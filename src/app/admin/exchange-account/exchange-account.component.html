@@ -94,7 +94,7 @@
         <div class="tfc-multi-steppage">
             <div class="fes-api-page" [ngClass]="{'active': wizardVal == 0}">
                 <div class="fes-api-page-text">
-                    <p>{{dataSource.lenth}} {{'exchangeaccounts.step' | translate }}</p>
+                    <p><span *ngIf="dataSource">{{totalAccoutS}}</span> {{'exchangeaccounts.step' | translate }}</p>
                     <h4>{{'exchangeaccounts.CreateAccount' | translate }}</h4>
                 </div>
                 <div class="fes-api-icon">
@@ -199,7 +199,7 @@
                 </form>
             </div>
             <div class="tfc-subaccount">
-                <h2>{{'myStrategies.secretkey' | translate}}Secret Key</h2>
+                <h2>{{'myStrategies.secretkey' | translate}}</h2>  
                 <p>
                     {{'exchangeaccounts.modalDisc9' | translate }}
                 </p>
