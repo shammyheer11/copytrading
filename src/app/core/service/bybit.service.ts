@@ -493,6 +493,33 @@ export class BybitService {
     );
   }
 
+
+  /**
+   * Delete strategy
+   * @param item 
+   * @returns 
+   */
+  deleteStrategy(item : any){
+    return this.http.delete<boolean>(this.apiUrl + 'strategies/delete/' + item).pipe(
+      map((res: any) => {
+        return res;
+      }), catchError(error => {
+        return of(null);
+      })
+    );
+  }
+
+
+  deleteExchangeAccount(item : any){
+    return this.http.delete<boolean>(this.apiUrl + 'account/delete/' + item).pipe(
+      map((res: any) => {
+        return res;
+      }), catchError(error => {
+        return of(null);
+      })
+    );
+  }
+
 }
 
 

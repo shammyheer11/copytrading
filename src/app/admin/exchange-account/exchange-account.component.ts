@@ -24,6 +24,9 @@ export class ExchangeAccountComponent {
   public TotalBalance: number = 0;
   public totalAccoutS : number = 0; 
 
+  public currentOrder : boolean = true;
+  public position : boolean = true;
+
 
   constructor(
     private ApiService: BybitService,
@@ -101,6 +104,69 @@ export class ExchangeAccountComponent {
   }
 
 
+  deleteAccount(items : any){
+    this.btnloading = true;
+    console.log(items);
+    if(this.position == true || this.currentOrder == true){
+      this.ApiService.warningSnackBar('Currently some orders are running');
+      this.btnloading = false;
+    }else{
+      this.spinner.show();
+      this.ApiService.deleteExchangeAccount(items._id).subscribe((res : any)=>{
+        if(res && res.success == true){
+          this.ApiService.successSnackBar('Strategy deleted succesfully');
+          this.getAccoundInfo();
+          this.spinner.hide();
+        }else{
+          this.ApiService.warningSnackBar('Strategy not deleted');
+          this.spinner.hide();
+        }
+      });
+      this.btnloading = false;
+    }
+  }
+
+
+
+  mypositionorders() {
+    this.ApiService.getpositionOrderList()
+      .subscribe((res: any) => {
+        if (res && res.data && res.data.length > 0) {
+          let data = res.data.filter((obj: any) => obj.hasOwnProperty('positionStatus') && obj.size != "0" );
+          this.position = true;
+          if(data.length == 0){
+            this.position = false;
+          }
+        }else{
+          this.position = false;
+        }
+      });
+  }
+
+  /**
+   * Get current orders list
+   */  
+  mycurrentorders() {
+    this.spinner.show();
+    this.ApiService.getcurrentOrderList()
+      .subscribe((res: any) => {
+        if (res && res.data && res.data.length > 0) {
+          let data = res.data.filter((obj: any) => obj.hasOwnProperty('orderStatus'));
+          this.currentOrder = true;
+          if(data.length == 0){
+            this.currentOrder = false;
+          }
+        }else{
+          this.currentOrder = false;
+        }
+      });
+  }
+
+
+
+
+
+
 /**
  * Hide connect account modal
  */
@@ -155,6 +221,8 @@ export class ExchangeAccountComponent {
       this.spinner.hide();
     }, 1500);
     this.getAccoundInfo();
+    this.mypositionorders();
+    this.mycurrentorders();
     this.loading = false;
 
   }

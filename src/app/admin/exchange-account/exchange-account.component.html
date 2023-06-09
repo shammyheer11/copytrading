@@ -58,6 +58,7 @@
                                 <th>{{'exchangeaccounts.connectedtradetypes' | translate }} </th>
                                 <th>{{'exchangeaccounts.balance' | translate }}</th>
                                 <th>{{'exchangeaccounts.change' | translate }}</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody *ngIf="dataSource">
@@ -70,6 +71,7 @@
                                 <td>Futures / Spot</td>
                                 <td>{{items.totalWalletBalance | number : '1.2-2'}}</td>
                                 <td>{{ calculateTotal(items.totalWalletBalance, items.balance) }}</td>
+                                <td><button class="tfcbtnone" (click)="deleteAccount(items)">Delete</button></td>
                             </tr>
                         </tbody>
                     </table>

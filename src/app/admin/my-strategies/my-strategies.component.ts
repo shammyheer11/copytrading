@@ -21,6 +21,8 @@ export class MyStrategiesComponent {
   public btnloading: boolean = false;
   public MinimumAmout: any = '100';
   public riskLimit: number = 5;
+  public currentOrder : boolean = true;
+  public position : boolean = true;
 
 
   public disabled = false;
@@ -158,6 +160,64 @@ export class MyStrategiesComponent {
   }
 
 
+  deleteStategy(items : any){
+    this.btnloading = true;
+    if(this.position == true || this.currentOrder == true){
+      this.ApiService.warningSnackBar('Currently some orders are running');
+      this.btnloading = false;
+    }else{
+      this.spinner.show();
+      this.ApiService.deleteStrategy(items._id).subscribe((res : any)=>{
+        if(res && res.success == true){
+          this.ApiService.successSnackBar('Strategy deleted succesfully');
+          this.myStrategies();
+          this.spinner.hide();
+        }else{
+          this.ApiService.warningSnackBar('Strategy not deleted');
+          this.spinner.hide();
+        }
+      });
+      this.btnloading = false;
+    }
+  }
+
+
+  mypositionorders() {
+    this.ApiService.getpositionOrderList()
+      .subscribe((res: any) => {
+        if (res && res.data && res.data.length > 0) {
+          let data = res.data.filter((obj: any) => obj.hasOwnProperty('positionStatus') && obj.size != "0" );
+          this.position = true;
+          if(data.length == 0){
+            this.position = false;
+          }
+        }else{
+          this.position = false;
+        }
+      });
+  }
+
+  /**
+   * Get current orders list
+   */  
+  mycurrentorders() {
+    this.spinner.show();
+    this.ApiService.getcurrentOrderList()
+      .subscribe((res: any) => {
+        if (res && res.data && res.data.length > 0) {
+          let data = res.data.filter((obj: any) => obj.hasOwnProperty('orderStatus'));
+          this.currentOrder = true;
+          if(data.length == 0){
+            this.currentOrder = false;
+          }
+        }else{
+          this.currentOrder = false;
+        }
+      });
+  }
+
+
+
 
   ngOnInit() {
     this.spinner.show();
@@ -166,6 +226,8 @@ export class MyStrategiesComponent {
     }, 1500);
     this.getAccoundInfo();
     this.myStrategies();
+    this.mypositionorders();
+    this.mycurrentorders();
     this.loading = false;
   }
 
