@@ -25,12 +25,12 @@
 
                         <tbody *ngIf="dataSource">
                             <tr *ngFor="let items of dataSource">
-                                <td><span>{{items.strategies.strategyName}}</span></td>
-                                <td>{{items.strategies.baseCoin}}</td>
-                                <td>{{ items.strategies.exchange}}</td>
-                                <td> {{ items.strategies.type === 'linear' ? 'Futures' : items.strategies.type }}</td>
-                                <td>{{items.strategies.riskLimitValue}}%</td>
-                                <td>{{items.copysubscription.length}}</td>
+                                <td><span>{{items.strategies?.strategyName}}</span></td>
+                                <td>{{items.strategies?.baseCoin}}</td>
+                                <td>{{ items.strategies?.exchange}}</td>
+                                <td> {{ items.strategies?.type === 'linear' ? 'Futures' : items.strategies.type }}</td>
+                                <td>{{items.strategies?.riskLimitValue}}%</td>
+                                <td>{{items.strategies?.copysubscription.length}}</td>
                                 <td>9.5</td>
                             </tr>
                         </tbody>

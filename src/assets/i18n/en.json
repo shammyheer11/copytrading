@@ -201,7 +201,9 @@
 		"update":"Update",
 		"cancel":"Cancel",
 		"action":"Action",
-		"confirm" : "confirm"
+		"confirm" : "confirm",
+		"delete" : "Delete",
+		"edit" : "Edit"
 	},
 	"btnsubmit" : "Submit",
     "nodataFound" : "No data found."

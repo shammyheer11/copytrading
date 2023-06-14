@@ -201,7 +201,9 @@
 		"update": "Aggiorna",
 		"cancel": "Annulla",
 		"action": "Azione",
-		"confirm": "conferma"
+		"confirm": "conferma",
+		"delete" : "Elimina",
+		"edit" : "Modifica"
 	},
 	"btnsubmit": "invia",
 	"nodataFound": "Nessun dato trovato."

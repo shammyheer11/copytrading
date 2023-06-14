@@ -33,7 +33,11 @@
                                 <td>{{items.status }}</td>
                                 <td>{{items.username}}</td>
                                 <td>{{items._id }}</td>
-                                <td><button class="tfcbtnone" (click)="updateRole(items)"> {{'users.ChangeRole' | translate }}</button></td>
+                                <td class="btnList">
+                                    <button class="tfcbtnone" (click)="updateRole(items)"> {{'users.Role' | translate }}</button>
+                                    <span class="" (click)="editUsers(items)"> <mat-icon>edit</mat-icon></span>
+                                    <span class="" (click)="deleteUser(items)"><mat-icon>delete</mat-icon></span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -68,6 +72,39 @@
         <div class="dialogfoot">
             <button class="change tfcbtntwo" (click)="confirmDialog()">{{'tableColumn.confirm' | translate }}</button>
             <button class="cancel tfcbtnone" (click)="cancelDialog()">{{'tableColumn.cancel' | translate }}</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="tfcOverlay editModal" *ngIf="editUser">
+    <div class="changePrefrence cnfrmDialog">
+        <div class="dialoghead">
+            <h3>Edit user</h3>
+            <img (click)="cancelEditDialog()" src="assets/image/cross.svg" alt="close-arrow" />
+        </div>
+        <div class="dialogbody">
+            <form [formGroup]="editUserForm" (ngSubmit)="onSubmit(editUserForm)">
+                <p>
+                    <input type="email" formControlName="email" placeholder="Email" class="tfc-input">
+                    <span *ngIf="submitted && f['email'].errors" class="invalid-field">
+                        <span *ngIf="f['email'].errors['required']">Email is required</span>
+                        <span *ngIf="f['email'].errors['email']">Email must be a valid email address</span>
+                      </span>
+                </p>
+                  
+                <p>
+                    <input type="password" formControlName="password" class="form-control tfc-input" 
+                        placeholder="Password">
+                        <span *ngIf="submitted && f['password'].errors" class="invalid-field">
+                            <div *ngIf="f['password'].errors['minlength']">Password must contain at least 6 characters.</div>
+                        </span>
+                </p> 
+                
+                <p>
+                    <button type="submit" class="tfc-submit-login tfcbtnone">Continue</button>
+                </p>
+            </form>
         </div>
     </div>
 </div>

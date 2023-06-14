@@ -19,13 +19,16 @@ export class ExchangeAccountComponent {
   public wizardVal = 0;
   public submitted: boolean = false;
   accountForm: FormGroup = new FormGroup({});
+  editForm: FormGroup = new FormGroup({});
   public btnloading: boolean = false;
 
   public TotalBalance: number = 0;
-  public totalAccoutS : number = 0; 
+  public totalAccoutS: number = 0;
 
-  public currentOrder : boolean = true;
-  public position : boolean = true;
+  public currentOrder: boolean = true;
+  public position: boolean = true;
+
+  public showEditModals = false;
 
 
   constructor(
@@ -49,7 +52,7 @@ export class ExchangeAccountComponent {
               this.TotalBalance += parseFloat(this.dataSource[i].totalWalletBalance);
             }
           }
-        }else{
+        } else {
           this.dataSource = null;
         }
       });
@@ -67,7 +70,7 @@ export class ExchangeAccountComponent {
       let percentage = ((change / items) * 100).toFixed(2);
       let sign = change >= 0 ? '+' : '';
       return sign + percentage + '%';
-    }else{
+    } else {
       return '0%';
     }
   }
@@ -88,12 +91,12 @@ export class ExchangeAccountComponent {
           this.wizardVal = 0;
           this.showModals = false;
         } else {
-          if(res && res.message && res.message.retMsg){
+          if (res && res.message && res.message.retMsg) {
             this.ApiService.warningSnackBar(res.message.retMsg);
-          }else{
+          } else {
             this.ApiService.warningSnackBar(res.message);
           }
-          
+
           this.btnloading = false;
         }
       });
@@ -104,20 +107,20 @@ export class ExchangeAccountComponent {
   }
 
 
-  deleteAccount(items : any){
+  deleteAccount(items: any) {
     this.btnloading = true;
     console.log(items);
-    if(this.position == true || this.currentOrder == true){
+    if (this.position == true || this.currentOrder == true) {
       this.ApiService.warningSnackBar('Currently some orders are running');
       this.btnloading = false;
-    }else{
+    } else {
       this.spinner.show();
-      this.ApiService.deleteExchangeAccount(items._id).subscribe((res : any)=>{
-        if(res && res.success == true){
-          this.ApiService.successSnackBar('Strategy deleted succesfully');
+      this.ApiService.deleteExchangeAccount(items._id).subscribe((res: any) => {
+        if (res && res.success == true) {
+          this.ApiService.successSnackBar(res.success);
           this.getAccoundInfo();
           this.spinner.hide();
-        }else{
+        } else {
           this.ApiService.warningSnackBar('Strategy not deleted');
           this.spinner.hide();
         }
@@ -132,12 +135,12 @@ export class ExchangeAccountComponent {
     this.ApiService.getpositionOrderList()
       .subscribe((res: any) => {
         if (res && res.data && res.data.length > 0) {
-          let data = res.data.filter((obj: any) => obj.hasOwnProperty('positionStatus') && obj.size != "0" );
+          let data = res.data.filter((obj: any) => obj.hasOwnProperty('positionStatus') && obj.size != "0");
           this.position = true;
-          if(data.length == 0){
+          if (data.length == 0) {
             this.position = false;
           }
-        }else{
+        } else {
           this.position = false;
         }
       });
@@ -145,7 +148,7 @@ export class ExchangeAccountComponent {
 
   /**
    * Get current orders list
-   */  
+   */
   mycurrentorders() {
     this.spinner.show();
     this.ApiService.getcurrentOrderList()
@@ -153,10 +156,10 @@ export class ExchangeAccountComponent {
         if (res && res.data && res.data.length > 0) {
           let data = res.data.filter((obj: any) => obj.hasOwnProperty('orderStatus'));
           this.currentOrder = true;
-          if(data.length == 0){
+          if (data.length == 0) {
             this.currentOrder = false;
           }
-        }else{
+        } else {
           this.currentOrder = false;
         }
       });
@@ -167,12 +170,13 @@ export class ExchangeAccountComponent {
 
 
 
-/**
- * Hide connect account modal
- */
+  /**
+   * Hide connect account modal
+   */
   hideModal() {
     this.wizardVal = 0;
     this.showModals = false;
+    this.showEditModals = false;
   }
 
   /**
@@ -210,9 +214,52 @@ export class ExchangeAccountComponent {
     this.accountForm = this.fb.group({
       connectionName: ['', [Validators.required]],
       apiKey: ['', Validators.required],
-      secretKey: ['', Validators.required]
+      secretKey: ['', Validators.required],
     })
   }
+
+
+  /**
+   * Edit account
+   * @param params 
+   */
+
+  onSubmitEdit(params: { valid: boolean, value: any }) {
+    this.submitted = true;
+    this.btnloading = true;
+    if (params.valid) {
+      this.ApiService.editAccount(params.value).subscribe((res: any) => {
+        if (res && res.success == true) {
+          this.ApiService.successSnackBar('Account edit successfully');
+          this.getAccoundInfo();
+          this.btnloading = false;
+          this.showEditModals = false;
+        } else {
+          this.ApiService.warningSnackBar(res.message);
+          this.btnloading = false;
+        }
+      });
+    } else {
+      this.btnloading = false;
+    }
+
+  }
+
+
+
+
+
+
+  editAccount(data: any) {
+    this.showEditModals = true;
+    this.editForm = this.fb.group({
+      connectionName: [data.connectionName, [Validators.required]],
+      apiKey: [data.apiKey, Validators.required],
+      secretKey: [data.secretKey, Validators.required],
+      bybitId: [data._id, Validators.required]
+    })
+  }
+
 
 
   ngOnInit() {

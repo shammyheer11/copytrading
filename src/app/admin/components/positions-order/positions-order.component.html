@@ -117,7 +117,7 @@
             </div>
             <div class="fields">
                 <label>{{'myorder.StopLbP' | translate}}</label>
-                <input [(ngModel)]="stopLoss" type="number">
+                <input [(ngModel)]="stopLoss" type="number" (keyup)="calculateStopLoss()">
             </div>
             <div class="dialogfoot">
                 <button class="tfcbtntwo change" (click)="UpdateTPSL()">{{ btnloading ? 'Loading...' : 'Update'}}</button>

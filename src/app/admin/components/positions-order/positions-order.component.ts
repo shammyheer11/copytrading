@@ -15,7 +15,7 @@ export class PositionsOrderComponent {
   public limitPrice: any;
   public limitQty: any;
   public currentOrder: any;
-  public qtyPercent : any;
+  public qtyPercent: any;
 
   /** Market close */
   public marketModel: boolean = false;
@@ -24,6 +24,7 @@ export class PositionsOrderComponent {
   public takeProfit: any;
   public stopLoss: any;
   public editOrderModal: boolean = false;
+  public getWalletData: any;
 
   constructor(
     private ApiService: BybitService,
@@ -42,7 +43,46 @@ export class PositionsOrderComponent {
     this.currentOrder = data;
     this.takeProfit = this.currentOrder.takeProfit;
     this.stopLoss = this.currentOrder.stopLoss;
+
+    console.log(data);
+    let items = {
+      strategyId: data.strategies,
+      symbol: data.symbol
+    }
+    this.ApiService.checkleverage(items).subscribe((res: any) => {
+      if (res && res.success == true) {
+        this.getWalletData = res;
+      }
+    });
+
+
   }
+
+
+  calculateStopLoss() {
+
+    // let newwallet : any = ((this.WalletBalance * this.positionSize) / 100).toFixed(3);
+    // console.log(newwallet + 'New wallet');
+    // let btcAmount :any = ((newwallet * this.currentOrder.leverage) / this.CurrentCoinPrice).toFixed(5);
+
+    // console.log(btcAmount + 'Coin amount');
+
+    // let stopLossBTC : any = ((newwallet * this.currentOrder.leverage) / this.stopLoss).toFixed(6);
+    // console.log(stopLossBTC + 'stop LossBTC');
+
+    // let lossBTC : any;
+
+    // if (this.currentOrder.side == 'Buy') {
+    //   lossBTC = btcAmount - stopLossBTC;
+    // }else{
+    //   lossBTC = parseFloat(stopLossBTC) - parseFloat(btcAmount);
+    // }
+    // this.roi = ((lossBTC * this.CurrentCoinPrice / newwallet) * 100).toFixed(4);
+  }
+
+
+
+
 
   /**
    * Update order on confirm
@@ -51,7 +91,7 @@ export class PositionsOrderComponent {
   UpdateTPSL() {
     this.btnloading = true;
     let data = {
-      "strategies" : this.currentOrder.strategies,
+      "strategies": this.currentOrder.strategies,
       "category": this.currentOrder.type,
       "symbol": this.currentOrder.symbol,
       "orderId": this.currentOrder.orderId,
@@ -61,7 +101,7 @@ export class PositionsOrderComponent {
 
     }
     if (this.currentOrder.side == 'Buy') {
-     
+
       if (this.takeProfit < this.currentOrder.avgPrice || this.stopLoss > this.currentOrder.avgPrice) {
         this.ApiService.warningSnackBar('Takeprofit should be greater and stop loss should be less then base price');
         this.editOrderModal = false;
@@ -141,28 +181,29 @@ export class PositionsOrderComponent {
   closeWithLimit() {
     this.btnloading = true;
     if (this.limitQty) {
-        let data = {
-            "orderId": this.currentOrder.orderId,
-            "strategies":this.currentOrder.strategies,
-            "side": this.currentOrder.side,
-            "orderType": 'Limit',
-            "price": this.limitPrice.toString(),
-            "qty": this.qtyPercent,
-            "symbol" : this.currentOrder.symbol,
-            "ordercreatedTime" : this.currentOrder.created_at
+      let data = {
+        "orderId": this.currentOrder.orderId,
+        "strategies": this.currentOrder.strategies,
+        "side": this.currentOrder.side,
+        "orderType": 'Limit',
+        "price": this.limitPrice.toString(),
+        "qty": this.qtyPercent,
+        "symbol": this.currentOrder.symbol,
+        "ordercreatedTime": this.currentOrder.created_at
+      }
+      this.ApiService.closePostionOrder(data).subscribe((res: any) => {
+        // if (res && res.data && res.data.length > 0) { 
+        if (res && res.success == true) {
+          this.btnloading = false;
+          this.ApiService.onPlaceOrder(true);
+          this.ApiService.successSnackBar('order Executed sucessfully');
+          this.closeLimitModel();
+        } else {
+          this.btnloading = false;
+          this.ApiService.warningSnackBar('Order Not executed');
+          this.closeLimitModel();
         }
-        this.ApiService.closePostionOrder(data).subscribe((res : any)=>{
-          if (res && res.data && res.data.length > 0) { 
-            this.btnloading = false;
-            this.ApiService.onPlaceOrder(true);
-            this.ApiService.successSnackBar('order Executed sucessfully');
-            this.closeLimitModel();
-          }else{
-            this.btnloading = false;
-            this.ApiService.warningSnackBar('Order Not executed');
-            this.closeLimitModel();
-          }
-        }); 
+      });
     }
     setTimeout(() => {
       this.btnloading = false;
@@ -179,32 +220,33 @@ export class PositionsOrderComponent {
     this.limitQty = item.size;
   }
 
- 
+
   closeWithMarket() {
     this.btnloading = true;
     if (this.limitQty) {
-        let data = {
-            "orderId": this.currentOrder.orderId,
-            "strategies":this.currentOrder.strategies,
-            "side": this.currentOrder.side,
-            "orderType": 'Market',
-            "price": this.currentOrder.markPrice,
-            "qty": this.qtyPercent,
-            "symbol" : this.currentOrder.symbol,
-            "ordercreatedTime" : this.currentOrder.created_at
+      let data = {
+        "orderId": this.currentOrder.orderId,
+        "strategies": this.currentOrder.strategies,
+        "side": this.currentOrder.side,
+        "orderType": 'Market',
+        "price": this.currentOrder.markPrice,
+        "qty": this.qtyPercent,
+        "symbol": this.currentOrder.symbol,
+        "ordercreatedTime": this.currentOrder.created_at
+      }
+      this.ApiService.closePostionOrder(data).subscribe((res: any) => {
+        // if (res && res.data && res.data.length > 0) {
+        if (res && res.success == true) {
+          this.btnloading = false;
+          this.ApiService.onPlaceOrder(true);
+          this.ApiService.successSnackBar('order Executed sucessfully');
+          this.closeMarketModel();
+        } else {
+          this.btnloading = false;
+          this.ApiService.warningSnackBar('Order Not executed');
+          this.closeMarketModel();
         }
-        this.ApiService.closePostionOrder(data).subscribe((res : any)=>{
-          if (res && res.data && res.data.length > 0) { 
-            this.btnloading = false;
-            this.ApiService.onPlaceOrder(true);
-            this.ApiService.successSnackBar('order Executed sucessfully');
-            this.closeMarketModel();
-          }else{
-            this.btnloading = false;
-            this.ApiService.warningSnackBar('Order Not executed');
-            this.closeMarketModel();
-          }
-        });
+      });
     }
     setTimeout(() => {
       this.btnloading = false;

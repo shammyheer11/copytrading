@@ -619,3 +619,12 @@ table.tfcTable {
         padding: 0.75rem .5rem;
     }
  }
+
+ @media only screen and (max-width: 1280px) {
+    .tfcbtnone{
+        padding: 0.7rem 1.5rem;
+    }
+    .table-popup .tfc-table-box{
+        max-width: 85%;
+    }
+ }

@@ -26,6 +26,8 @@ export class MySubscriptionsComponent {
     .subscribe((res : any) => {
       if(res && res.data){
           this.dataSource = res.data;
+      }else{
+        this.dataSource = null;
       }
     });
   }

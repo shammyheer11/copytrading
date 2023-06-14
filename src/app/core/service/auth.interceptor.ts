@@ -47,8 +47,6 @@ export class AuthInterceptor implements HttpInterceptor {
         } else {
           errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
           this.ApiService.warningSnackBar(`Error Code: ${error.status}\nMessage: Server Error`);
-          // localStorage.clear();
-          // this.route.navigate(['login']);
         }
         return throwError(errorMessage);
       })

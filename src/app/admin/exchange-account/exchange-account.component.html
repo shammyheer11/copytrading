@@ -71,12 +71,55 @@
                                 <td>Futures / Spot</td>
                                 <td>{{items.totalWalletBalance | number : '1.2-2'}}</td>
                                 <td>{{ calculateTotal(items.totalWalletBalance, items.balance) }}</td>
-                                <td><button class="tfcbtnone" (click)="deleteAccount(items)">Delete</button></td>
+                                <td class="actionBtns">
+                                    <button mat-mini-fab matTooltip="Edit" color="primary" (click)="editAccount(items)">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+
+                                    <button mat-mini-fab matTooltip="delete" color="primary"
+                                        (click)="deleteAccount(items)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                     <h4 *ngIf="!dataSource" class="nodata">{{'nodataFound' | translate }} </h4>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="table-popup" *ngIf="showEditModals">
+    <div class="tfc-table-box">
+        <a class="fes-close-btn" (click)="hideModal()">
+            <img src="assets/image/cross.svg" alt="close-arrow" />
+        </a>
+        <h2 class="modalTitle">Edit Bybit Account</h2>
+        <div class="fes-create-ac">
+            <div class="tfc-requirement">
+                <form [formGroup]="editForm" (ngSubmit)="onSubmitEdit(editForm)">
+                    <div class="fes-connection_form">
+                        <label>{{'exchangeaccounts.NameConnection' | translate }}</label>
+                        <input type="text" formControlName="connectionName"
+                            placeholder="{{'exchangeaccounts.NameConnection' | translate }}">
+                    </div>
+                    <div class="fes-connection_form">
+                        <label>{{'exchangeaccounts.Enterkey' | translate }}</label>
+                        <input type="text" formControlName="apiKey"
+                            placeholder="{{'exchangeaccounts.Enterkey' | translate }}">
+                    </div>
+                    <div class="fes-connection_form">
+                        <label>{{'exchangeaccounts.Entersecretkey' | translate }}</label>
+                        <input type="text" formControlName="secretKey"
+                            placeholder="{{'exchangeaccounts.Entersecretkey' | translate }}">
+                    </div>
+                    <button type="submit" class="tfcbtntwo">{{ btnloading ? 'Loading...' : 'Submit' }}</button>
+                </form>
             </div>
         </div>
     </div>
@@ -201,7 +244,7 @@
                 </form>
             </div>
             <div class="tfc-subaccount">
-                <h2>{{'myStrategies.secretkey' | translate}}</h2>  
+                <h2>{{'myStrategies.secretkey' | translate}}</h2>
                 <p>
                     {{'exchangeaccounts.modalDisc9' | translate }}
                 </p>
@@ -221,3 +264,8 @@
         </div>
     </div>
 </div>
+
+
+
+
+

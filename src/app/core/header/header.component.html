@@ -7,26 +7,6 @@
                    <a [routerLink]="['/']"><img src="assets/images/logo.png" alt="logo" class="set-image" /> </a>
                 </div>
 
-                <div class="nav-menu">
-                    <ul class="menu">
-                        <li>
-                            <a [routerLink]="['/inverstor']">Investors</a>
-                        </li>
-                        <li>
-                            <a href="">Trades</a>
-                        </li>
-                        <li>
-                            <a href="">Pricing</a>
-                        </li>
-                        <li>
-                            <a href="">Company</a>
-                        </li>
-                        <li>
-                            <a href="">Support</a>
-                        </li>
-                    </ul>
-                </div>
-
                 <div class="nav-btn" *ngIf="!currentUser">
                     <a class="login tfcbtnthree" [routerLink]="['/login']">Log In</a>
                     <a class="get-start tfcbtntwo" [routerLink]="['/signup']">Get Started</a>

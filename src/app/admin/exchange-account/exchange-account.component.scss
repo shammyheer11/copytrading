@@ -1,4 +1,5 @@
 @import "../../../style/variable";
+
 .tfc-admin-main {
     grid-template-columns: 3fr 1fr;
     gap: 10px;
@@ -52,6 +53,16 @@
     grid-template-columns: auto;
 }
 
+.actionBtns {
+    button {
+        background-color: #000;
+        margin-left:4px;
+        .mat-icon {
+            color: #fff;
+        }
+    }
+}
+
 
 .table-popup {
     .tfc-table-box {
@@ -59,6 +70,7 @@
             display: grid;
             grid-template-columns: 2fr 1fr;
             align-items: start;
+
             .tfc-submit-login {
                 display: none;
             }

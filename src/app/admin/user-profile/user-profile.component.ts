@@ -13,6 +13,8 @@ export class UserProfileComponent {
   public currentUser:any;
   public loading : boolean = true;
   public reffralData : any;
+  public walletAddress : any;
+  public hideWalletField : boolean = false;
   constructor(
     private route : Router, 
     private ApiService : BybitService,
